@@ -352,12 +352,18 @@
   }
 \makeatother
 
-\newcommand{\nombre}{Nombre del alumno} %%% cambio de comando
+\newcommand{\nombre}{Rafael Martín Guerrero} %%% cambio de comando
+\newcommand{\dni}{80087034E} %%% cambio de comando
+\newcommand{\nomtutor}{Pedro Renedo Fernández} %%% cambio de comando
+\newcommand{\nomcotutor}{} %%% cambio de comando
+\newcommand{\titulo}{GCA} %%% cambio de comando
+\newcommand{\departamentotutor}{Ingeniería Informática} %%% cambio de comando
+\newcommand{\area}{Lenguajes y Sistemas Informáticos} %%% cambio de comando
 
 % Datos de portada
-\title{título del TFG}
+\title{\titulo}
 \author{\nombre}
-\tutor{nombre tutor}
+\tutor{\nomtutor}
 \date{\today}
 
 \begin{document}
@@ -378,7 +384,7 @@
 
 \noindent Expone:
 
-\noindent Que el alumno D. \nombre, con DNI dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+\noindent Que el alumno D. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado \titulo.
 
 \noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
 
@@ -422,12 +428,17 @@ D. nombre co-tutor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-En este primer apartado se hace una \textbf{breve} presentación del tema que se aborda en el proyecto.
+
+Este proyecto tiene como objetivo desarrollar e implementar una plataforma web y un agente que permitan la gestión
+centralizada de la configuración de red en los equipos de las aulas.La solución permite la segmentación de los
+dispositivos en grupos y la aplicación de restricciones personalizadas para el acceso a recursos internos y externos,
+incluyendo Internet.Se busca optimizar el control y administración de la red educativa, mejorando la seguridad y la
+eficiencia en la gestión de los permisos de acceso.
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Palabras separadas por comas que identifiquen el contenido del proyecto Ej: servidor web, buscador de vuelos, android \ldots
+    Plataforma web, configuración de red, administración educativa, agente, control, segmentación, aplicación java
 \end{abstract}
 
 \clearpage
@@ -435,12 +446,16 @@ Palabras separadas por comas que identifiquen el contenido del proyecto Ej: serv
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-A \textbf{brief} presentation of the topic addressed in the project.
+The objective of this project is to develop and implement a web platform and an agent that allows the centralized
+management of the network configuration in the classrooms.The solution allows the segmentation of devices into groups
+and the application of customized restrictions for access to internal and external resources, including the Internet.
+The aim is to optimize the control and administration of the educational network, improving security and efficiency in
+the management of access permissions.
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}
-keywords separated by commas.
+    Web platform, network configuration, educational management, agent, control, segmentation, java application
 \end{abstract}
 
 \clearpage
