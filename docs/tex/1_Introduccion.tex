@@ -1,3 +1,39 @@
 \capitulo{1}{Introducción}
 
-Descripción del contenido del trabajo y del estructura de la memoria y del resto de materiales entregados.
+La Universidad de Burgos (UBU) cuenta con más de 1000 equipos informáticos distribuidos en aulas entre 8 y 10 centros.
+Cada una de estas aulas dispone de dispositivos destinados a satisfacer una serie de necesidades distintas, como por ejemplo,
+la realización de operaciones matemáticas complejas, redacción de documentos, edición de contenido multimedia, entre otras.
+
+Sin embargo, un mismo equipo no está destinado a un único uso y con las aplicaciones instaladas pueden permitir el acceso a otros
+recursos y dispositivos no deseados, esto supone un riesgo para la seguridad de la información y puede derivar en un uso
+indebido, como acceder a información no autorizada durante una prueba de evaluación.
+
+En los últimos años, se ha observado un incremento de las peticiones entre los docentes, para limitar los recursos a
+los que se pueden acceder desde los ordenadores.
+Por este motivo, surge la necesidad de implementar una gestión centralizada en las aulas, que permita, de una manera sencilla, controlar
+los accesos de los distintos equipos, atendiendo a características diferentes, como nombres de equipo, aulas, centros\ldots
+
+De acuerdo con Microsoft\cite{microsoftQuAccess}existen cuatro formas de control de acceso:
+    \begin{itemize}
+        \item Control de accesso dicrecional (DAC): un propietario concede acceso a otros usuarios.
+        \item Control de acceso basado en roles (RBAC): se otorga acceso según funciones empresariales definidas.
+        \item Control de acceso obligatorio (MAC): se concede acceso en forma de autorización regulado por una autoridad central.
+        \item Control de acceso basado en atributos (ABAC): se da de manera flexible en función de variables y condiciones.
+    \end{itemize}
+
+Actualmente, los usuarios de los equipos, mediante el protocolo 802.1X\cite{eswiki:802.1X} han de ingresar sus credenciales
+y tras una autentificación satisfactoria, se les asigna una dirección IP, que les permite hacer uso del dispositivo, navegar
+por Internet, acceder a los distintos recursos de red\ldots.
+
+Existen herramientas que pueden ayudar a limitar el acceso a los recursos, como software específico, no obstante,
+estad opciones pueden resultar costosas.
+También se pueden configurar uno a uno los permisos de cada dispositivo, pero ello requiere
+que manualmente, un administrador tenga que cambiar los distintos permisos, y llevar un control de cada uno de ellos.
+
+La plataforma propuesta, busca optimizar costes y ofrecer una solución práctica, diseñada a medida para la UBU.
+A diferencia de otras propuestas, esta iniciativa se enfoca en resolver problemas reales sin añadir funciones innecesarias
+que acaban dificultando el uso.
+Para su implementación, solo requiere un servidor web encargado de gestionar las configuraciones y una puesta a punto inicial
+en cada equipo para su registro en el sistema.
+Posteriormente, un software se encargará de aplicar las configuraciones
+necesarias en cada dispositivo de forma automática.
