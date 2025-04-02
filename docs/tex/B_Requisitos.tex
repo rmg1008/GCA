@@ -1,40 +1,692 @@
 \apendice{Especificación de Requisitos}
 
-\section{Introducción}
+\section{Introducción}\label{sec:introduccion}
 
-Una muestra de cómo podría ser una tabla de casos de uso:
+En esta sección se especifican los distintos requisitos del proyecto.
+Este punto es clave porque define qué debe hacer el sistema incluso antes de comenzar con el desarrollo.
 
-% Caso de Uso 1 -> Consultar Experimentos.
+\section{Objetivos generales}\label{sec:objetivos-generales}
+
+	\begin{itemize}
+	\item Crear una plataforma para el control de acceso a los recursos de los dispositivos del centro.
+	\item Contribuir a la automatización de procesos de la Universidad.
+	\item Solucionar las necesidades del personal docente.
+	\item Guardar las distintas configuraciones y permitir una gestión eficiente.
+	\end{itemize}
+
+\section{Catálogo de requisitos}\label{sec:catalogo-de-requisitos}
+
+A continuación, se muestra el listado de los requisitos específicos del proyecto.
+
+\subsection{Requisitos funcionales}\label{subsec:requisitos-funcionales}
+
+\begin{itemize}
+	\tightlist
+	\item \textbf{RF-1 Gestión de la plataforma web de configuraciones:} La aplicación debe ser capaz de gestionar las configuraciones de los distintos equipos.
+	\begin{itemize}
+		\tightlist
+		\item \textbf{RF-1.1 Registrar equipos:} El usuario debe poder dar de alta los ordenadores, mediante un identificador que permita validar la veracidad del equipo.
+		\item \textbf{RF-1.2 Editar equipos:} La aplicación podrá permitir modificar datos de los equipos, así como sus configuraciones.
+		\item \textbf{RF-1.3 Eliminar equipos:} El usuario debe poder dar de baja equipos que no se deseen seguir gestionando y eliminar la información asociada.
+		\item \textbf{RF-1.4 Listar equipos:} La aplicación debe ser capaz de realizar listados de equipos y agruparlos atendiendo a diferentes características para después aplicar configuraciones pertinentes.
+		\item \textbf{RF-1.5 Ver equipos:} La aplicación debe ser capaz de mostrar la configuración que aplica a un determinado equipo.
+	\end{itemize}
+	\item \textbf{RF-2 Gestión de plantillas de configuraciones:} La aplicación debe ser capaz de ofrecer una gestión eficiente de las plantillas de configuraciones que se aplicarán a los equipos.
+	\begin{itemize}
+		\tightlist
+		\item \textbf{RF-2-1 Añadir plantillas:} El usuario debe poder añadir plantillas de configuraciones para los equipos.
+		\item \textbf{RF-2.2 Modificar plantillas:} El usuario debe poder modificar plantillas existentes.
+		\item \textbf{RF-2.3 Eliminar plantillas:} El usuario podrá eliminar plantillas que no vayan a usarse más.
+		\item \textbf{RF-2.4 Listar plantillas:} El usuario podrá consultar las plantillas existentes.
+		\item \textbf{RF-2.5 Ver plantillas:} El usuario podrá consultar toda la información perteneciente a una plantilla.
+	\end{itemize}
+	\item \textbf{RF-3 Gestión de usuarios:} La aplicación tiene que ser capaz de mantener una gestión de usuarios.
+	\begin{itemize}
+		\tightlist
+		\item \textbf{RF-3.1 Añadir usuarios:} La aplicación permitirá dar de alta a nuevos usuarios que gestionen la aplicación.
+		\item \textbf{RF-3.2 Modificar usuarios:} Se podrán modificar atributos de usuarios ya existentes.
+		\item \textbf{RF-3.3 Eliminar usuarios:} La aplicación permitirá dar de baja a un usuario junto con sus datos existentes.
+		\item \textbf{RF-3.4 Listar usuarios:} La aplicación podrá listar los usuarios que existen en el sistema.
+		\item \textbf{RF-3.5 Ver usuarios:} La aplicación debe mostrar toda la información relativa al usuario.
+	\end{itemize}
+	\item \textbf{RF-4 Aplicativo de configuraciones:} La aplicación tiene que ser capaz de ejecutarse en el sistema operativo y aplicar en los equipos las configuraciones necesarias que correspondan a cada uno.
+	\begin{itemize}
+		\tightlist
+		\item \textbf{RF-4.1 Registrar dispositivo:} La aplicación debe realizar el registro del dispositivo antes de poder aplicar las configuraciones.
+		Se debe identificar de manera única a cada equipo.
+		\item \textbf{RF-4.2 Aplicar configuración:} La aplicación tiene que ser capaz de aplicar la configuración registrada para cada dispositivo.
+		\item \textbf{RF-4.3 Eliminar configuración:} La aplicación tiene que ser capaz de revertir los cambios realizados a un dispositivo.
+	\end{itemize}
+	\item 	\textbf{RF-5 Ayuda de la aplicación:} El usuario podrá obtener una ayuda acerca de cómo utilizar las funciones que se ofrecen en la aplicación.
+\end{itemize}
+
+
+\subsection{Requisitos no funcionales}\label{subsec:requisitos-no-funcionales}
+
+Los requisitos no funcionales definen cómo debe comportarse un sistema.
+
+\begin{itemize}
+	\tightlist
+	\item \textbf{RF-1 Rendimiento:} El sistema debe funcionar bajo unos tiempos de respuesta aceptables, además debe poder escalar sin perder rendimiento.
+	\item \textbf{RF-2 Seguridad:} La aplicación debe permitir acceder solo a usuarios autorizados y cifrar aquellos datos sensibles.
+	\item \textbf{RF-3 Usabilidad:} La aplicación debe ser intuitiva y accesible, manteniendo una experiencia uniforme.
+	\item \textbf{RF-4 Disponibilidad:} La aplicación debe estar operativa todo el tiempo, a excepción de situaciones extraordinarias.
+	\item \textbf{RF-5 Mantenibilidad:} La aplicación debe seguir unos estándares y buenas prácticas que aseguren calidad.
+	\item \textbf{RF-6 Portabilidad:} La aplicación debe permitir trasladarla entre plataformas de manera relativamente sencillas.
+	\item \textbf{RF-7 Legalidad:} El sistema debe hacer un uso adecuado de herramientas de terceros y cumplir con las normas del territorio en el que se aloja.
+\end{itemize}
+
+\section{Especificación de requisitos}\label{sec:especificacion-de-requisitos}
+
+\subsection{Casos de uso}\label{subsec:casos-de-uso}
+
+% Caso de Uso 1.2 -> Registrar equipos.
 \begin{table}[p]
 	\centering
 	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
 		\toprule
-		\textbf{CU-1}    & \textbf{Ejemplo de caso de uso}\\
+		\textbf{CU-1}    & \textbf{ Registrar equipos}\\
 		\toprule
 		\textbf{Versión}              & 1.0    \\
-		\textbf{Autor}                & Alumno \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & La descripción del CU \\
-		\textbf{Precondición}         & Precondiciones (podría haber más de una) \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-1.1\\
+		\textbf{Descripción}          & Permite al usuario dar de alta un nuevo equipo. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
 		\textbf{Acciones}             &
 		\begin{enumerate}
-			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
-			\item Pasos del CU
-			\item Pasos del CU (añadir tantos como sean necesarios)
+			\item Acceder al área de gestión de equipos y presionar en añadir.
+			\item Rellenar el formulario (huella digital, nombre del equipo\ldots).
+			\item Pulsar en guardar información.
 		\end{enumerate}\\
-		\textbf{Postcondición}        & Postcondiciones (podría haber más de una) \\
-		\textbf{Excepciones}          & Excepciones \\
-		\textbf{Importancia}          & Alta o Media o Baja... \\
+		\textbf{Postcondición}        & El equipo se encuentra registrado en la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item La huella digital o el nombre ya existe.
+			\item No se ha introducido algún campo obligatorio (se muestra mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
 		\bottomrule
 	\end{tabularx}
-	\caption{CU-1 Nombre del caso de uso.}
+	\caption{CU-1 Registrar equipos.}\label{tab:table-1}
 \end{table}
 
-\section{Objetivos generales}
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2}    & \textbf{ Editar equipos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-1.2\\
+		\textbf{Descripción}          & Permite al usuario modificar datos de un equipo. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema y el equipo debe existir.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Escoger el equipo que se quiere modificar.
+			\item Rellenar los campos necesarios (huella digital, nombre del equipo\ldots).
+			\item Pulsar en modificar información.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El equipo se encuentra actualizado en la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item La huella digital o el nombre ya existe.
+			\item No se ha introducido algún campo obligatorio (se muestra mensaje).
+			\item El equipo a editar no existe.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2 Editar equipos.}\label{tab:table-2}
+\end{table}
 
-\section{Catálogo de requisitos}
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3}    & \textbf{ Eliminar equipos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-1.3\\
+		\textbf{Descripción}          & Permite al usuario dar de baja equipo. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema y el equipo debe existir.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Escoger el equipo que se quiere eliminar.
+			\item Pulsar en eliminar equipo.
+			\item Confirmar eliminación.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El equipo se encuentra eliminado de la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item No se ha podido borrar el registro (se muestra mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Eliminar equipos.}\label{tab:table-3}
+\end{table}
 
-\section{Especificación de requisitos}
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-4}    & \textbf{ Ver y listar equipos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-1.4, RF-1.5\\
+		\textbf{Descripción}          & Permite al usuario obtener listados de equipos con determinados filtros. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de equipos.
+			\item Escoger los distintos filtros para realizar la búsqueda.
+			\item Presionar en buscar.
+			\item Seleccionar un equipo entre los encontrados para ver sus detalles.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se muestran correctamente los equipos, si se cumplen los criterios de búsqueda.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un texto si no se han encontrado equipos para esos criterios.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-4 Ver y listar equipos.}\label{tab:table-4}
+\end{table}
 
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5}    & \textbf{ Añadir plantillas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-2.1\\
+		\textbf{Descripción}          & Permite al usuario crear plantillas de configuración que se aplicarán a los equipos.\\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de plantillas y presionar en añadir.
+			\item Introducir los datos de la plantilla (nombre, descripción\dots) y los comandos a aplicar sobre ella.
+			\item Presionar en guardar.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La plantilla se almacena correctamente en base de datos.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un mensaje si no se tienen permisos para almacenar la plantilla.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5 Añadir plantillas.}\label{tab:table-5}
+\end{table}
 
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-6}    & \textbf{ Modificar plantillas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-2.2\\
+		\textbf{Descripción}          & Permite al usuario crear plantillas de configuración que se aplicarán a los equipos.\\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+			\item La plantilla existe.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de plantillas y seleccionar aquella que se quiere modificar.
+			\item Introducir los datos modificados de la plantilla (nombre, descripción\dots) y los comandos sobre ella.
+			\item Presionar en modificar.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & La plantilla se modifica correctamente en base de datos.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un mensaje si no se tienen permisos para modificar la plantilla.
+		\end{itemize}\\
+		\textbf{Importancia}          & Media\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-6 Modificar plantillas.}\label{tab:table-6}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7}    & \textbf{ Eliminar plantillas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-2.3\\
+		\textbf{Descripción}          & Permite al usuario dar de baja plantillas.\\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+			\item La plantilla existe.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de plantillas y seleccionar aquella que se quiere eliminar.
+			\item Presionar en eliminar.
+			\item Confirmar eliminación.
+		\end{enumerate}\\
+		\textbf{Postcondición} &
+		\begin{itemize}
+			\tightlist
+			\item La plantilla se elimina del sistema.
+			\item No se vuelve a aplicar la plantilla eliminada sobre los equipos asociados.
+		\end{itemize}\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un mensaje si no se tienen permisos para eliminar la plantilla.
+		\end{itemize}\\
+		\textbf{Importancia}          & Media\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-7 Eliminar plantillas.}\label{tab:table-7}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-8}    & \textbf{ Ver y listar plantillas}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-2.4, RF-2.5\\
+		\textbf{Descripción}          & Permite al usuario obtener listados de plantillas con determinados filtros. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario está autentificado en el sistema.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de plantillas.
+			\item Escoger los distintos filtros para realizar la búsqueda.
+			\item Presionar en buscar.
+			\item Seleccionar una plantilla entre las encontradas para ver sus detalles.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se muestran correctamente las plantillas, si se cumplen los criterios de búsqueda.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un texto si no se han encontrado plantillas para esos criterios.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-8 Ver y listar equipos.}\label{tab:table-8}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-9}    & \textbf{ Añadir usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-3-1\\
+		\textbf{Descripción}          & Permite dar de alta usuarios en el sistema con distintos roles. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de usuarios.
+			\item Seleccionar dar de alta un usuario.
+			\item Rellenar la información del usuario.
+			\item Pulsar en aceptar.
+			\item Si no hay ningún error, se envía un mail de confirmación para verificar la cuenta.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario ha validado su cuenta y se encuentra registrado en la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Si se ha introducido algún dato único ya almacenado (por ejemplo, email) se muestra un mensaje.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-9 Añadir usuarios.}\label{tab:table-9}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-10}    & \textbf{ Modificar usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-3-2\\
+		\textbf{Descripción}          & Permite modificar datos relativos al usuario. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario se encuentra previamente creado.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de usuarios.
+			\item Seleccionar modificar usuario.
+			\item Rellenar la información que se quiere modificar y puede actualizarse (por ejemplo, el correo electrónico no).
+			\item Pulsar en guardar.
+			\item Si no hay ningún error, se actualiza la cuenta.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario ha sido actualizado en la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Si se ha introducido algún dato único ya almacenado (por ejemplo, email) se muestra un mensaje.
+		\end{itemize}\\
+		\textbf{Importancia}          & Media\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-10 Modificar usuarios.}\label{tab:table-10}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-11}    & \textbf{ Eliminar usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-3-3\\
+		\textbf{Descripción}          & Permite dar de baja un usuario. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de usuarios.
+			\item Seleccionar el usuario que se desea eliminar.
+			\item Pulsar en eliminar cuenta.
+			\item Confirmar la eliminación.
+			\item Si no hay ningún error, se elimina la cuenta.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario ha sido eliminado de la BD.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Si no se ha podido eliminar se muestra un mensaje.
+		\end{itemize}\\
+		\textbf{Importancia}          & Media\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-11 Eliminar usuarios.}\label{tab:table-11}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-12}    & \textbf{ Ver y listar usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-3.4, RF-3.5\\
+		\textbf{Descripción}          & Permite obtener listados de usuarios con determinados filtros. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item Acceder al área de gestión de usuarios.
+			\item Escoger los distintos filtros para realizar la búsqueda.
+			\item Presionar en buscar.
+			\item Seleccionar aquel usuario entre los encontrados para ver sus detalles.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se muestran correctamente las usuarios, si se cumplen los criterios de búsqueda.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Se muestra un texto si no se han encontrado usuarios para esos criterios.
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-12 Ver y listar usuarios.}\label{tab:table-12}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-13}    & \textbf{ Registrar dispositivo}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-4.1\\
+		\textbf{Descripción}          & Permite realizar un registro del dispositivo para aplicar futuras configuraciones. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El usuario posee el ejecutable que permite iniciar el registro.
+			\item El usuario tiene suficientes permisos para realizar la operación.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item El usuario ejecuta el programa.
+			\item Se solicitan credenciales para comprobar si se tienen permisos de registro.
+			\item Una vez introducidos y validados, el proceso continúa.
+			\item Se obtiene la huella digital para ese dispositivo, se almacena en el SO y se envía a la aplicación para su registro.
+			\item Se programa una tarea en la que la herramienta se ejecuta periódicamente.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se registra correctamente el dispositivo y se establece una tarea periódica en el sistema.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Error de usuario (no tiene suficientes permisos).
+			\item Error de registro (se muestra un mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-13 Registrar dispositivo.}\label{tab:table-13}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-14}    & \textbf{ Aplicar configuración}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-4.2\\
+		\textbf{Descripción}          & Permite aplicar configuraciones a determinados dispositivos. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El dispositivo se encuentra registrado en el sistema y se le ha asignado una configuración.
+			\item Existe una tarea programada en el dispositivo.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item El dispositivo ejecuta la tarea programada.
+			\item Se comprueba que la huella digital esté registrada en el sistema.
+			\item Si no se encuentra registrada, se realiza el registro, en caso contrario, continúa el proceso.
+			\item Se obtiene la configuración a aplicar para el dispositivo.
+			\item Se aplica la configuración para el dispositivo.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se aplica correctamente la configuración almacenada para el dispositivo.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Error al aplicar la configuración (se muestra mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-14 Aplicar configuración.}\label{tab:table-14}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-15}    & \textbf{ Eliminar configuración}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-4.3\\
+		\textbf{Descripción}          & Permite eliminar configuraciones de los dispositivos. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+			\item La base de datos es correcta.
+			\item El dispositivo se encuentra registrado en el sistema y se ha dado de baja una configuración.
+			\item Existe una tarea programada en el dispositivo.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item El dispositivo ejecuta la tarea programada.
+			\item Se comprueba que la huella digital esté registrada en el sistema.
+			\item Si no se encuentra registrada, se realiza el registro, en caso contrario, continúa el proceso.
+			\item Se obtiene que hay que eliminar la configuración.
+			\item Se resetea la configuración para el dispositivo.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se resetea correctamente la configuración del dispositivo.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Error al aplicar la configuración (se muestra mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Alta\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-15 Eliminar configuración.}\label{tab:table-15}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-16}    & \textbf{ Ayuda de la aplicación}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & \@author{} \\
+		\textbf{Requisitos asociados} & RF-5\\
+		\textbf{Descripción}          & Permite ofrecer ayuda a los usuarios de la aplicación. \\
+		\textbf{Precondición}         &
+		\begin{itemize}
+			\tightlist
+			\item La aplicación se encuentra operativa.
+		\end{itemize}\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\tightlist
+			\item El usuario pulsa en ayuda de la aplicación.
+			\item Se abre un manual de ayuda para el usuario.
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario obtiene ayuda acerca de la aplicación.\\
+		\textbf{Excepciones}          &
+		\begin{itemize}
+			\tightlist
+			\item Error al generar la ayuda (se muestra mensaje).
+		\end{itemize}\\
+		\textbf{Importancia}          & Baja\\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-16 Ayuda de la aplicación.}\label{tab:table-16}
+\end{table}
