@@ -1,0 +1,22 @@
+node_modules/
+
+dist/
+.angular/
+
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+npm-debug.log*
+yarn-error.log*
+*.log
+
+src/environments/environment.prod.ts
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
