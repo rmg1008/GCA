@@ -34,6 +34,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Change wrapper permissions
+        working-directory: ./backend
         run: chmod +x ./gradlew
       - name: Build and analyze
         working-directory: ./backend
