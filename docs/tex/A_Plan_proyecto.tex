@@ -2,12 +2,487 @@
 
 \section{Introducción}
 
+La fase de planificación constituye un elemento clave e imprescindible en cualquier proyecto.
+Mediante una planificación adecuada, se incrementan notablemente las posibilidades de éxito, ya
+que permite anticipar problemas, distribuir adecuadamente los recursos y organizar las tareas de una
+forma eficiente.
+
+Por este motivo, en este anexo se detallan aquellos aspectos necesarios para el desarrollo
+del proyecto.
+
+Dividiremos el plan en dos apartados:
+\begin{itemize}
+    \item \textbf{La planificación temporal:} donde se establece el modo de organizar las actividades a realizar,
+    una estimación de estas y las fechas de inicio y fin del proyecto.
+    \item \textbf{El estudio de viabilidad:} en el que se analiza si el proyecto es factible desde el punto de vista
+financiero y legal, atendiendo a los elementos necesarios para su realización.
+\end{itemize}
+
 \section{Planificación temporal}
+
+El proyecto se ha realizado bajo un marco ágil de gestión de proyectos, basado en Scrum, aunque ha sido adaptado a las
+características específicas del contexto.
+
+
+Debido a la inexistencia de un equipo, la falta de un entorno estructurado (roles definidos, reuniones diarias, retrospectivas
+y demos), no se ha aplicado en su totalidad.
+Sin embargo, se han mantenido varios de sus fundamentos claves, con ciertos matices:
+
+\begin{itemize}
+    \item \textbf{Iteraciones cortas:} organizadas en sprints de 2 semanas, durante los cuales se han desarrollado
+    nuevas funcionalidades de manera incremental.
+    \item \textbf{Equipos autoorganizados:} aunque no exista un equipo como tal, el desarrollo se ha producido de una manera autónoma.
+    \item \textbf{Reuniones semanales:} todos los lunes se programaba una reunión formal para revisar el estado del proyecto, y
+    resolver posibles dudas surgidas durante la semana anterior.
+    \item \textbf{Backlog del producto:} en el que se van añadiendo todas las tareas pendientes de realizar, ya sean de
+    desarrollo, documentación\ldots Y se mantiene un listado de tareas ordenadas por prioridad.
+    \item \textbf{Planificación de los sprints:} en el que se estudian las tareas que se realizarán para entregar en el
+    siguiente incremento, atendiendo a características como prioridad y complejidad.
+\end{itemize}
+
+A cada tarea se le asigna un valor estimado de esfuerzo, denominado ``story points`` basados en la secuencia de
+Fibonacci: 1, 2, 3, 5, 8\ldots Un story point representa una combinación de dificultad y tiempo estimado.
+Es decir, una tarea con 3 puntos comparada con una de 5 es considerada más sencilla, y se realizará en menor tiempo.
+No obstante, este sistema no establece una equivalencia exacta con días de trabajo.
+
+Esta forma de trabajar no es la más exacta, no obstante permite flexibilizar el trabajo, lo que resulta útil en este contexto
+específico en el que el tiempo disponible puede variar en el tiempo.
+Incluso en entornos ideales, los equipos pueden verse afectados por situaciones como bajas, vacaciones\ldtos por eso la
+planificación debe poder ser adaptable.
+
+
+\textbf{Sprint 0 (25/02/2025 - 05/03/2025)}
+
+Este primer sprint sirvió como punto de partida, se estableció una reunión inicial con el tutor, \textbf{Pedro Renedo}, en el que
+tratamos de conocer acerca del proyecto que se pretende realizar.
+
+Se creó el repositorio inicial en GitHub y estudiamos las posibles herramientas y lenguajes de programación que se utilizarían
+en el desarrollo.
+
+Se estimaron  \textbf{7 story points}, que aproximadamente se corresponde con la semana que duró el sprint.
+Esta duración fue una excepción, ya que se trató del primer sprint, después se optó por dos semanas, porque una única
+semana se hace muy corto cuando se introducen tareas de desarrollo.
+
+\textbf{Sprint 1 (05/03/2025 - 20/03/2025)}
+
+Durante este sprint se profundizó en el análisis del proyecto, tratando de responder a preguntas clave como:
+\textbf{¿Qué se necesita realizar?, ¿Cómo ha de hacerse?, ¿Con base a qué surge esta necesidad? \ldots}
+
+Además, se estudia el tipo de aplicación que se va a necesitar en los dispositivos, se modela una primera versión de
+base de datos y se crea la estructura inicial de la aplicación backend en Java.
+Surge un problema técnico, los ordenadores del centro son clonados, por lo que tienen el mismo GUID y no sirve como
+identificador único, por lo que hay que seguir investigando para encontrar algún método alternativo.
+
+Se estimaron \textbf{19 story points} de trabajo para los 15 días de trabajo.
+
+
+\textbf{Sprint 2 (20/03/2025 - 02/04/2025)}
+
+Se sigue con la línea de definición de requisitos y objetivos funcionales, se desarrollan los CU principales, además de
+diseñar un método de autentificación para los equipos, que combina el GUID con el nombre de los equipos, aprovechando
+que estos sí son únicos para cada uno.
+
+Por otro lado, se crea la estructura de la aplicación frontal.
+
+Se estimaron \textbf{15.5 story points} para los 15 días de trabajo, en este caso, se ajustó a 1 story point por día prácticamente.
+
+
+\textbf{Sprint 3 (02/04/2025 - 16/04/2025)}
+
+En esta etapa se comienza con las tareas de desarrollo del backend, para ello, se crea una base de datos inicial
+con MariaDB, después de refinar el diagrama E-R actual, y se implementan las bases de nuestra API con Spring Boot, configurando
+los primeros end points e implementando medidas de seguridad en las llamadas mediante login y generación de tokens.
+
+Se estimaron \textbf{21 story points} en este sprint, ya que la disponibilidad prevista era superior a la de otros sprints.
 
 \section{Estudio de viabilidad}
 
 \subsection{Viabilidad económica}
 
+En este apartado analizaremos los costes y beneficios de haber implementado el proyecto con una intención real de llevarlo
+a cabo.
+
+\textbf{Costes}
+
+\textbf{Costes de personal:} todo el desarrollo ha sido realizado por un único desarrollador en un tiempo total de cinco meses, de febrero
+a junio.
+El sueldo base promedio para un puesto de desarrollador ``Full Stack Developer`` en España es de 30 mil €/año brutos de acuerdo con
+la información publicada en Glassdor\cite{glassdoorSueldo}
+
+
+Calculamos el salario con base a una persona de 30 años, soltera y sin hijos\cite{seguridadSocial2025}
+
+\begin{center}
+\begin{tabular}{| c | c |}\hline
+\Xhline{2\arrayrulewidth}
+\textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+Salario neto & 1929,8€ \\ \hline
+Retención IRPF & 411,5€ \\ \hline
+Cuota seguridad social & 148,75€ \\ \hline
+Salario mensual bruto & 2500€ \\ \hline
+\Xhline{2\arrayrulewidth}
+\textbf{Total 5 meses} & \textbf{12500€} \\ \Xhline{2\arrayrulewidth}
+\end{tabular}
+
+
+\vspace{0.3em}
+\textit{Tabla: Costes de empleado.}
+\end{center}
+
+\textbf{Costes de hardware}
+
+Para el hardware utilizado, no se emplean demasiadas herramientas más allá de un ordenador para la realización del proyecto,
+que se hará a medida, a priori, con un dispositivo de 16GB de RAM, SSD NVMe, procesador actual y una tarjeta gráfica estándard
+será suficiente.
+En el precio viene ya incluido una licencia de Win 11.
+
+
+\begin{center}
+    \begin{tabular}{| c | c |}\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+    Ordenador a medida & 1200€ \\ \hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Total} & \textbf{1200€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Costes del hardware.}
+\end{center}
+
+\textbf{Costes de software}
+
+En este apartado, tendremos en cuenta las licencias necesarias para el desarrollo del proyecto, para los IDE's, existen
+dos opciones, o bien utilizar las licencias gratuitas ``Community Edition`` o las de pago\cite{jetbrainsPrecios}
+Escogemos esta última porque cuentan con características que ayudan a desarrollar rápidamente nuestro proyecto.
+
+\begin{center}
+    \begin{tabular}{| c | c | c |}\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Concepto} & \textbf{Coste} & \textbf{Coste Amortizado} \\ \Xhline{2\arrayrulewidth}
+    All Products Pack & 474,8€ & 19,78€ \\ \hline
+    Visual Studio Code & 0€ & 0€ \\ \hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Total} & \textbf{474,8€} & \textbf{19,78€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Costes del software.}
+\end{center}
+
+\textbf{Costes variados}
+
+En este apartado incluimos otros costes a tener en cuenta
+
+\begin{center}
+    \begin{tabular}{| c | c |}\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+    Dominio web & 20€ \\ \hline
+    Hosting / contendor & 50€\\ \hline
+    Internet & 100€ \\ \hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Total} & \textbf{170€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Costes variados.}
+\end{center}
+
+
+\textbf{Costes totales}
+
+Se muestra el sumatorio de todos los costes:
+
+\begin{center}
+    \begin{tabular}{| c | c |}\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+    Personal & 12500€ \\ \hline
+    Hardware & 1200€\\ \hline
+    Software & 478,8€ \\ \hline
+    Variados & 170€ \\ \hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Total} & \textbf{14348,8€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Costes totales.}
+\end{center}
+
+\textbf{Beneficios}
+
+Se trata de un proyecto con fines estrictamente académicos, de hecho, la idea es poder llegar a ser desarrollado para
+la Universidad de Burgos.
+
+No obstante, se podría considerar establecer algún tipo de suscripción (ya sea mensual o anual) u otras entidades educativas
+o incluso a empresas privadas.
+
+\begin{center}
+    \begin{tabular}{| c | c | c | c | }\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Tipo} & \textbf{Objetivo} & \textbf{Precio mensual} & \textbf{Precio anual} \\ \Xhline{2\arrayrulewidth}
+    Básica & Centros educativos pequeños & 49,90€ & 499€ \\ \hline
+    Profesional & Instituciones grandes & 89,90€ & 899€ \\ \hline
+    Empresarial & Empresas privadas & 149,90€ & 1149€ \\ \hline
+    Premium & Incluye personalización total & 250€ & 2500€ \\ \hline
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Monetización del proyecto.}
+\end{center}
+
+Para calcular el número de suscripciones que necesitaríamos para cubrir gastos, utilizamos la siguiente fórmula:
+
+\[
+    \text{Suscripciones necesarias} = \frac{14.348{,}8\,€}{\text{Precio de la suscripción anual}}
+\]
+
+\begin{center}
+    \begin{tabular}{| c | c | c | }\hline
+    \Xhline{2\arrayrulewidth}
+    \textbf{Tipo} & \textbf{Precio anual} & \textbf{Suscripciones necesarias} \\ \Xhline{2\arrayrulewidth}
+    Básica & 499€ & 29 \\ \hline
+    Profesional & 899€ & 16 \\ \hline
+    Empresarial & 1149€ & 13 \\ \hline
+    Premium & 2500€ & 6 \\ \hline
+    \end{tabular}
+
+
+    \vspace{0.3em}
+    \textit{Tabla: Suscripciones necesarias para cubrir gastos.}
+\end{center}
+
+De esta manera, calculamos el número de suscripciones necesarias (si solo se tuviesen de un mismo tipo)
+para llegar a cubrir los gastos totales del proyecto.
+También se podría utilizar un modelo mixto, e incluir suscripciones de cada tipo.
+
+\textbf{Responsabilidad social}
+
+Si este proyecto se implementase de manera real, uno de los aspectos más importantes a tener en cuenta es el impacto
+sobre los trabajadores que actualmente desempeñan manualmente este tipo de tareas.
+Es cierto que para este proyecto siempre se va a necesitar un mínimo de una persona, que ha de ejecutar la aplicación
+en cada cliente, al menos para su instalación y llevar un mantenimiento por si se produjese algún tipo de error.
+Sin embargo, se necesitarían muchas menos personas de las que actualmente se dedican a este tipo de tareas de una manera
+más ``manual``, por lo que muchos puestos de trabajos actuales se verían afectados.
+Por eso, se propone una formación continúa para el personal afectado, de manera que su perfil profesional pueda evolucionar
+además de una trasparencia y comunicación interna que ayude a construir un entorno de confianza y adaptación responsable.
+
 \subsection{Viabilidad legal}
 
+Abordamos aquellos temas relacionados con el contexto legal del proyecto así como el de las licencias.
 
+La implementación del proyecto ha sido propia, a excepción de:
+
+\textbf{Software}
+
+En este punto, diferenciaremos las dependencias utilizadas en el cliente (Python) de las utilizadas en la API (Java) y
+la interfaz de gestión de usuario (Angular)
+
+Python
+
+\begin{longtable}[]{@{}llll@{}}
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{4}{c}%
+    {\tablename\ \thetable{} -- \textit{continuación}} \\
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endhead
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut altgraph \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 0.17.4 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Análisis y representación de grafos de objetos de Python. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut certifi \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 2025.1.31 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Certificados raíz para validar la seguridad SSL. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MPL-2.0 \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut charset-normalizer \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 3.4.1 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Detección de codificación de texto similar a chardet. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut idna \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 3.10 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Soporte de nombres de dominio internacionalizados (IDNA). \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut BSD \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut packaging \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 24.2 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Utilidades para manejo de versiones y requerimientos. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut Apache-2.0 \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pefile \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 2023.2.7 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Lectura y modificación de archivos PE (Portable Executable). \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pillow \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 11.1.0 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Biblioteca de procesamiento de imágenes (fork de PIL). \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut HPND \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pip \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 25.0.1 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Instalador oficial de paquetes Python. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pyinstaller \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 6.12.0 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Empaquetado de apps Python en ejecutables. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut GPL-2.0 \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pyinstaller-hooks-contrib \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 2025.2 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Hooks adicionales para PyInstaller. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut GPL-2.0 \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pystray \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 0.19.5 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Gestión de iconos en la bandeja del sistema. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut pywin32-ctypes \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 0.2.3 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Acceso a funcionalidades Win32 usando ctypes. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut requests \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 2.32.3 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Biblioteca HTTP simple y elegante para Python. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut Apache-2.0 \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut setuptools \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 78.1.0 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Herramienta de empaquetado y distribución. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut six \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 1.17.0 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Compatibilidad entre Python 2 y 3. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright\strut urllib3 \strut \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright\strut 2.3.0 \strut \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright\strut Cliente HTTP con soporte para conexión persistente. \strut \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright\strut MIT \strut \end{minipage} \tabularnewline
+
+    \bottomrule
+    \caption{Dependencias del proyecto Python}
+\end{longtable}
+
+
+Java
+
+\begin{longtable}[]{@{}p{0.18\columnwidth}p{0.10\columnwidth}p{0.49\columnwidth}p{0.11\columnwidth}@{}}
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{4}{c}%
+    {\tablename\ \thetable{} -- \textit{continuación}} \\
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endhead
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter básico para aplicaciones Spring Boot. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-web \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para crear aplicaciones web con Spring MVC. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-actuator \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para monitorización y gestión de aplicaciones. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-data-jpa \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para usar Spring Data JPA con Hibernate. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-security \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para habilitar seguridad con Spring Security. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-validation \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para validación de datos usando Bean Validation. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright mariadb-java-client \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.1 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Driver JDBC para base de datos MariaDB. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright LGPL-2.1 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-boot-starter-test \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 3.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Starter para pruebas unitarias y de integración en Spring. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright spring-security-test \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 6.4.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Utilidades para pruebas de seguridad con Spring Security. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright jjwt-api \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 0.12.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright API para creación y verificación de JSON Web Tokens (JWT). \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \bottomrule
+    \caption{Dependencias principales del proyecto Java}
+\end{longtable}
+
+
+Angular
+
+\begin{longtable}[]{@{}p{0.25\columnwidth}p{0.10\columnwidth}p{0.49\columnwidth}p{0.11\columnwidth}@{}}
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{4}{c}%
+    {\tablename\ \thetable{} -- \textit{continuación}} \\
+    \toprule
+    \textbf{Dependencia} & \textbf{Versión} & \textbf{Descripción} & \textbf{Licencia} \\
+    \midrule
+    \endhead
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/common \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Funcionalidades comunes y directivas básicas de Angular. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/compiler \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Compilador para templates de Angular. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/core \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Núcleo del framework Angular. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/forms \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Módulo para crear formularios reactivos y por plantilla. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/platform-browser \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Soporte para la ejecución de Angular en navegadores. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/platform-browser-dynamic \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Renderizado dinámico de Angular en el navegador. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @angular/router \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 19.2.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Sistema de enrutamiento y navegación para Angular. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright rxjs \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 7.8.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Biblioteca para programación reactiva con observables. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright tslib \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 2.3.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Helpers de TypeScript para reducir el tamaño del bundle. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright 0BSD \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright zone.js \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 0.15.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Implementación de zonas para la gestión del contexto de ejecución. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \bottomrule
+    \caption{Dependencias principales del proyecto Angular}
+\end{longtable}
+
+Una vez estudiadas las dependencias y tipos de licencias de nuestro proyecto, observamos que las usadas son:
+
+\begin{itemize}
+    \item \textbf{MIT}
+    \item \textbf{Apache-2.0}
+    \item \textbf{BSD}
+    \item \textbf{HPND}
+    \item \textbf{0BSD}
+\end{itemize}
+
+Se ha optado por utilizar una licencia menos permisiva, para no tener problemas con el uso de otros tipos de licencias,
+en este caso elegimos Apache License 2.0\cite{apacheLicense}:
+
+\begin{longtable}[]{@{}p{0.25\columnwidth}p{0.70\columnwidth}@{}}
+    \toprule
+    \textbf{Característica} & \textbf{Descripción} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{2}{c}{\tablename\ \thetable{} -- \textit{continuación}} \\
+    \toprule
+    \textbf{Característica} & \textbf{Descripción} \\
+    \midrule
+    \endhead
+
+    \textbf{Libertad de uso} & Permite usar el software para cualquier propósito, incluyendo comercial. \\
+    \textbf{Distribución} & Puedes redistribuir el código original o modificado, incluso bajo una licencia diferente compatible. \\
+    \textbf{Modificación} & Puedes modificar el código fuente, pero debes indicar los cambios realizados. \\
+    \textbf{Licencia permisiva} & No impone que el trabajo derivado use la misma licencia (no es copyleft). \\
+    \textbf{Aviso de licencia} & Se debe incluir un aviso de derechos de autor y la licencia en todas las distribuciones. \\
+    \textbf{Compatibilidad} & Compatible con muchas otras licencias, incluyendo GPL v3. \\
+    \textbf{Patentes} & Concede una licencia explícita de uso de patentes del contribuyente; si alguien inicia una demanda de patentes, pierde la licencia. \\
+    \textbf{Marcas registradas} & No concede ningún derecho sobre marcas registradas. \\
+    \bottomrule
+    \caption{Resumen de los puntos clave de la licencia Apache License 2.0}
+\end{longtable}
+
+De esta manera, aumentamos la posibilidad de que otros desarrolladores o empresas contribuyan a nuestro proyecto, pudiendo
+adoptar el software más fácilmente.
+
+
+\textbf{Documentación}
+
+Con tal de proteger la autoría del proyecto, que sea fácil de aplicar y compatible con usos académicos y comercial,
+se ha escogido Creative Commons Attribution 4.0 International\cite{ccby4}
+
+\textbf{Imágenes y vídeos}
+
+Para las imágenes y vídeos, utilizamos la licencia Creative Commons Attribution-NonCommercial 4.0 International\cite{ccby_nc4},
+ya que las imágenes utilizadas son propias, protegemos el contenido, pero permitimos su difusión.
+
+
+\textbf{Resumen}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.25\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}|}
+        \hline
+        \textbf{Tipo de contenido} & \textbf{Licencia} & \textbf{Resumen de derechos y restricciones} \\
+        \hline
+        Código fuente & Apache License 2.0 & Permite uso, modificación, distribución (incluso comercial), siempre que se incluya un aviso de licencia y derechos de autor. No obliga a licenciar el código derivado bajo la misma licencia. \\
+        \hline
+        Documentación & CC BY 4.0 & Permite compartir y adaptar, incluso con fines comerciales, siempre que se dé atribución adecuada al autor original. \\
+        \hline
+        Imágenes y videos & CC BY-NC 4.0 & Permite compartir y adaptar, pero no para uso comercial. Se requiere atribución al autor original. \\
+        \hline
+    \end{tabular}
+    \vspace{0.3em}
+    \caption{Resumen de las licencias del proyecto.}
+    \label{tab:licencias_contenido}
+\end{table}
