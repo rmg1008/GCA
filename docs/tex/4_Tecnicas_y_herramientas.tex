@@ -1,6 +1,262 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Metodologías}\label{sec:metodologias}
+
+\subsection{Scrum}\label{subsec:scrum}
+
+La metodología ágil utilizada ha sido Scrum\cite{scrumorg:whatis}, mediante la cual se ha organizado el trabajo en
+interaciones cortas llamadas sprints.
+En cada uno de estos se establecen una serie de tareas, ordenadas por prioridad.
+
+Este enfoque permite una mayor flexibilidad, ya que no se necesita tener todo definido desde el inicio del proyecto,
+si surgen imprevistos, como cambios de requisitos, nuevas ideas, o cualquier tipo de problema, se introducen nuevas tareas
+en los siguientes sprints.
+
+Este marco de trabajo encaja muy bien en equipos pequeños que trabajan de manera autónoma, favoreciendo una autogestión
+eficiente y una mejora continua del proyecto.
+
+\subsection{Test Driven Development (TDD)}\label{subsec:tdd}
+
+En la misma línea de metodologías ágiles, se ha optado por seguir la práctica de TDD\cite{browserstack:tdd}, en la cual
+se escriben los tests antes de implementar el código que se necesita probar.
+
+TDD consta de tres fases repetitivas:
+
+\begin{enumerate}
+    \item \textbf{Fase roja :} se escriben los test destinados a comprobar una determinada funcionalidad.
+    Inicialmente, estos tests fallan.
+    \item \textbf{Fase verde :} se implementa el mínimo código necesario para que los tests anteriores pasen.
+    \item \textbf{Refactorización :} se optimiza el código a la vez que se asegura que todos los test siguen siendo correctos.
+\end{enumerate}
+
+\section{Gestión del proyecto}\label{sec:gestion}
+
+\subsection{Control de versión}\label{subsec:control}
+
+Para la gestión de versiones del proyecto se ha escogido Git\cite{git:official}, una herramienta de control de versiones distribuido.
+
+Permite llevar un seguimiento de todos los cambios realizados en el código, además de facilitar la creación de ramas
+independientes que pueden usarse para implementar nuevas funcionalidades o corregir errores.
+
+Existen otras herramientas de gestión como Subversion (SVN)\cite{svn:official}, la cual se había considerado también:
+
+\begin{itemize}
+    \item \textbf{Modelo:} Git es un sistema distribuido, mientras que Subversion (SVN) es centralizado.
+    \item \textbf{Repositorio local:} Git almacena todo el historial del proyecto localmente; SVN solo guarda una copia de trabajo.
+    \item \textbf{Velocidad:} Git realiza operaciones locales mucho más rápido que SVN, que depende del servidor.
+    \item \textbf{Gestión de ramas:} Git facilita la creación y fusión de ramas de forma ligera; en SVN, este proceso es más pesado y complejo.
+    \item \textbf{Integración con plataformas:} Git se integra de forma nativa con plataformas como GitHub o GitLab, mientras que SVN tiene una integración más limitada.
+    \item \textbf{Soporte y comunidad:} Git cuenta con una comunidad más amplia, con mayor soporte y documentación actualizada que SVN.
+\end{itemize}
+
+\subsection{Repositorio}\label{subsec:repositorio}
+
+Las opciones contempladas fueron GitHub o Gitlab, debido a su integración nativa con Git.
+Finalmente se ha optado por utilizar GitHub\cite{wikipedia:github}, ya que se trata de una plataforma muy popular en proyectos open source, es
+muy intuitiva y está enfocada a desarrolladores individuales y equipos colaborativos.
+
+Por su parte, Gitlab está más enfocada a entornos de empresas, es más completo pero más complejo de utilizar.
+
+Además, GitHub incluye una serie de herramientas de integración CI / CD llamda GitHub Actions que se utilizará en
+conjunto con otras herramientas que describiremos en otras secciones.
+
+\subsection{Plataforma de gestión}\label{subsec:plataforma}
+
+Existen infinidad de plataformas enfocadas a la gestión de proyectos; Trello, Jira, Asana, ZenHub \ldots
+
+Hemos optado por utilizar ZenHub\cite{zenhub:gettingstarted}, ya que es una herramienta que se integra fácilmente con GitHub, permite crear
+sprints, épicas y tableros Kanban.
+
+Si bien es cierto que la herramienta más utilizada por excelencia es Jira, no obstante considero que tiene demasiadas
+funcionalidades que no van a ser aprovechadas en este proyecto, por lo que es mas conveniente utilizar algo menos potente.
+
+\subsection{Comunicación}\label{subsec:comunicacion}
+
+Para cualquier tipo de comunicación, se utilizará email y Teams.
+
+\section{Lengujes de programación}\label{sec:lenguajes}
+
+\subsection{Cliente}\label{subsec:cliente}
+
+Para el desarrollo de la aplicación cliente, se debía escoger un lenguaje de scripts o cercano a estos, ya que el objetivo
+era construir una herramienta capaz de obtener configuraciones y aplicarlas a los dispositivos de forma sencilla.
+
+Entre los candidatos estaban PowerShell, Java, y Python.
+Todos son lenguajes que permiten satisfacer los requisitos del proyecto, con ligeras diferencias:
+\begin{itemize}
+    \item \textbf{PowerShell:} aunque es potente, limita su uso a dispositivos con sistema operativo Windows,
+    restringiendo así la portabilidad.
+    \item \textbf{Java:} gracias a su arquitectura multiplataforma, permite ejecutar programas en cualquier entorno.
+    No obstante, generar un archivo ejecutable (.exe) que funcione universalmente resulta complejo, y en caso de
+    distribuir un archivo .jar, se requeriría que los dispositivos clientes tuvieran Java instalado previamente.
+    \item \textbf{Python:} en cambio, ofrece una solución más práctica: mediante sus librerías, es posible generar
+    ejecutables de forma sencilla, compatibles con distintos sistemas operativos, y sin necesidad de instalar
+    software adicional en los dispositivos cliente.
+\end{itemize}
+
+Por esto, se decide utilizar Python\cite{python:docs} para desarrollar la aplicación de escritorio.
+
+\subsection{API}\label{subsec:api}
+
+En cuanto al desarrollo de APIs, los dos cantidatos por excelencia son Spring Boot y Node.js.
+
+Node.js ha adquirido gran relevancia en los ultimos años, ya que permite crear APIs de una manera muy sencilla,
+siendo especialmente útil en aplicaciones que precisan de una gran velocidad y eficiencia en tiempo real.
+Por otro lado, Spring Boot, ofrece un amplio conjunto de módulos, que permiten configurar la aplicación atendiendo
+a las necesidades de cada proyecto, a cambio de una mayor complejidad de desarrollo.
+
+Se ha escogido Spring Boot\cite{spring:docs} debido a que, aunque el proyecto inicial es relativamente pequeño, ofrece la  posibilidad
+de escalar la aplicación y gestionar un mayor número de usuarios en un futuro.
+Además, integra módulos (beans, core, security\ldots) que facilitan la implementación de mecanismos avanzados de desarrollo,
+como el control de accesos de usuarios.
+
+\subsection{Frontal}\label{subsec:frontal}
+
+Finalmente, para el frontend, se evaluaron dos alternativas: Angular o React.
+React proporciona gran flexibilidad y es ideal para proyectos en los que se quiere tener control total de la arquitectura
+y librerias usadas, aunque depende en gran medida de librerias de terceros para su desarrollo.
+Angular, en cambio ofrece un framework completo, con una gran cantidad de funcionalidades predefinidas, lo que facilita
+el mantenimiento y la optimización del código, especialmente en proyectos grandes.
+
+Se ha optado por Angular\cite{angular:docs}, priorizando su robustez, escalabilidad y la gran cantidad de herramientas que proporciona.
+
+\section{Arquitectura}\label{sec:arquitectura}
+
+\subsection{Patrón de diseños}\label{subsec:patron}
+
+En este proyecto se han aplicado distintos patrones de diseño, adaptados a las diferentes necesidades.
+
+La aplicación de escritorio del cliente, desarrollada en Python, emplea una estructura basada en la gestión dinámica
+de una única ventana, ocultando y mostrando distintos elementos.
+Esto es similar al concepto de SPA (Single Page Application) en el ámbito web.
+
+La API REST desarrollada en Spring Boot, sigue una arquitectura MVC (Modelo-Vista-Controlador)\cite{wikipedia:mvc}.
+
+El frontend en Angular adopta un patrón similar a MVC, donde los componentes representan la vista, y el controlador
+son los servicios que encapsulan el modelo de datos y la comunicación con la API.
+
+\section{Herramientas de desarrollo}\label{sec:desarrollo}
+
+\subsection{Cliente}\label{subsec:desarrollo_cliente}
+
+Para el desarrollo de la aplicación cliente se ha utilizado el Entorno de Desarrollo Integrado (IDE) PyCharm\cite{pycharm:official},
+ya que se encuentra plenamente enfocado a Python, ofrece multitud de herramientas y permite realizar configuraciones rápidas.
+
+Otra opción era Visual Studio Code, pero para este lenguaje en concreto, se necesitan descargar multitud de extensiones
+para poder desarrollar cómodamente.
+
+Para la instalación de librerias externas, se utiliza PIP\cite{pip:official}, un gestor de paquetes que permite
+instalar, actualizar y gestionar librerías.
+
+\subsection{API}\label{subsec:desarrollo_api}
+
+Para nuestra API con Spring Boot, se ha optado por el IDE IntelliJ IDEA\cite{intellij:official} frente a Eclipse,
+por la sencilla razón de que IntelliJ es mucho más potente, intuitivo y dispone de todas las herramientas necesarias,
+sin necesidad de instalar nada.
+
+En conjunto con este IDE, se ha añadido una herramienta de automatización de compilación moderna y potente, como es
+Gradle\cite{gradle:official}, permite compilar, construir, testear y desplegar aplicaciones de software.
+
+En combinación con Spring Boot, destaca su uso frente al de Maven, ya que es más ligero, flexible y permite tener un control de
+los despliegues.
+
+\subsection{Frontend}\label{subsec:desarrollo_frontend}
+
+El frontend se ha desarrollado utilizando Visual Studio Code\cite{vscode:official}, también es posible utilizar IntelliJ y tener ambos
+proyectos (API y Frontend) en el mismo IDE, sin embargo, no está tan optimizado para la parte front y la sensación de
+programar el frontal dista mucho de ser óptima.
+
+Además, utilizamos NPM (Node Package Manager)\cite{npm:official} como gestor de paquetes para instalar librerias
+externas de una manera simple y segura.
+
+\section{Integración contínua}\label{sec:integracion}
+
+\subsection{Integración y despliegue continuos (IC/DC)}\label{subsec:integracion_continua}
+
+Para automatizar compilaciones, pruebas y despliegue, se ha utilizado GitHub actions\cite{github:actions}, en este caso, al
+escoger GitHub como repo, viene incluido sin necesidad de instalar nada más.
+
+\subsection{Cobertura y calidad de código}\label{subsec:cobertura}
+
+SonarQube Cloud\cite{sonarcloud:official} se ha seleccionado como plataforma para analizar la calidad y cobertura del código fuente.
+La razón de su uso se debe a que no es necesario instalar ningún servidor, basta con conectarlo al respositorio de GitHub y
+se puede consultar todos los resultados online.
+
+\subsection{Despliegue}\label{subsec:despliegue}
+
+Docker\cite{docker:official} es una plataforma que permite empaquetar una aplicación y todas sus dependencias en un
+contenedor portable y que puede ejecutarse en cualquier entorno
+
+\section{Documentación}\label{sec:documentacion}
+
+La documentación se ha desarrollado utilizando LaTeX\cite{latex:official}, en lugar de otras herramientas de procesamiento de texto como Word.
+Word funciona muy bien para documentos simples y además es fácil e intuitivo desde el principio.
+No obstante, LaTeX permite un control de todo el formato, genera documentos de una calidad tipográfica
+excelente y es ideal para documentos técnicos.
+Sin embargo, es necesario un periodo de adaptación para aprender a usarlo.
+
+Como editor LaTeX se utiliza IntelliJ Idea junto con el plugin TeXiFy-IDEA y el compilador pdfLaTeX.
+
+Visualizamos los documentos PDF generados con SumatraPDF por integrarse de manera excelente con las herramientas
+mencionadas.
+
+
+\section{Librerias}\label{sec:librerias}
+
+En este apartado mencionamos las librerias más importantes, sin contar aquellas que se encuentran preinstaladas en los
+frameworks utilizados.
+
+\subsection{Cliente}\label{subsec:librerias_cliente}
+
+\textbf{PyInstaller}
+
+PyInstaller\cite{pyinstaller:official} es una herramienta que permite convertir programas escritos en Python en ejecutables independientes para
+Windows, Linux y macOS.
+
+
+\textbf{Inno Setup Compiler}
+
+Inno Setup\cite{innosetup:official} es una herramienta gratuita para crear instaladores para aplicaciones de Windows.
+Permite empaquetar archivos, configuraciones y recursos necesarios, generando un asistente de instalación (.exe) que
+facilita la distribución y el despliegue de programas.
+
+\subsection{API}\label{subsec:librerias_api}
+
+
+\textbf{Jjwt-api}
+
+Jjwt-api forma parte de la biblioteca JJWT (Java JWT)\cite{jjwt:official}, una de las librerías más populares para trabajar con
+JSON Web Tokens (JWT) en aplicaciones Java.
+
+
+\textbf{JUnit}
+
+JUnit\cite{junit:official} es uno de los frameworks de testing más populares para aplicaciones Java.
+Permite crear y ejecutar de manera estructurada tests unitarios, ayudando a garantizar que cada componente de un
+programa funcione correctamente de forma aislada.
+
+
+\subsection{Frontend}\label{subsec:librerias_frontend}
+
+
+
+\textbf{Angular CLI}
+
+Angular CLI (Command Line Interface)\cite{angularcli:official} es una herramienta oficial para crear, desarrollar,
+construir y mantener aplicaciones Angular desde la línea de comandos.
+
+
+\textbf{Tailwind CSS}
+
+Tailwind CSS\cite{tailwind:official} es un framework de CSS utilitario que permite diseñar interfaces de usuario
+rápidamente mediante la combinación de pequeñas clases directamente en el HTML .
+
+
+\textbf{DaisyUI}
+
+DaisyUI\cite{daisyui:official} es un complemento de componentes UI construido sobre Tailwind CSS .
+
+Ofrece componentes predefinidos como botones, modales, menús, tabs, alertas, etc., todos diseñados usando clases de Tailwind.
+
 
 
