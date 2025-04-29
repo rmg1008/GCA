@@ -14,14 +14,14 @@ public class Group {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent")
     private Group parent;
 
-    @OneToMany(mappedBy="parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="parent")
     private Collection<Group> children;
 
-    @OneToMany
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     private Collection<Device> devices;
 
     public Long getId() {
