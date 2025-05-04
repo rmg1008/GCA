@@ -1,3 +1,101 @@
 \capitulo{6}{Trabajos relacionados}
 
-Este apartado sería parecido a un estado del arte de una tesis o tesina. En un trabajo final grado no parece obligada su presencia, aunque se puede dejar a juicio del tutor el incluir un pequeño resumen comentado de los trabajos y proyectos ya realizados en el campo del proyecto en curso. 
+La gestión centralizada de dispositivos, es una práctica habitual en la administración de sistemas,
+y casi desde sus inicios, se han desarrollado herramientas para la gestión de dispositivos de red.
+Esta gestión ha evolucionado, y sigue evolucionando hacia una automatización de tareas, la orquestación de servicios y
+la gestión de configuraciones.
+
+En este apartado se exponen aquellos artículos científicos y herramientas existentes que guardan similitud con
+el presente trabajo.
+
+\section{Articulos cientificos}\label{sec:articulos-cientificos}
+
+\textbf{An Application to Automate the Configuration Management and Assessment of Practically Based Learning Outcomes in Computer Networking }
+
+Este estudio describe una aplicación desarrollada para automatizar la configuración y evaluación de escenarios prácticos
+en laboratorios de redes\cite{malliarakis2019application}.
+La herramienta permite aplicar configuraciones a dispositivos reales y simulados, facilitando  la evaluación de
+resultados de aprendizaje prácticos.
+Aunque se centra en el ámbito educativo, su enfoque en la automatización y gestión de configuraciones es aplicable a
+entornos uniersitarios más amplios.
+
+\textbf{Configuration Management and Security }
+
+Este artículo\cite{bellovin2001configuration} analiza los desafíos de la gestión de configuración en sistemas de gran
+escala, destacando la importancia de políticas centralizadas para garantizar la seguridad y el cumplimiento normativo.
+Aunque no se enfoca específicamente en la educación, se describe la necesidad de herramientas que permitan la gestión
+de configuraciones de manera eficiente y segura.
+
+\section{Herramientas}\label{sec:herramientas}
+
+\textbf{System Center Configuration Manager (SCCM)}
+
+SCCM\cite{microsoftConfigMgr} es una solución de Micrososft para la gestión centralizada de configuraciones y
+actualizaciones.
+Permite aplicar configuraciones a grupos de dispositivos, gestionar actualizaciones de software \ldots
+Aunque es una herramienta comercial, su enfoque en la gestión de configuraciones es similar al
+propuesto en este trabajo.
+Para su uso, es necesario tener instalado además Microsoft AD para permitir gestionar dispositivos y usuarios dentro
+de la red.
+
+\textbf{Active Directory (AD) or Entra ID)}
+
+AD\cite{microsoftADDS} y Entra ID\cite{microsoftEntra} (anteriormente conocido como Azure AD) son soluciones de Microsoft
+para la gestión centralizada mediante servicios que controlan el acceso a recursos y la configuración de dispositivos
+en entornos empresariales.
+La diferencia principal entre ambos es que Entra ID está diseñado para entornos en la nube, mientras que AD se utiliza
+principalmente en entornos locales.
+
+\textbf{Netsh}
+
+Netsh\cite{microsoftNetsh} es una herramienta de comandos de Microsoft que permite la configuración y gestión
+de dispositivos de red en sistemas operativos Windows, ya sea de forma local o remota.
+
+ \begin{table}[H]
+        \centering
+        \begin{tabular}{lcccc}
+            \toprule
+            \textbf{Características} & \textbf{GCA} & \textbf{SCCM} & \textbf{AD} & \textbf{Netsh} \\
+            \midrule
+            Automatización de configuraciones & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{rojo}No \\
+            Gestión centralizada              & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{rojo}No \\
+            Priorización por dispositivos     & \cellcolor{verde}Si & \cellcolor{amarillo}Limitada & \cellcolor{verde}Sí & \cellcolor{rojo}No \\
+            Interfaz de usuario               & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{verde}Sí & \cellcolor{rojo}No (terminal) \\
+            Curva de aprendizaje              & \cellcolor{verde}Baja & \cellcolor{rojo}Alta & \cellcolor{rojo}Alta & \cellcolor{amarillo}Media \\
+            Dependencia con otras herramientas & \cellcolor{verde}No & \cellcolor{rojo}Sí & \cellcolor{rojo}Sí & \cellcolor{verde}No \\
+            Multiplataforma                   & \cellcolor{verde}Sí* & \cellcolor{amarillo}Limitada & \cellcolor{amarillo}Limitada & \cellcolor{rojo}No \\
+            \bottomrule
+        \end{tabular}
+        \caption{Comparativa de las herramientas de los proyectos con codificación de colores.}
+        \label{tab:comparativa-herramientas-proyectos}
+ \end{table}
+
+Esta comparativa revela que, aunque soluciones como SCCM y Active Directory ofrecen capacidades avanzadas de gestión de
+configuraciones y escalabilidad, requieren de hardware específico, son económicamente costosas y están diseñadas para
+entornos empresariales.
+En contraste, la propuesta de GCA se centra en la simplicidad y accesibilidad, permitiendo su uso en entornos educativos
+y de investigación sin la necesidad de infraestructura costosa y compleja, pudiendo ser implementada en cualquier
+tipo entorno, si así se desea.
+
+No obstante, la elección de la herramienta adecuada dependerá de las necesidades específicas de cada entorno y de los
+recursos disponibles.
+
+\section{Fortalezas y debilidades del proyecto}\label{sec:fortalezas-y-debilidades-del-proyecto}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}p{7cm} p{7cm}@{}}
+        \toprule
+        \textbf{Fortalezas} & \textbf{Debilidades} \\
+        \midrule
+        Automatización de tareas repetitivas & Dependencia de la conectividad \\
+        Gestión centralizada y escalable & Complejidad en la implementación \\
+        Priorización de configuraciones & Riesgo de obsolescencia tecnológica \\
+        Integración con herramientas existentes & Requiere primera instalación manual \\
+        Mejora en la seguridad & Posibles problemas de compatibilidad \\
+        Compatible con cualquier sistema operativo & Necesidad de mantenimiento continuo \\
+        \bottomrule
+    \end{tabular}
+    \caption{Fortalezas y Debilidades del Proyecto}
+    \label{tab:fortalezas-debilidades}
+\end{table}
