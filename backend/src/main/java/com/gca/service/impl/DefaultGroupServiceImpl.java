@@ -36,7 +36,8 @@ public class DefaultGroupServiceImpl implements GroupService {
     public List<TreeNodeDTO> getAllGroups() {
         List<TreeNodeDTO> groups = new java.util.ArrayList<>();
         for (Group group : groupRepository.findAll()) {
-            groups.add(new TreeNodeDTO(group.getId(), group.getName()));
+            groups.add(new TreeNodeDTO(group.getId(), group.getName(),
+                    group.getParent() != null ? group.getParent().getId() : null));
         }
         return groups;
     }
@@ -53,6 +54,13 @@ public class DefaultGroupServiceImpl implements GroupService {
         return groupRepository.save(groupModel).getId();
     }
 
+    @Override
+    public Long updateGroup(GroupDTO group) throws Exception {
+        Group groupModel = groupRepository.findById(group.getId()).orElseThrow(() -> new Exception("Cannot update non existing group"));
+        mapGroupDTO2Entity(group, groupModel);
+        return groupRepository.save(groupModel).getId();
+    }
+
     private void mapGroupDTO2Entity(GroupDTO group, Group groupModel) {
         groupModel.setId(group.getId());
         groupModel.setName(group.getName());
@@ -61,7 +69,8 @@ public class DefaultGroupServiceImpl implements GroupService {
     }
 
     private TreeNodeDTO buildNode(Group group) {
-        TreeNodeDTO node = new TreeNodeDTO(group.getId(), group.getName());
+        TreeNodeDTO node = new TreeNodeDTO(group.getId(), group.getName(),
+                group.getParent() != null ? group.getParent().getId() : null);
 
         for (Group childGroup : group.getChildren()) {
             node.getChildren().add(buildNode(childGroup));

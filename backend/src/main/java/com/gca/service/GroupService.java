@@ -14,4 +14,6 @@ public interface GroupService {
     void deleteGroup(Long id);
 
     Long createGroup(GroupDTO group);
+
+    Long updateGroup(GroupDTO group) throws Exception;
 }

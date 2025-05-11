@@ -1,13 +1,11 @@
 package com.gca.controller;
 
-import com.gca.dto.DeviceDTO;
 import com.gca.dto.GroupDTO;
 import com.gca.dto.TreeNodeDTO;
 import com.gca.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,8 +19,13 @@ public class GroupsController {
     }
 
     @PostMapping("/registerGroup")
-    public ResponseEntity<?> registerDevice(@RequestBody GroupDTO group) {
+    public ResponseEntity<?> registerGroup(@RequestBody GroupDTO group) {
         return ResponseEntity.ok(groupService.createGroup(group));
+    }
+
+    @PostMapping("/updateGroup")
+    public ResponseEntity<?> updateGroup(@RequestBody GroupDTO group) throws Exception {
+        return ResponseEntity.ok(groupService.updateGroup(group));
     }
 
     @GetMapping("/tree")

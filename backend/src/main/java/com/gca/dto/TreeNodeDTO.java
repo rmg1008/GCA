@@ -7,10 +7,12 @@ public class TreeNodeDTO {
     private Long id;
     private String name;
     private List<TreeNodeDTO> children = new ArrayList<>();
+    private Long parentId;
 
-    public TreeNodeDTO(Long id, String name) {
+    public TreeNodeDTO(Long id, String name, Long parentId) {
         this.id = id;
         this.name = name;
+        this.parentId = parentId;
     }
 
     public Long getId() {
@@ -35,5 +37,13 @@ public class TreeNodeDTO {
 
     public void setChildren(List<TreeNodeDTO> children) {
         this.children = children;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 }

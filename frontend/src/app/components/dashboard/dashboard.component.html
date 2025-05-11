@@ -1,0 +1,77 @@
+<div class="flex h-screen">
+  <aside class="w-1/3 border-r overflow-y-auto p-4 bg-base-200">
+    <h2 class="text-xl font-semibold mb-4">Grupos</h2>
+    <ul *ngIf="treeData">
+      <app-tree-node
+        [node]="treeData"
+        [selectedPath]="selectedPath"
+        [contextMenuGroupId]="contextMenuGroupId"
+        [contextMenuPosition]="contextMenuPosition"
+        (groupSelected)="selectGroup($event)"
+        (contextMenuOpened)="onContextMenu($event)"
+        (contextMenuClosed)="closeContextMenu()"
+      />
+    </ul>
+  </aside>
+
+  <main class="w-2/3 flex flex-col">
+    <div class="tabs tabs-box flex-none">
+      <input 
+        type="radio" 
+        name="tabs_gca" 
+        class="tab" 
+        aria-label="Dispositivos"
+        [checked]="selectedTab === 'dispositivos'"
+        (change)="selectedTab = 'dispositivos'"
+      />
+    </div>
+
+    <div class="flex-grow overflow-hidden">
+      <div class="h-full overflow-y-auto p-6" *ngIf="selectedTab === 'dispositivos'">
+        <app-device
+          [devices]="selectedGroupDevices"
+          [selectedPath]="selectedPath"
+          (deleted)="selectGroup(currentGroup)"
+          (pathClicked)="selectGroup($event)"
+        />
+      </div>
+    </div>
+  </main>
+  
+  <div
+  *ngIf="contextMenuGroupId !== null"
+  class="absolute z-50 bg-yellow-100 border rounded shadow-md p-2 w-48"
+  [style.top.px]="contextMenuPosition.y"
+  [style.left.px]="contextMenuPosition.x"
+  (click)="$event.stopPropagation()"
+>
+  <ul class="menu">
+    <li><a (click)="addGroup()">➕ Añadir grupo</a></li>
+    <li><a (click)="editGroup()">✏️ Modificar grupo</a></li>
+    <li><a (click)="deleteGroup()">🗑️ Eliminar grupo</a></li>
+  </ul>
+</div>
+
+<dialog #groupModal class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">
+      {{ isEditingGroup ? 'Modificar grupo' : 'Añadir nuevo grupo' }}
+    </h3>
+
+    <input 
+      type="text" 
+      class="input input-bordered w-full mb-4"
+      [(ngModel)]="groupNameInput"
+      placeholder="Nombre del grupo"
+    />
+
+    <div class="modal-action flex justify-end gap-2">
+      <button class="btn" (click)="closeGroupModal()">Cancelar</button>
+      <button class="btn btn-primary" [disabled]="!groupNameInput.trim()" (click)="confirmGroup()">
+        {{ isEditingGroup ? 'Actualizar' : 'Crear' }}
+      </button>
+    </div>
+  </div>
+</dialog>
+
+

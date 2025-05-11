@@ -1,0 +1,56 @@
+<dialog #modalRef class="modal">
+    <div class="modal-box" *ngIf="form">
+      <h3 class="font-bold text-lg mb-4">
+        {{ form.value.id ? 'Editar' : 'Nuevo' }} dispositivo
+      </h3>
+  
+      <form [formGroup]="form" (ngSubmit)="save()">
+
+        <label class="floating-label">
+          <span>Nombre</span>
+          <input
+          type="text"
+          placeholder="Nombre"
+          formControlName="name"
+          class="input input-bordered w-full mb-3"
+          />
+        </label>
+
+        <label class="floating-label">
+          <span>Huella</span>
+          <input
+          type="text"
+          placeholder="Huella"
+          formControlName="fingerprint"
+          class="input input-bordered w-full mb-4"
+          />
+        </label>
+        
+
+        <label class="select w-full mb-4">
+          <span class="label">OS</span>
+          <select class="select select-warning w-full" formControlName="os">
+          <option value="1">Windows</option>
+          </select>
+        </label>
+
+        <label class="select w-full mb-4">
+          <span class="label">Groupo</span>
+          <select 
+          class="select select-bordered w-full"
+          formControlName="group">
+          <option *ngFor="let group of groups" [value]="group.id">
+            {{ group.name }}
+          </option>
+        </select>
+        </label>
+        
+  
+        <div class="modal-action flex justify-center gap-4">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn" (click)="close()">Cancelar</button>
+        </div>        
+      </form>
+    </div>
+  </dialog>
+  
