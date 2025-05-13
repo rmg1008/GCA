@@ -2,6 +2,7 @@ package com.gca.controller;
 
 import com.gca.domain.User;
 import com.gca.dto.LoginDTO;
+import com.gca.dto.TokenDTO;
 import com.gca.security.JwtUtil;
 import com.gca.service.UserService;
 import jakarta.annotation.Resource;
@@ -44,6 +45,6 @@ public class LoginController {
         final User userDetails = userService.findByEmail(loginDTO.getEmail());
         final String token = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new TokenDTO(token));
     }
 }

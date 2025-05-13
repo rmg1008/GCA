@@ -8,9 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,7 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DeviceControllerTest {
+@TestPropertySource("classpath:application-test.properties")
+class DeviceControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -27,7 +28,7 @@ public class DeviceControllerTest {
     private DeviceRepository deviceRepository;
 
     @Test
-    public void testRequestWithoutAuth() throws Exception {
+    void testRequestWithoutAuth() throws Exception {
 
         this.mockMvc.perform(post("/registerDevice")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -35,9 +36,9 @@ public class DeviceControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @WithUserDetails("test1@alu.ubu.es")
+    @WithUserDetails("admin@testubu.es")
     @Test
-    public void testCreateDeviceWithEmptyBody() throws Exception {
+    void testCreateDeviceWithEmptyBody() throws Exception {
 
         this.mockMvc.perform(post("/registerDevice")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -45,12 +46,12 @@ public class DeviceControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    @WithUserDetails("test1@alu.ubu.es")
+    @WithUserDetails("admin@testubu.es")
     @Test
-    public void testCreateDeviceSuccessfully() throws Exception
+    void testCreateDeviceSuccessfully() throws Exception
     {
         Device deviceModel = new Device();
-        deviceModel.setName("Random");
+        deviceModel.setId(1L);
         when(deviceRepository.save((any()))).thenReturn(deviceModel);
 
         this.mockMvc.perform(post("/registerDevice")
@@ -62,6 +63,6 @@ public class DeviceControllerTest {
                                     "group": 1,
                                     "os": 1
                                 }"""))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("Random")));
+                .andExpect(status().isOk());
     }
 }

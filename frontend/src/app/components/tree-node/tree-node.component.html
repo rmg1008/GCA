@@ -1,0 +1,38 @@
+<li (contextmenu)="onRightClick($event)">
+  <ng-container *ngIf="node.children?.length; else noChildrenBlock">
+    <details [open]="isExpanded()" class="collapse collapse-arrow bg-base-100">
+      <summary
+        (click)="onGroupClick()"
+        class="collapse-title font-medium hover:bg-base-200 cursor-pointer flex items-center gap-2"
+        [ngClass]="{ 'bg-info rounded': isSelected() }"
+      >
+        📁 {{ node.name }}
+      </summary>
+      <div class="collapse-content">
+        <ul class="pl-4">
+          <app-tree-node
+            *ngFor="let child of node.children"
+            [node]="child"
+            [selectedPath]="selectedPath"
+            [contextMenuGroupId]="contextMenuGroupId"
+            [contextMenuPosition]="contextMenuPosition"
+            (groupSelected)="groupSelected.emit($event)"
+            (contextMenuOpened)="contextMenuOpened.emit($event)"
+            (contextMenuOpenedFromChild)="contextMenuOpened.emit($event)"
+            (click)="$event.stopPropagation()"
+          ></app-tree-node>
+        </ul>
+      </div>
+    </details>
+  </ng-container>
+
+  <ng-template #noChildrenBlock>
+    <button
+      class="flex items-center gap-2 p-2 hover:bg-base-200 rounded w-full text-left"
+      (click)="onGroupClick()"
+      [ngClass]="{ 'bg-info rounded': isSelected() }"
+    >
+      📁 {{ node.name }}
+    </button>
+  </ng-template>
+</li>

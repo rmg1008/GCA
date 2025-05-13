@@ -1,4 +1,6 @@
-\documentclass[a4paper,12pt,twoside]{memoir}
+\documentclass[a4paper,12pt,oneside]{memoir}
+
+\nocite{*}
 
 % Castellano
 \usepackage[spanish,es-tabla]{babel}
@@ -8,12 +10,13 @@
 \usepackage{lmodern} % scalable font
 \usepackage{microtype}
 \usepackage{placeins}
-
+\usepackage{makecell}
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
-
+\usepackage{longtable}
+\usepackage{array}
 % Links
 \PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
 \hypersetup{
@@ -38,6 +41,7 @@
 
 % Imagenes
 \usepackage{graphicx}
+\usepackage{pdflscape}
 \newcommand{\imagen}[2]{
 	\begin{figure}[!h]
 		\centering
@@ -55,7 +59,14 @@
 	\end{figure}
 }
 
-
+\newcommand{\imagenAncho}[3]{
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=#3\textwidth]{#1}
+    \caption{#2}\label{fig:#1}
+    \end{figure}
+    \FloatBarrier
+}
 
 % El comando \figura nos permite insertar figuras comodamente, y utilizando
 % siempre el mismo formato. Los parametros son:
