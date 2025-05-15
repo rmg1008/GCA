@@ -1,0 +1,64 @@
+<dialog #modalRef class="modal">
+    <div class="modal-box" *ngIf="form">
+      <h3 class="font-bold text-lg mb-4">
+        {{ form.value.id ? 'Editar' : 'Nuevo' }} comando
+      </h3>
+  
+      <form [formGroup]="form" (ngSubmit)="save()">
+
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+          <label class="floating-label">
+            <span>Nombre *</span>
+            <input
+            type="text"
+            placeholder="Nombre"
+            formControlName="name"
+            class="input input-bordered w-full mb-3"
+            [ngClass]="{'border-red-500' : isInvalid('name')}"
+            />
+            <p *ngIf="isInvalid('name')" class="text-red-500 text-sm">El nombre es obligatorio</p>
+          </label>
+          </div>
+
+          <label class="floating-label">
+            <span>Descripción</span>
+            <input
+            type="text"
+            placeholder="Descripción"
+            formControlName="description"
+            class="input input-bordered w-full mb-4"
+            />
+          </label>
+
+          <label class="floating-label">
+              <span>Valor *</span>
+              <input
+              type="text"
+              placeholder="Valor"
+              formControlName="value"
+              class="input input-bordered w-full mb-4"
+              [ngClass]="{'border-red-500' : isInvalid('value')}"
+              />
+              <p *ngIf="isInvalid('value') && !form.get('value')?.errors?.['invalidVariableFormat']" class="text-red-500 text-sm">El valor es obligatorio</p>
+              <p 
+                *ngIf="form.get('value')?.errors?.['invalidVariableFormat'] && (form.get('value')?.touched || form.get('value')?.dirty)"
+                class="text-red-500 text-sm" ngNonBindable>
+                Introduzca correctamente las variables {{nombreVariable}}
+              </p>
+              <div *ngIf="getUsedVariables().length > 0" class="mt-2 text-sm text-blue-600">
+                Variables detectadas: 
+                <span *ngFor="let v of getUsedVariables(); let last = last">
+                  <strong>{{ v }}</strong>{{ last ? '' : ', ' }}
+                </span>
+              </div>
+            </label>
+        </div>
+        <div class="modal-action flex justify-center gap-4">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar</button>
+          <button type="button" class="btn" (click)="close()">Cancelar</button>
+        </div>        
+      </form>
+    </div>
+  </dialog>
+  

@@ -18,4 +18,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 
+    @ExceptionHandler(CommandException.class)
+    public ResponseEntity<String> handleCommandException(CommandException ex) {
+        HttpStatus status = switch (ex.getErrorType()) {
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case DUPLICATED -> HttpStatus.CONFLICT;
+        };
+        return new ResponseEntity<>(ex.getMessage(), status);
+    }
+
 }

@@ -1,16 +1,16 @@
-drop table if exists backup;
-drop table if exists record;
-drop table if exists device;
-drop table if exists device_group;
+SET FOREIGN_KEY_CHECKS = 0;
 drop table if exists template_command;
 drop table if exists command;
 drop table if exists templates;
+drop table if exists record;
+drop table if exists backup;
+drop table if exists device;
+drop table if exists device_group;
 drop table if exists operating_system;
-drop table if exists user_role;
+drop table if exists user_roles;
+drop table if exists app_user;
 drop table if exists role;
-drop table if exists user;
-drop table if exists App_user;
-
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE Role (
                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,9 +82,9 @@ CREATE TABLE Templates (
 
 CREATE TABLE Command (
                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                          name VARCHAR(255),
+                          name VARCHAR(255) NOT NULL UNIQUE,
                           description VARCHAR(255),
-                          value VARCHAR(255)
+                          command_value VARCHAR(255)
 );
 
 CREATE TABLE Template_Command (
@@ -97,6 +97,8 @@ CREATE TABLE Template_Command (
 );
 INSERT INTO App_user VALUES (1, "admin", "admin@testubu.es", SHA2( "1234", 512));
 INSERT INTO Operating_System VALUES (1, "Windows");
+INSERT INTO Role VALUES (1, "Admin");
+INSERT INTO Role VALUES (2, "Gestor");
 INSERT INTO User_Roles VALUES (1, 1);
 INSERT INTO Device_Group (ID, name) VALUES (1, "UBU");
 INSERT INTO Device_Group (ID, name, parent) VALUES (2, "Biblioteca Central", 1);
