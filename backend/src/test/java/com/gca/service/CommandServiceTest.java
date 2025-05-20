@@ -53,10 +53,11 @@ class CommandServiceTest {
     }
 
     @Test
-    void testUpdateCommandSuccess() throws Exception {
+    void testUpdateCommandSuccess() {
         CommandDTO dto = createCommandDTO(1L);
         Command existing = new Command();
         existing.setId(1L);
+        existing.setName(NAME);
 
         when(commandRepository.findById(1L)).thenReturn(Optional.of(existing));
         when(commandRepository.save(any())).thenReturn(existing);

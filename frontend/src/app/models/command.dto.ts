@@ -3,4 +3,5 @@ export interface CommandDTO {
     name: string;
     description: string;
     value: string;
+    placeholders?: string[];
   }

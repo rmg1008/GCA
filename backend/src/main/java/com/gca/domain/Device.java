@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Table(name = "device")
@@ -31,6 +30,10 @@ public class Device {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "os_id")
     private OperatingSystem os;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "template")
+    private Template template;
 
     public Long getId() {
         return id;
@@ -78,5 +81,13 @@ public class Device {
 
     public void setOs(OperatingSystem os) {
         this.os = os;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

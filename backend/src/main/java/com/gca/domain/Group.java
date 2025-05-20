@@ -24,6 +24,10 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     private Collection<Device> devices;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "template")
+    private Template template;
+
     public Long getId() {
         return id;
     }
@@ -62,5 +66,13 @@ public class Group {
 
     public void setDevices(Collection<Device> devices) {
         this.devices = devices;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

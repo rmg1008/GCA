@@ -3,7 +3,6 @@ package com.gca.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Command")
 public class Command {
 
     @Id

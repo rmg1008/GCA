@@ -27,4 +27,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), status);
     }
 
+    @ExceptionHandler(TemplateException.class)
+    public ResponseEntity<String> handleTemplateException(TemplateException ex) {
+        HttpStatus status = switch (ex.getErrorType()) {
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case DUPLICATED -> HttpStatus.CONFLICT;
+        };
+        return new ResponseEntity<>(ex.getMessage(), status);
+    }
+
 }

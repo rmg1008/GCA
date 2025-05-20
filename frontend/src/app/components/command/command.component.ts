@@ -18,7 +18,7 @@ export class CommandComponent {
   modoEdicion: boolean = false;
   comandoSeleccionado: CommandDTO | null = null;
   page = 0;
-  size = 10;
+  size = 5;
   totalPages = 0;
 
   @ViewChild('commandModal') commandModal!: CommandModalComponent;

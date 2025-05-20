@@ -1,0 +1,65 @@
+<div class="p-6 space-y-4 h-full flex flex-col">
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-semibold">Gestión de templates</h2>
+      <button class="btn btn-primary" (click)="openModal()">Añadir</button>
+    </div>
+  
+    <input 
+      type="text" 
+      placeholder="Buscar template por nombre o descripción..." 
+      class="input input-bordered w-full"
+      [(ngModel)]="filter"
+      (ngModelChange)="resetAndSearch()"
+    />
+  
+    <div class="overflow-x-auto w-full">
+      <table class="table table-zebra w-full min-w-[600px]">
+        <thead>
+          <tr>
+            <th>Acciones</th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Sistema Operativo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let template of templates">
+            <td class="space-x-2 whitespace-nowrap">
+              <button class="btn btn-sm btn-info" (click)="openModal(template)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn btn-sm btn-error" (click)="delete(template)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <button class="btn btn-sm btn-primary" (click)="assignCommands(template.id)">
+                 <i class="fa-solid fa-link"></i>
+              </button>
+
+            </td>
+            <td>{{ template.id }}</td>
+            <td>{{ template.name }}</td>
+            <td>{{ template.description }}</td>
+            <td>
+              <span *ngIf="template.os === 1">Windows</span>
+              <span *ngIf="template.os !== 1">{{ template.os }}</span>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div *ngIf="totalPages > 1" class="mt-4 flex justify-center join">
+      <button class="join-item btn" (click)="goToPage(page - 1)" [disabled]="page === 0">«</button>
+      <span class="join-item btn">{{ page + 1 }}</span>
+      <button class="join-item btn" (click)="goToPage(page + 1)" [disabled]="page >= totalPages - 1">»</button>
+    </div>
+
+    <app-template-modal
+    #templateModal
+    [templateToEdit]="selectedTemplate"
+    (saved)="handleSave($event)"
+    ></app-template-modal>
+  </div>
+  
