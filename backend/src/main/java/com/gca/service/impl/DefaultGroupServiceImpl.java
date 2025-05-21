@@ -1,9 +1,11 @@
 package com.gca.service.impl;
 
 import com.gca.domain.Group;
+import com.gca.domain.Template;
 import com.gca.dto.GroupDTO;
 import com.gca.dto.TreeNodeDTO;
 import com.gca.repository.GroupRepository;
+import com.gca.repository.TemplateRepository;
 import com.gca.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,13 @@ import java.util.Optional;
 @Service
 public class DefaultGroupServiceImpl implements GroupService {
 
-
     private final GroupRepository groupRepository;
+    private final TemplateRepository templateRepository;
 
     @Autowired
-    public DefaultGroupServiceImpl(GroupRepository groupRepository) {
+    public DefaultGroupServiceImpl(GroupRepository groupRepository, TemplateRepository templateRepository) {
         this.groupRepository = groupRepository;
+        this.templateRepository = templateRepository;
     }
 
 
@@ -37,7 +40,8 @@ public class DefaultGroupServiceImpl implements GroupService {
         List<TreeNodeDTO> groups = new java.util.ArrayList<>();
         for (Group group : groupRepository.findAll()) {
             groups.add(new TreeNodeDTO(group.getId(), group.getName(),
-                    group.getParent() != null ? group.getParent().getId() : null));
+                    group.getParent() != null ? group.getParent().getId() : null,
+                    group.getTemplate() != null ? group.getTemplate().getId() : null));
         }
         return groups;
     }
@@ -61,16 +65,39 @@ public class DefaultGroupServiceImpl implements GroupService {
         return groupRepository.save(groupModel).getId();
     }
 
+    @Override
+    public void assignTemplateToGroup(Long groupId, Long templateId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+
+        Template template = templateRepository.findById(templateId)
+                .orElseThrow(() -> new IllegalArgumentException("Template not found"));
+        group.setTemplate(template);
+
+        groupRepository.save(group);
+    }
+
+    @Override
+    public void unassignTemplateToGroup(Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        group.setTemplate(null);
+        groupRepository.save(group);
+    }
+
     private void mapGroupDTO2Entity(GroupDTO group, Group groupModel) {
         groupModel.setId(group.getId());
         groupModel.setName(group.getName());
-        Optional<Group> parent = this.groupRepository.findById(group.getParent());
-        groupModel.setParent(parent.orElseThrow(() -> new RuntimeException("Parent group not found")));
+        if (group.getParent() != null) {
+            Optional<Group> parent = this.groupRepository.findById(group.getParent());
+            groupModel.setParent(parent.orElseThrow(() -> new RuntimeException("Parent group not found")));
+        }
     }
 
     private TreeNodeDTO buildNode(Group group) {
         TreeNodeDTO node = new TreeNodeDTO(group.getId(), group.getName(),
-                group.getParent() != null ? group.getParent().getId() : null);
+                group.getParent() != null ? group.getParent().getId() : null,
+                group.getTemplate() != null ? group.getTemplate().getId() : null);
 
         for (Group childGroup : group.getChildren()) {
             node.getChildren().add(buildNode(childGroup));

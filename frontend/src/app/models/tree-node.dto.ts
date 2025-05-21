@@ -3,4 +3,5 @@ export interface TreeNodeDTO {
     name: string;
     children?: TreeNodeDTO[];
     parentId: number;
+    templateId: number;
   }

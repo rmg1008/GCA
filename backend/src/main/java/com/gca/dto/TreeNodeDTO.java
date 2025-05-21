@@ -8,11 +8,13 @@ public class TreeNodeDTO {
     private String name;
     private List<TreeNodeDTO> children = new ArrayList<>();
     private Long parentId;
+    private Long templateId;
 
-    public TreeNodeDTO(Long id, String name, Long parentId) {
+    public TreeNodeDTO(Long id, String name, Long parentId, Long templateId) {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
+        this.templateId = templateId;
     }
 
     public Long getId() {
@@ -45,5 +47,13 @@ public class TreeNodeDTO {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Long getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 }

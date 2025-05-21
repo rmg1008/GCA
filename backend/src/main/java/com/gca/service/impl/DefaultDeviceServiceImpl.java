@@ -3,10 +3,12 @@ package com.gca.service.impl;
 import com.gca.domain.Device;
 import com.gca.domain.Group;
 import com.gca.domain.OperatingSystem;
+import com.gca.domain.Template;
 import com.gca.dto.DeviceDTO;
 import com.gca.repository.DeviceRepository;
 import com.gca.repository.GroupRepository;
 import com.gca.repository.OsRepository;
+import com.gca.repository.TemplateRepository;
 import com.gca.service.DeviceService;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,14 @@ public class DefaultDeviceServiceImpl implements DeviceService {
     private final DeviceRepository deviceRepository;
     private final GroupRepository groupRepository;
     private final OsRepository osRepository;
+    private final TemplateRepository templateRepository;
 
-    public DefaultDeviceServiceImpl(DeviceRepository deviceRepository, GroupRepository groupRepository, OsRepository osRepository) {
+    public DefaultDeviceServiceImpl(DeviceRepository deviceRepository, GroupRepository groupRepository,
+                                    OsRepository osRepository, TemplateRepository templateRepository) {
         this.deviceRepository = deviceRepository;
         this.groupRepository = groupRepository;
         this.osRepository = osRepository;
+        this.templateRepository = templateRepository;
     }
 
     @Override
@@ -61,11 +66,6 @@ public class DefaultDeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Device searchDeviceByName(String name) {
-        return deviceRepository.findByName(name);
-    }
-
-    @Override
     public List<DeviceDTO> searchDeviceByGroup(Long group) {
         List<DeviceDTO> deviceDTOS = new ArrayList<>();
         List<Device> devices = deviceRepository.findByGroup_Id(group).orElse(List.of());
@@ -76,8 +76,28 @@ public class DefaultDeviceServiceImpl implements DeviceService {
             deviceDTO.setFingerprint(device.getFingerprint());
             deviceDTO.setGroup(device.getGroup().getId());
             deviceDTO.setOs(device.getOs().getId());
+            deviceDTO.setTemplateId(device.getTemplate() != null ? device.getTemplate().getId() : null);
             deviceDTOS.add(deviceDTO);
         }
         return deviceDTOS;
+    }
+
+    @Override
+    public void assignTemplateToDevice(Long templateId, Long deviceId) {
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new IllegalArgumentException("Device not found"));
+        Template template = templateRepository.findById(templateId)
+                .orElseThrow(() -> new IllegalArgumentException("Template not found"));
+        device.setTemplate(template);
+
+        deviceRepository.save(device);
+    }
+
+    @Override
+    public void unassignTemplateToDevice(Long deviceId) {
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new IllegalArgumentException("Device not found"));
+        device.setTemplate(null);
+        deviceRepository.save(device);
     }
 }

@@ -18,6 +18,8 @@ public class DeviceDTO {
     @NotNull
     private Long os;
 
+    private Long templateId;
+
     public Long getId() {
         return id;
     }
@@ -56,5 +58,13 @@ public class DeviceDTO {
 
     public void setOs(Long os) {
         this.os = os;
+    }
+
+    public Long getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 }

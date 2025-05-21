@@ -52,4 +52,18 @@ export class DeviceService {
     });
     return this.http.delete<void>(this.baseUrl + id, { headers })
   }
+
+  asignTemplateToDevice(deviceId:number, templateId:number): Observable<void> {
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    console.log(this.baseUrl + deviceId + "/assign-template/" + templateId)
+    if (templateId) {
+      return this.http.post<void>(this.baseUrl + deviceId + "/assign-template/" + templateId, null, { headers })
+    } else {
+      return this.http.delete<void>(this.baseUrl + deviceId + "/unassign-template" , { headers })
+    }
+  }
 }

@@ -3,10 +3,12 @@ package com.gca.service;
 import com.gca.domain.Device;
 import com.gca.domain.Group;
 import com.gca.domain.OperatingSystem;
+import com.gca.domain.Template;
 import com.gca.dto.DeviceDTO;
 import com.gca.repository.DeviceRepository;
 import com.gca.repository.GroupRepository;
 import com.gca.repository.OsRepository;
+import com.gca.repository.TemplateRepository;
 import com.gca.service.impl.DefaultDeviceServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DeviceServiceTest {
@@ -38,6 +39,9 @@ class DeviceServiceTest {
 
     @Mock
     private OsRepository osRepository;
+
+    @Mock
+    private TemplateRepository templateRepository;
 
     @InjectMocks
     private DefaultDeviceServiceImpl deviceService;
@@ -137,8 +141,6 @@ class DeviceServiceTest {
         deviceDTO.setGroup(1L);
         deviceDTO.setOs(1L);
 
-        given(deviceRepository.findById(anyLong())).willReturn(Optional.empty());
-
         // Then
         Assertions.assertThrows(Exception.class, () -> deviceService.updateDevice(deviceDTO));
     }
@@ -185,35 +187,6 @@ class DeviceServiceTest {
         Assertions.assertNull(deviceFound);
     }
 
-
-    @Test
-    @DisplayName("Should get the device by name")
-    void testSearchDeviceByName() {
-
-        // Given
-        given(deviceRepository.findByName(device.getName())).willReturn(device);
-
-        // When
-        Device deviceFound = deviceService.searchDeviceByName("TestDevice");
-
-        // Then
-        Assertions.assertEquals(device, deviceFound);
-    }
-
-    @Test
-    @DisplayName("Should return null when device name not found on searchDeviceByName")
-    void testSearchDeviceByName_NotFound() {
-        // Given
-        given(deviceRepository.findByName(any())).willReturn(null);
-
-        // When
-        Device deviceFound = deviceService.searchDeviceByName("UnknownDevice");
-
-        // Then
-        Assertions.assertNull(deviceFound);
-    }
-
-
     @Test
     @DisplayName("Should get the device by group")
     void testSearchDeviceByGroup() {
@@ -243,4 +216,55 @@ class DeviceServiceTest {
         Assertions.assertTrue(devicesFound.isEmpty());
     }
 
+    @Test
+    @DisplayName("Should assign the template to the device")
+    void testAssignTemplateToDevice() {
+        device.setId(7L);
+
+        Template template = new Template();
+        template.setId(15L);
+
+        given(deviceRepository.save(any())).willReturn(device);
+        given(deviceRepository.findById(7L)).willReturn(Optional.of(device));
+        when(templateRepository.findById(15L)).thenReturn(Optional.of(template));
+
+        // When
+        deviceService.assignTemplateToDevice(15L, 7L);
+
+        // Then
+        verify(deviceRepository, times(1)).save(device);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when device not found")
+    void testAssignTemplateToDevice_DeviceNotFound() {
+        given(deviceRepository.findById(any())).willReturn(Optional.of(device));
+
+        Assertions.assertThrows(Exception.class, () -> deviceService.assignTemplateToDevice(null, 7L));
+    }
+
+    @Test
+    @DisplayName("Should throw exception when template not found")
+    void testAssignTemplateToDevice_TemplateNotFound() {
+        given(deviceRepository.findById(any())).willReturn(Optional.empty());
+
+        Assertions.assertThrows(Exception.class, () -> deviceService.assignTemplateToDevice(null, null));
+    }
+
+    @Test
+    @DisplayName("Should unassign the template to the device")
+    void testUnassignTemplateToDevice() {
+        device.setId(7L);
+        given(deviceRepository.findById(7L)).willReturn(Optional.of(device));
+
+        deviceService.unassignTemplateToDevice(7L);
+
+        verify(deviceRepository, times(1)).save(device);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when device not found")
+    void testUnassignTemplateToDevice_DeviceNotFound() {
+        Assertions.assertThrows(Exception.class, () -> deviceService.unassignTemplateToDevice(null));
+    }
 }

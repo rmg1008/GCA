@@ -15,7 +15,9 @@ public interface DeviceService {
 
     Device searchDeviceById(Long id);
 
-    Device searchDeviceByName(String name);
-
     List<DeviceDTO> searchDeviceByGroup(Long group);
+
+    void assignTemplateToDevice(Long templateId, Long deviceId);
+
+    void unassignTemplateToDevice(Long deviceId);
 }

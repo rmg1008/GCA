@@ -13,8 +13,8 @@ drop table if exists role;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE Role (
-                       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                       name VARCHAR(255) NOT NULL UNIQUE
+                      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                      name VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE App_user (
@@ -25,16 +25,16 @@ CREATE TABLE App_user (
 );
 
 CREATE TABLE User_Roles (
-                                  user_id INT NOT NULL,
-                                  role_id INT NOT NULL,
-                                  PRIMARY KEY (user_id, role_id),
-                                  FOREIGN KEY (user_id) REFERENCES App_user(id),
-                                  FOREIGN KEY (role_id) REFERENCES Role(id)
+                            user_id INT NOT NULL,
+                            role_id INT NOT NULL,
+                            PRIMARY KEY (user_id, role_id),
+                            FOREIGN KEY (user_id) REFERENCES App_user(id),
+                            FOREIGN KEY (role_id) REFERENCES Role(id)
 );
 
 CREATE TABLE Operating_System (
-                                   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                   name VARCHAR(255) NOT NULL UNIQUE
+                                  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                  name VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE Template (
@@ -86,11 +86,11 @@ CREATE TABLE Device (
 );
 
 CREATE TABLE Record (
-                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                           device_id INT,
-                           date TIMESTAMP,
-                           result BLOB,
-                           FOREIGN KEY (device_id) REFERENCES Device(id)
+                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                        device_id INT,
+                        date TIMESTAMP,
+                        result BLOB,
+                        FOREIGN KEY (device_id) REFERENCES Device(id)
 );
 
 INSERT INTO App_user VALUES (1, "admin", "admin@testubu.es", SHA2( "1234", 512));
@@ -108,23 +108,20 @@ INSERT INTO Device_Group (ID, name, parent) VALUES (7, "Facultad de Ciencias", 1
 INSERT INTO Device_Group (ID, name, parent) VALUES (8, "Facultad de Educación", 1);
 INSERT INTO Device_Group (ID, name, parent) VALUES (9, "Biblioteca Central", 2);
 
-INSERT INTO Device(finger_print, name, created_at, group_id, os_id) VALUES ("test", "test1", '2025-04-23 01:02:03', 9, 1);
-INSERT INTO Device(finger_print, name, created_at, group_id, os_id) VALUES ("test2", "test2", '2025-04-23 01:02:03', 9, 1);
-
-INSERT INTO Template(name, description, os_id) VALUES
-('Windows 10', 'Template for Windows 10', 1),
-('Windows 10 - Restrict accesses', 'Template for Windows 10 with limited network access', 1),
-('Windows 11', 'Template for Windows 11', 1),
-('Windows 11 - Without network', 'Template for Windows 11 that disables network access', 1);
+INSERT INTO Template(name, description, os_id, updated_at) VALUES
+                                                               ('Windows 10', 'Template for Windows 10', 1, CURRENT_TIMESTAMP),
+                                                               ('Windows 10 - Restrict accesses', 'Template for Windows 10 with limited network access', 1, CURRENT_TIMESTAMP),
+                                                               ('Windows 11', 'Template for Windows 11', 1, CURRENT_TIMESTAMP),
+                                                               ('Windows 11 - Without network', 'Template for Windows 11 that disables network access', 1, CURRENT_TIMESTAMP);
 
 INSERT INTO Command (name, description, command_value) VALUES
-                                                       ('Enable Interface', 'Enable a network interface', 'netsh interface set interface name="{{interfaceName}}" admin=enable'),
-                                                       ('Disable Interface', 'Disable a network interface', 'netsh interface set interface name="{{interfaceName}}" admin=disable'),
-                                                       ('Block traffic', 'Block incoming traffic', 'netsh advfirewall firewall add rule name="Block All Other IPs" dir=in action=block remoteip=any'),
-                                                       ('Allow traffic', 'Allow incoming traffic', 'netsh advfirewall firewall delete rule name="Block All Other IPs" dir=in'),
-                                                       ('Allow certain ip', 'Allow specific ip', 'netsh advfirewall firewall add rule name="Allow Specific IP" dir=in action=allow remoteip={{ipAddress}}'),
-                                                       ('Allow certain port', 'Allow specific port', 'netsh advfirewall firewall add rule name="Allow Specific Port" dir=in action=allow protocol=TCP localport={{port}}'),
-                                                       ('Block certain ip', 'Block specific ip', 'netsh advfirewall firewall add rule name="Block Specific IP" dir=in action=block remoteip={{ipAddress}}'),
-                                                       ('Block certain port', 'Block specific port', 'netsh advfirewall firewall add rule name="Block Specific Port" dir=in action=block protocol=TCP localport={{port}}'),
-                                                       ('Enable Firewall', 'Enable the Windows Firewall for all profiles', 'netsh advfirewall set allprofiles state on'),
-                                                       ('Disable Firewall', 'Disable the Windows Firewall for all profiles', 'netsh advfirewall set allprofiles state off');
+                                                           ('Enable Interface', 'Enable a network interface', 'netsh interface set interface name="{{interfaceName}}" admin=enable'),
+                                                           ('Disable Interface', 'Disable a network interface', 'netsh interface set interface name="{{interfaceName}}" admin=disable'),
+                                                           ('Block traffic', 'Block incoming traffic', 'netsh advfirewall firewall add rule name="Block All Other IPs" dir=in action=block remoteip=any'),
+                                                           ('Allow traffic', 'Allow incoming traffic', 'netsh advfirewall firewall delete rule name="Block All Other IPs" dir=in'),
+                                                           ('Allow certain ip', 'Allow specific ip', 'netsh advfirewall firewall add rule name="Allow Specific IP" dir=in action=allow remoteip={{ipAddress}}'),
+                                                           ('Allow certain port', 'Allow specific port', 'netsh advfirewall firewall add rule name="Allow Specific Port" dir=in action=allow protocol=TCP localport={{port}}'),
+                                                           ('Block certain ip', 'Block specific ip', 'netsh advfirewall firewall add rule name="Block Specific IP" dir=in action=block remoteip={{ipAddress}}'),
+                                                           ('Block certain port', 'Block specific port', 'netsh advfirewall firewall add rule name="Block Specific Port" dir=in action=block protocol=TCP localport={{port}}'),
+                                                           ('Enable Firewall', 'Enable the Windows Firewall for all profiles', 'netsh advfirewall set allprofiles state on'),
+                                                           ('Disable Firewall', 'Disable the Windows Firewall for all profiles', 'netsh advfirewall set allprofiles state off');

@@ -5,10 +5,11 @@ import { DeviceService } from '../services/device/device.service';
 import { TreeNodeDTO } from '../models/tree-node.dto';
 import { ToastService } from '../services/toast/toast.service';
 import { DeviceFormModalComponent } from './device-form-modal/device-form-modal.component';
+import { AssignDevice2TemplateComponent } from './assign-device2-template/assign-device2-template.component';
 
 @Component({
   selector: 'app-device',
-  imports: [CommonModule, DeviceFormModalComponent],
+  imports: [CommonModule, DeviceFormModalComponent, AssignDevice2TemplateComponent],
   templateUrl: './device.component.html',
   styleUrl: './device.component.css'
 })
@@ -18,7 +19,9 @@ export class DeviceComponent {
   @Output() deleted = new EventEmitter<void>();
   @Output() pathClicked = new EventEmitter<TreeNodeDTO>();
   @ViewChild('deviceFormModal') deviceFormModal!: DeviceFormModalComponent;
+  @ViewChild('assignTemplateModal') assignTemplateModal!: AssignDevice2TemplateComponent;
   selectedDevice?: DeviceDTO;
+  selectedDeviceToAssign!: DeviceDTO;
   private deviceService = inject(DeviceService);
   private toastService = inject(ToastService);
   private cdr = inject(ChangeDetectorRef);
@@ -35,10 +38,10 @@ export class DeviceComponent {
           this.toastService.show("error", "Error al eliminar el dispositivo")
         }
       });
-      
+
     }
   }
-  
+
   openModal(device?: DeviceDTO): void {
     if (device) {
       this.selectedDevice = device;
@@ -50,9 +53,15 @@ export class DeviceComponent {
     this.deviceFormModal.open();
   }
 
+  openAssignModal(device: DeviceDTO): void {
+    this.selectedDeviceToAssign = device;
+    this.cdr.detectChanges();
+    this.assignTemplateModal.open();
+  }
+
   handleSave(device: DeviceDTO): void {
       if (device.id && device.id !== 0) {
-        this.deviceService.updateDevice(device).subscribe({          
+        this.deviceService.updateDevice(device).subscribe({
           next: () => {
           this.toastService.show("success", "Dispositivo modificado con éxito");
           this.deleted.emit();
@@ -60,7 +69,7 @@ export class DeviceComponent {
         error: (err) => {
           this.toastService.show("error", "Error al modificar el dispositivo");
         }
-        
+
       });
       } else {
         this.deviceService.addDevice(device).subscribe({
@@ -71,7 +80,7 @@ export class DeviceComponent {
           error: (err) => {
             this.toastService.show("error", "Error al registrar el dispositivo");
           }
-        
+
         });
       }
     }
@@ -79,4 +88,19 @@ export class DeviceComponent {
   onBreadcrumbClick(node: TreeNodeDTO): void {
     this.pathClicked.emit(node);
   }
+
+  handleTemplateAssigned(templateId: number): void {
+  this.deviceService.asignTemplateToDevice(this.selectedDeviceToAssign.id, templateId)
+    .subscribe(() => {
+      if (templateId) {
+        this.toastService.show('success', 'Plantilla asignada correctamente');
+        this.selectedDeviceToAssign.templateId = templateId;
+      } else {
+        this.toastService.show('success', 'Asignación eliminada correctamente');
+        this.selectedDeviceToAssign.templateId = null as any;
+      }
+      this.deleted.emit();
+    });
+}
+
 }

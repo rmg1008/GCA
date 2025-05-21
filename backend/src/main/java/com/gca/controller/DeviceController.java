@@ -2,6 +2,7 @@ package com.gca.controller;
 
 import com.gca.dto.DeviceDTO;
 import com.gca.service.DeviceService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,12 @@ public class DeviceController {
     }
 
     @PostMapping("/registerDevice")
-    public ResponseEntity<?> registerDevice(@RequestBody DeviceDTO device) {
+    public ResponseEntity<?> registerDevice(@RequestBody @Valid DeviceDTO device) {
         return ResponseEntity.ok(deviceService.createDevice(device));
     }
 
     @PostMapping("/updateDevice")
-    public ResponseEntity<?> updateDevice(@RequestBody DeviceDTO device) throws Exception {
+    public ResponseEntity<?> updateDevice(@RequestBody @Valid DeviceDTO device) throws Exception {
         return ResponseEntity.ok(deviceService.updateDevice(device));
     }
 
@@ -37,13 +38,23 @@ public class DeviceController {
         return ResponseEntity.ok(deviceService.searchDeviceById(id));
     }
 
-    @GetMapping("/device/name")
-    public ResponseEntity<?> searchDeviceByName(@RequestBody String name) {
-        return ResponseEntity.ok(deviceService.searchDeviceByName(name));
-    }
-
     @GetMapping("/device/group/{groupId}")
     public List<DeviceDTO> searchDeviceByGroup(@PathVariable Long groupId) {
         return deviceService.searchDeviceByGroup(groupId);
+    }
+
+    @PostMapping("/device/{deviceId}/assign-template/{templateId}")
+    public ResponseEntity<Void> assignTemplateToDevice(
+            @PathVariable Long deviceId,
+            @PathVariable(required = false) Long templateId) {
+        deviceService.assignTemplateToDevice(templateId, deviceId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/device/{deviceId}/unassign-template")
+    public ResponseEntity<Void> unassignTemplateToDevice(
+            @PathVariable Long deviceId) {
+        deviceService.unassignTemplateToDevice(deviceId);
+        return ResponseEntity.ok().build();
     }
 }

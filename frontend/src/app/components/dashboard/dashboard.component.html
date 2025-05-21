@@ -16,13 +16,22 @@
 
   <main class="w-2/3 flex flex-col">
     <div class="tabs tabs-box flex-none">
-      <input 
-        type="radio" 
-        name="tabs_gca" 
-        class="tab" 
+      <input
+        type="radio"
+        name="tabs_gca"
+        class="tab"
         aria-label="Dispositivos"
         [checked]="selectedTab === 'dispositivos'"
         (change)="selectedTab = 'dispositivos'"
+      />
+      <input
+        type="radio"
+        name="tabs_gca"
+        class="tab"
+        aria-label="Plantillas"
+        [checked]="selectedTab === 'plantillas'"
+        (change)="selectedPath.length && (selectedTab = 'plantillas')"
+        [disabled]="!selectedPath.length"
       />
     </div>
 
@@ -35,9 +44,17 @@
           (pathClicked)="selectGroup($event)"
         />
       </div>
+
+      <div class="h-full overflow-y-auto p-6" *ngIf="selectedTab === 'plantillas'">
+                <app-assign-group-to-template
+        [selectedPath]="selectedPath"
+        (changed)="selectGroup(currentGroup)"
+        (pathClicked)="selectGroup($event)">
+      </app-assign-group-to-template>
+      </div>
     </div>
   </main>
-  
+
   <div
   *ngIf="contextMenuGroupId !== null"
   class="absolute z-50 bg-yellow-100 border rounded shadow-md p-2 w-48"
@@ -58,8 +75,8 @@
       {{ isEditingGroup ? 'Modificar grupo' : 'Añadir nuevo grupo' }}
     </h3>
 
-    <input 
-      type="text" 
+    <input
+      type="text"
       class="input input-bordered w-full mb-4"
       [(ngModel)]="groupNameInput"
       placeholder="Nombre del grupo"

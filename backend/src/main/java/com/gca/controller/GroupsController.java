@@ -43,4 +43,19 @@ public class GroupsController {
         groupService.deleteGroup(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/groups/{groupId}/assign-template/{templateId}")
+    public ResponseEntity<Void> assignTemplateToGroup(
+            @PathVariable Long groupId,
+            @PathVariable(required = false) Long templateId) {
+        groupService.assignTemplateToGroup(groupId, templateId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/groups/{groupId}/unassign-template")
+    public ResponseEntity<Void> unassignTemplateToGroup(
+            @PathVariable Long groupId) {
+        groupService.unassignTemplateToGroup(groupId);
+        return ResponseEntity.ok().build();
+    }
 }
