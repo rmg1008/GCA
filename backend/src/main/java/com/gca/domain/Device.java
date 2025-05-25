@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "device")
 public class Device {
 
     @Id

@@ -2,6 +2,7 @@ package com.gca.repositories;
 
 import com.gca.domain.Device;
 import com.gca.domain.Group;
+import com.gca.domain.OperatingSystem;
 import com.gca.repository.DeviceRepository;
 import com.gca.repository.GroupRepository;
 import com.gca.service.CipherService;
@@ -29,7 +30,11 @@ class DeviceRepositoryTest {
     void testFindByGroupId() {
         // Given
         Group group = new Group();
+        group.setName("DeviceTest");
         group.setParent(null);
+
+        OperatingSystem os = new OperatingSystem();
+        os.setId(1L);
 
        groupRepository.save(group);
 
@@ -42,12 +47,14 @@ class DeviceRepositoryTest {
         device1.setName("Device1");
         device1.setFingerprint(cipherService.encrypt("fp-001"));
         device1.setFingerprintHash(cipherService.calculateHash("hash-001"));
+        device1.setOs(os);
         device1.setGroup(group);
 
         Device device2 = new Device();
         device2.setName("Device2");
         device2.setFingerprint(cipherService.encrypt("fp-002"));
         device2.setFingerprintHash(cipherService.calculateHash("hash-002"));
+        device2.setOs(os);
         device2.setGroup(group);
 
         deviceRepository.save(device1);
