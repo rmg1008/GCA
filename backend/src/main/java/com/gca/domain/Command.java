@@ -13,6 +13,7 @@ public class Command {
 
     private String description;
 
+    @Lob
     @Column(name = "command_value")
     private String value;
 

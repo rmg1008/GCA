@@ -4,10 +4,10 @@ CREATE TABLE "Role" (
 );
 
 CREATE TABLE "app_user" (
-                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                            name VARCHAR(255) NOT NULL,
-                            email VARCHAR(255) NOT NULL UNIQUE,
-                            password VARCHAR(255) NOT NULL
+                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        email VARCHAR(255) NOT NULL UNIQUE,
+                        password VARCHAR(255) NOT NULL
 );
 
 
@@ -62,6 +62,7 @@ CREATE TABLE "Device_Group" (
 CREATE TABLE "Device" (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           finger_print VARCHAR(255) NOT NULL UNIQUE,
+                          finger_print_hash VARCHAR(255) NOT NULL UNIQUE,
                           name VARCHAR(255) NOT NULL UNIQUE,
                           created_at TIMESTAMP,
                           group_id BIGINT NOT NULL,

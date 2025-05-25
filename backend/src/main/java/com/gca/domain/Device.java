@@ -18,6 +18,10 @@ public class Device {
     @Column(name = "finger_print")
     private String fingerprint;
 
+    @NotNull
+    @Column(name = "finger_print_hash")
+    private String fingerprintHash;
+
     private String name;
 
     @CreationTimestamp
@@ -49,6 +53,14 @@ public class Device {
 
     public void setFingerprint(String fingerprint) {
         this.fingerprint = fingerprint;
+    }
+
+    public String getFingerprintHash() {
+        return fingerprintHash;
+    }
+
+    public void setFingerprintHash(String fingerprintHash) {
+        this.fingerprintHash = fingerprintHash;
     }
 
     public String getName() {

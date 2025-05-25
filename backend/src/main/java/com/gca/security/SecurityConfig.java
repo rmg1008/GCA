@@ -32,7 +32,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> request
-                    .requestMatchers("/login", "/register").permitAll()
+                    .requestMatchers("/login", "/register", "/config").permitAll()
                     .anyRequest().authenticated()
             );
         http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);

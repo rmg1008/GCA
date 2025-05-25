@@ -1,5 +1,6 @@
 package com.gca.service.impl;
 
+import com.gca.domain.Device;
 import com.gca.domain.Group;
 import com.gca.domain.Template;
 import com.gca.dto.GroupDTO;

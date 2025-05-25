@@ -36,4 +36,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), status);
     }
 
+    @ExceptionHandler(ConfigException.class)
+    public ResponseEntity<String> handleConfigException(ConfigException ex) {
+        HttpStatus status = switch (ex.getErrorType()) {
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+        };
+        return new ResponseEntity<>(ex.getMessage(), status);
+    }
+
+    @ExceptionHandler(CipherException.class)
+    public ResponseEntity<String> handleCipherException(CipherException ex) {
+        HttpStatus status = switch (ex.getErrorType()) {
+            case ENCRYPTION, DECRYPTION, HASH -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        return new ResponseEntity<>(ex.getMessage(), status);
+    }
+
 }

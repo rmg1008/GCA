@@ -9,6 +9,7 @@ import com.gca.repository.DeviceRepository;
 import com.gca.repository.GroupRepository;
 import com.gca.repository.OsRepository;
 import com.gca.repository.TemplateRepository;
+import com.gca.service.CipherService;
 import com.gca.service.DeviceService;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,16 @@ public class DefaultDeviceServiceImpl implements DeviceService {
     private final GroupRepository groupRepository;
     private final OsRepository osRepository;
     private final TemplateRepository templateRepository;
+    private final CipherService cipherService;
 
     public DefaultDeviceServiceImpl(DeviceRepository deviceRepository, GroupRepository groupRepository,
-                                    OsRepository osRepository, TemplateRepository templateRepository) {
+                                    OsRepository osRepository, TemplateRepository templateRepository,
+                                    CipherService cipherService) {
         this.deviceRepository = deviceRepository;
         this.groupRepository = groupRepository;
         this.osRepository = osRepository;
         this.templateRepository = templateRepository;
+        this.cipherService = cipherService;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class DefaultDeviceServiceImpl implements DeviceService {
 
     private void mapDeviceDTO2Entity(DeviceDTO device, Device deviceModel) {
         deviceModel.setName(device.getName());
-        deviceModel.setFingerprint(device.getFingerprint());
+        deviceModel.setFingerprint(cipherService.encrypt(device.getFingerprint()));
+        deviceModel.setFingerprintHash(cipherService.calculateHash(device.getFingerprint()));
         Optional<Group> group = this.groupRepository.findById(device.getGroup());
         Optional<OperatingSystem> os = this.osRepository.findById(device.getOs());
         group.ifPresent(deviceModel::setGroup);
@@ -73,7 +78,7 @@ public class DefaultDeviceServiceImpl implements DeviceService {
             DeviceDTO deviceDTO = new DeviceDTO();
             deviceDTO.setId(device.getId());
             deviceDTO.setName(device.getName());
-            deviceDTO.setFingerprint(device.getFingerprint());
+            deviceDTO.setFingerprint(cipherService.decrypt(device.getFingerprint()));
             deviceDTO.setGroup(device.getGroup().getId());
             deviceDTO.setOs(device.getOs().getId());
             deviceDTO.setTemplateId(device.getTemplate() != null ? device.getTemplate().getId() : null);
@@ -87,7 +92,7 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new IllegalArgumentException("Device not found"));
         Template template = templateRepository.findById(templateId)
-                .orElseThrow(() -> new IllegalArgumentException("Template not found"));
+                    .orElseThrow(() -> new IllegalArgumentException("Template not found"));
         device.setTemplate(template);
 
         deviceRepository.save(device);
