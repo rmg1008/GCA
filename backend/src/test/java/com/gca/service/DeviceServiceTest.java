@@ -18,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +42,9 @@ class DeviceServiceTest {
     @Mock
     private TemplateRepository templateRepository;
 
+    @Mock
+    private CipherService cipherService;
+
     @InjectMocks
     private DefaultDeviceServiceImpl deviceService;
 
@@ -52,6 +54,10 @@ class DeviceServiceTest {
 
     @BeforeEach
     void setUp() {
+
+        deviceService = new DefaultDeviceServiceImpl(
+                deviceRepository, groupRepository, osRepository, templateRepository, cipherService);
+
         group = new Group();
         group.setName("TestGroup");
         group.setParent(null);
@@ -65,6 +71,7 @@ class DeviceServiceTest {
         device.setFingerprint("fp-123");
         device.setGroup(group);
         device.setOs(os);
+
     }
 
     @Test
@@ -106,7 +113,6 @@ class DeviceServiceTest {
         Assertions.assertThrows(Exception.class, () -> deviceService.createDevice(deviceDTO));
     }
 
-
     @Test
     @DisplayName("Should update a device")
     void testUpdateDevice() throws Exception {
@@ -144,7 +150,6 @@ class DeviceServiceTest {
         // Then
         Assertions.assertThrows(Exception.class, () -> deviceService.updateDevice(deviceDTO));
     }
-
 
     @Test
     @DisplayName("Should delete a device")

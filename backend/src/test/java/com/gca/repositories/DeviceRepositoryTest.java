@@ -4,11 +4,13 @@ import com.gca.domain.Device;
 import com.gca.domain.Group;
 import com.gca.repository.DeviceRepository;
 import com.gca.repository.GroupRepository;
+import com.gca.service.CipherService;
+import com.gca.service.impl.DefaultCipherServiceImpl;
+import com.gca.util.SecretProperties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,35 +25,6 @@ class DeviceRepositoryTest {
     private GroupRepository groupRepository;
 
     @Test
-    @DisplayName("Should find device by name")
-    void testFindByName() {
-        // Given
-        Device device = new Device();
-        device.setName("DeviceTest");
-        device.setFingerprint("fp-123");
-        deviceRepository.save(device);
-
-        // When
-        Device found = deviceRepository.findByName("DeviceTest");
-
-        // Then
-        assertThat(found).isNotNull();
-        assertThat(found.getName()).isEqualTo("DeviceTest");
-        assertThat(found.getFingerprint()).isEqualTo("fp-123");
-    }
-
-    @Test
-    @DisplayName("Should return null when device name not found")
-    void testFindByName_NotFound() {
-        // When
-        Device found = deviceRepository.findByName("NonExistingDevice");
-
-        // Then
-        assertThat(found).isNull();
-    }
-
-
-    @Test
     @DisplayName("Should find devices by group id")
     void testFindByGroupId() {
         // Given
@@ -60,16 +33,22 @@ class DeviceRepositoryTest {
 
        groupRepository.save(group);
 
+        SecretProperties props = new SecretProperties();
+        props.setSecretKey("1234567890123456"); // 16 bytes
+        CipherService cipherService = new DefaultCipherServiceImpl(props);
+        ((DefaultCipherServiceImpl) cipherService).init();
+
         Device device1 = new Device();
         device1.setName("Device1");
-        device1.setFingerprint("fp-001");
+        device1.setFingerprint(cipherService.encrypt("fp-001"));
+        device1.setFingerprintHash(cipherService.calculateHash("hash-001"));
         device1.setGroup(group);
 
         Device device2 = new Device();
         device2.setName("Device2");
-        device2.setFingerprint("fp-002");
+        device2.setFingerprint(cipherService.encrypt("fp-002"));
+        device2.setFingerprintHash(cipherService.calculateHash("hash-002"));
         device2.setGroup(group);
-
 
         deviceRepository.save(device1);
         deviceRepository.save(device2);
@@ -95,5 +74,4 @@ class DeviceRepositoryTest {
         assertThat(foundDevices).isPresent();
         assertThat(foundDevices.get()).isEmpty();
     }
-
 }

@@ -10,6 +10,9 @@ public class TreeNodeDTO {
     private Long parentId;
     private Long templateId;
 
+    public TreeNodeDTO() {
+    }
+
     public TreeNodeDTO(Long id, String name, Long parentId, Long templateId) {
         this.id = id;
         this.name = name;
