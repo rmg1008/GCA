@@ -1,0 +1,13 @@
+{
+  "base_url": "http://192.168.1.133:8080/",
+  "backup_path": "C:\\GCA_BACKUPS",
+  "whitelist": [
+    {
+      "name": "API Central",
+      "host": "192.168.1.133",
+      "port": 8080
+    }
+  ],
+  "rollback_when_command_error" : true,
+  "get_config_retrieval_time_in_seconds" : 60
+}
