@@ -1,19 +1,13 @@
 package com.gca.exception;
 
-public class ConfigException extends RuntimeException {
-    private final ErrorType errorType;
+import java.io.Serial;
+
+public class ConfigException extends GCAException {
+
+    @Serial
+    private static final long serialVersionUID = 5587241376245299350L;
 
     public ConfigException(String message, ErrorType errorType) {
-        super(message);
-        this.errorType = errorType;
-    }
-
-    public ErrorType getErrorType() {
-        return errorType;
-    }
-
-    public enum ErrorType {
-        NOT_FOUND
+        super(message, errorType);
     }
 }
-

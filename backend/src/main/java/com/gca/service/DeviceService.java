@@ -9,7 +9,7 @@ public interface DeviceService {
 
     Long createDevice(DeviceDTO device);
 
-    Long updateDevice(DeviceDTO device) throws Exception;
+    Long updateDevice(DeviceDTO device);
 
     void deleteDevice(Long id);
 

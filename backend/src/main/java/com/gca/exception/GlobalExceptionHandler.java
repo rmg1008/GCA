@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,28 +17,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 
-    @ExceptionHandler(CommandException.class)
-    public ResponseEntity<String> handleCommandException(CommandException ex) {
+    @ExceptionHandler(GCAException.class)
+    public ResponseEntity<String> handleGCAException(GCAException ex) {
         HttpStatus status = switch (ex.getErrorType()) {
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
             case DUPLICATED -> HttpStatus.CONFLICT;
-        };
-        return new ResponseEntity<>(ex.getMessage(), status);
-    }
-
-    @ExceptionHandler(TemplateException.class)
-    public ResponseEntity<String> handleTemplateException(TemplateException ex) {
-        HttpStatus status = switch (ex.getErrorType()) {
-            case NOT_FOUND -> HttpStatus.NOT_FOUND;
-            case DUPLICATED -> HttpStatus.CONFLICT;
-        };
-        return new ResponseEntity<>(ex.getMessage(), status);
-    }
-
-    @ExceptionHandler(ConfigException.class)
-    public ResponseEntity<String> handleConfigException(ConfigException ex) {
-        HttpStatus status = switch (ex.getErrorType()) {
-            case NOT_FOUND -> HttpStatus.NOT_FOUND;
         };
         return new ResponseEntity<>(ex.getMessage(), status);
     }
@@ -51,5 +33,4 @@ public class GlobalExceptionHandler {
         };
         return new ResponseEntity<>(ex.getMessage(), status);
     }
-
 }

@@ -1,40 +1,14 @@
 package com.gca.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
-import java.sql.Timestamp;
 
-public class TemplateDTO {
-
-    private Long id;
-
-    @NotNull
-    private String name;
+public class TemplateDTO extends BaseDTO {
 
     @NotNull
     private String description;
 
     @NotNull
     private Long os;
-
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
@@ -51,13 +25,4 @@ public class TemplateDTO {
     public void setOs(Long os) {
         this.os = os;
     }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
 }

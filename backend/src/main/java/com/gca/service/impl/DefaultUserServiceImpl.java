@@ -1,6 +1,5 @@
 package com.gca.service.impl;
 
-import com.gca.domain.Role;
 import com.gca.domain.User;
 import com.gca.repository.RoleRepository;
 import com.gca.repository.UserRepository;

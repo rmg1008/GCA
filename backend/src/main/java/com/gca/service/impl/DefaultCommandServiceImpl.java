@@ -3,6 +3,7 @@ package com.gca.service.impl;
 import com.gca.domain.Command;
 import com.gca.dto.CommandDTO;
 import com.gca.exception.CommandException;
+import com.gca.exception.GCAException;
 import com.gca.repository.CommandRepository;
 import com.gca.service.CommandService;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class DefaultCommandServiceImpl implements CommandService {
     @Override
     public Long updateCommand(CommandDTO commandDTO) {
         Command commandModel = commandRepository.findById(commandDTO.getId()).orElseThrow(() ->
-                new CommandException("No se pude actualizar, el comando no existe", CommandException.ErrorType.NOT_FOUND));
+                new CommandException("No se pude actualizar, el comando no existe", GCAException.ErrorType.NOT_FOUND));
         if (!commandModel.getName().equals(commandDTO.getName())) {
             checkIfCommandExists(commandDTO);
         }
@@ -71,7 +72,7 @@ public class DefaultCommandServiceImpl implements CommandService {
 
     private void checkIfCommandExists(CommandDTO commandDTO) {
         if (commandRepository.existsByName(commandDTO.getName())) {
-            throw new CommandException("Ya existe un comando con el mismo nombre", CommandException.ErrorType.DUPLICATED);
+            throw new CommandException("Ya existe un comando con el mismo nombre", GCAException.ErrorType.DUPLICATED);
         }
     }
 

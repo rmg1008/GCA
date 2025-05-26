@@ -115,7 +115,7 @@ class DeviceServiceTest {
 
     @Test
     @DisplayName("Should update a device")
-    void testUpdateDevice() throws Exception {
+    void testUpdateDevice() {
         device.setId(7L);
 
         DeviceDTO deviceDTO = new DeviceDTO();

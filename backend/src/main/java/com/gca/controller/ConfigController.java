@@ -24,7 +24,7 @@ public class ConfigController {
     }
 
     @DeleteMapping("/device")
-    public ResponseEntity<?> deleteDevice(@RequestBody FingerprintDTO dto) {
+    public ResponseEntity<Void> deleteDevice(@RequestBody FingerprintDTO dto) {
         configService.deleteDeviceByFingerprint(dto.getFingerprint());
         return ResponseEntity.ok().build();
     }

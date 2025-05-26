@@ -2,13 +2,16 @@ package com.gca.domain;
 
 import com.gca.util.JsonToMapConverter;
 import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
 @Entity
 @Table(name = "Template_Command")
 public class TemplateCommand implements Serializable {
-
+    @Serial
+    private static final long serialVersionUID = 1758986836350600479L;
     @EmbeddedId
     private TemplateCommandId id = new TemplateCommandId();
 

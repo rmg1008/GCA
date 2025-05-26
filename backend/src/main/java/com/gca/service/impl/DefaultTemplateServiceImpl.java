@@ -5,6 +5,7 @@ import com.gca.dto.CommandDTO;
 import com.gca.dto.TemplateCommandDTO;
 import com.gca.dto.TemplateDTO;
 import com.gca.exception.CommandException;
+import com.gca.exception.GCAException;
 import com.gca.exception.TemplateException;
 import com.gca.repository.CommandRepository;
 import com.gca.repository.OsRepository;
@@ -138,7 +139,7 @@ public class DefaultTemplateServiceImpl implements TemplateService {
 
         for (TemplateCommandDTO dto : comandos) {
             Command command = commandRepository.findById(dto.getCommandId())
-                    .orElseThrow(() -> new CommandException("Command not found", CommandException.ErrorType.NOT_FOUND));
+                    .orElseThrow(() -> new CommandException("Command not found", GCAException.ErrorType.NOT_FOUND));
 
             TemplateCommand tc = new TemplateCommand();
             tc.setTemplate(template);
@@ -163,11 +164,11 @@ public class DefaultTemplateServiceImpl implements TemplateService {
 
     private void checkIfTemplateExists(TemplateDTO templateDTO) {
         if (templateRepository.existsByName(templateDTO.getName())) {
-            throw new TemplateException("Ya existe un template con el mismo nombre", TemplateException.ErrorType.DUPLICATED);
+            throw new TemplateException("Ya existe un template con el mismo nombre", GCAException.ErrorType.DUPLICATED);
         }
     }
 
     private static Supplier<TemplateException> throwNotFoundException() {
-        return () -> new TemplateException("Template no encontrado", TemplateException.ErrorType.NOT_FOUND);
+        return () -> new TemplateException("Template no encontrado", GCAException.ErrorType.NOT_FOUND);
     }
 }

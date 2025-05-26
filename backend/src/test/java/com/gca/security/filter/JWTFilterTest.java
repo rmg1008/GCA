@@ -5,7 +5,6 @@ import com.gca.domain.User;
 import com.gca.security.JwtUtil;
 import com.gca.service.UserService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,11 +59,13 @@ class JWTFilterTest {
         when(userService.findByEmail("test@test.com")).thenReturn(mockUser);
         when(jwtUtil.getSignInKey()).thenReturn(key);
 
+
+
         jwtToken = Jwts.builder()
-                .setSubject("test@test.com")
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .subject("test@test.com")
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .signWith(key, Jwts.SIG.HS256)
                 .compact();
 
         when(jwtUtil.generateToken(any())).thenReturn(jwtToken);

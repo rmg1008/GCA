@@ -1,12 +1,16 @@
 package com.gca.domain;
 
 import jakarta.persistence.Embeddable;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class TemplateCommandId implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -8463603087678125738L;
     private Long templateId;
     private Long commandId;
 
@@ -23,14 +27,6 @@ public class TemplateCommandId implements Serializable {
 
     public void setTemplateId(Long templateId) {
         this.templateId = templateId;
-    }
-
-    public Long getCommandId() {
-        return commandId;
-    }
-
-    public void setCommandId(Long commandId) {
-        this.commandId = commandId;
     }
 
     @Override

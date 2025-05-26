@@ -2,9 +2,14 @@ package com.gca.domain;
 
 import jakarta.persistence.*;
 
-@Entity
-public class OperatingSystem {
+import java.io.Serial;
+import java.io.Serializable;
 
+@Entity
+public class OperatingSystem implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 550816886951063730L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

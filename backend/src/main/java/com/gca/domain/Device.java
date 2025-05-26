@@ -4,11 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-public class Device {
+public class Device implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 8870823483894476299L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +28,8 @@ public class Device {
     private String name;
 
     @CreationTimestamp
-    private Timestamp created_at;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
@@ -54,10 +59,6 @@ public class Device {
         this.fingerprint = fingerprint;
     }
 
-    public String getFingerprintHash() {
-        return fingerprintHash;
-    }
-
     public void setFingerprintHash(String fingerprintHash) {
         this.fingerprintHash = fingerprintHash;
     }
@@ -68,14 +69,6 @@ public class Device {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
     }
 
     public Group getGroup() {

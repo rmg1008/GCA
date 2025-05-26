@@ -185,7 +185,7 @@ class GroupServiceTest {
 
     @Test
     @DisplayName("Should update the group")
-    void testUpdateGroup() throws Exception {
+    void testUpdateGroup() {
         group.setId(7L);
 
         GroupDTO groupDTO = new GroupDTO();

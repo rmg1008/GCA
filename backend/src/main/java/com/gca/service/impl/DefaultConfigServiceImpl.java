@@ -6,6 +6,7 @@ import com.gca.domain.Template;
 import com.gca.domain.TemplateCommand;
 import com.gca.dto.ConfigDTO;
 import com.gca.exception.ConfigException;
+import com.gca.exception.GCAException;
 import com.gca.repository.DeviceRepository;
 import com.gca.service.CipherService;
 import com.gca.service.ConfigService;
@@ -104,6 +105,6 @@ public class DefaultConfigServiceImpl implements ConfigService {
     }
 
     private static Supplier<ConfigException> throwNotFoundException(String message) {
-        return () -> new ConfigException(message, ConfigException.ErrorType.NOT_FOUND);
+        return () -> new ConfigException(message, GCAException.ErrorType.NOT_FOUND);
     }
 }

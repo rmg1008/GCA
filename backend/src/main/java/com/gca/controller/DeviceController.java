@@ -1,11 +1,11 @@
 package com.gca.controller;
 
+import com.gca.domain.Device;
 import com.gca.dto.DeviceDTO;
 import com.gca.service.DeviceService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,23 +18,23 @@ public class DeviceController {
     }
 
     @PostMapping("/registerDevice")
-    public ResponseEntity<?> registerDevice(@RequestBody @Valid DeviceDTO device) {
+    public ResponseEntity<Long> registerDevice(@RequestBody @Valid DeviceDTO device) {
         return ResponseEntity.ok(deviceService.createDevice(device));
     }
 
     @PostMapping("/updateDevice")
-    public ResponseEntity<?> updateDevice(@RequestBody @Valid DeviceDTO device) throws Exception {
+    public ResponseEntity<Long> updateDevice(@RequestBody @Valid DeviceDTO device) {
         return ResponseEntity.ok(deviceService.updateDevice(device));
     }
 
     @DeleteMapping("/device/{id}")
-    public ResponseEntity<?> deleteDevice(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
         deviceService.deleteDevice(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/device/{id}")
-    public ResponseEntity<?> searchDeviceById(@PathVariable Long id) {
+    public ResponseEntity<Device> searchDeviceById(@PathVariable Long id) {
         return ResponseEntity.ok(deviceService.searchDeviceById(id));
     }
 

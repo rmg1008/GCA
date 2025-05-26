@@ -1,20 +1,13 @@
 package com.gca.exception;
 
-public class CommandException extends RuntimeException {
-    private final ErrorType errorType;
+import java.io.Serial;
+
+public class CommandException extends GCAException {
+
+    @Serial
+    private static final long serialVersionUID = 9128507007474014909L;
 
     public CommandException(String message, ErrorType errorType) {
-        super(message);
-        this.errorType = errorType;
-    }
-
-    public ErrorType getErrorType() {
-        return errorType;
-    }
-
-    public enum ErrorType {
-        NOT_FOUND,
-        DUPLICATED
+        super(message, errorType);
     }
 }
-

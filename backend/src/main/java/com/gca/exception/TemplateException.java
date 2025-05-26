@@ -1,20 +1,14 @@
 package com.gca.exception;
 
-public class TemplateException extends RuntimeException {
-    private final ErrorType errorType;
+import java.io.Serial;
+
+public class TemplateException extends GCAException {
+
+    @Serial
+    private static final long serialVersionUID = 4512696129916648976L;
 
     public TemplateException(String message, ErrorType errorType) {
-        super(message);
-        this.errorType = errorType;
-    }
-
-    public ErrorType getErrorType() {
-        return errorType;
-    }
-
-    public enum ErrorType {
-        NOT_FOUND,
-        DUPLICATED
+        super(message, errorType);
     }
 }
 

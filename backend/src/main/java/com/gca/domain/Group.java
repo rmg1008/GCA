@@ -2,12 +2,16 @@ package com.gca.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Table(name = "device_group")
-public class Group {
+public class Group implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1029882785305430206L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +24,6 @@ public class Group {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="parent")
     private Collection<Group> children;
-
-    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
-    private Collection<Device> devices;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "template")
@@ -58,14 +59,6 @@ public class Group {
 
     public void setChildren(Collection<Group> children) {
         this.children = children;
-    }
-
-    public Collection<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Collection<Device> devices) {
-        this.devices = devices;
     }
 
     public Template getTemplate() {

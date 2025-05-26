@@ -2,9 +2,14 @@ package com.gca.domain;
 
 import jakarta.persistence.*;
 
-@Entity
-public class Command {
+import java.io.Serial;
+import java.io.Serializable;
 
+@Entity
+public class Command implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 8842605980901364514L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

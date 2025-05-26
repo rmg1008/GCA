@@ -15,7 +15,7 @@ class GlobalExceptionHandlerTest {
     void testHandleCommandException(CommandException.ErrorType errorType) {
         CommandException exception = new CommandException("Command exception", errorType);
 
-        var response = globalExceptionHandler.handleCommandException(exception);
+        var response = globalExceptionHandler.handleGCAException(exception);
 
         HttpStatus expectedStatus = switch (errorType) {
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
@@ -31,7 +31,7 @@ class GlobalExceptionHandlerTest {
     void testHandleTemplateException(TemplateException.ErrorType errorType) {
         TemplateException exception = new TemplateException("Template exception", errorType);
 
-        var response = globalExceptionHandler.handleTemplateException(exception);
+        var response = globalExceptionHandler.handleGCAException(exception);
 
         HttpStatus expectedStatus = switch (errorType) {
             case NOT_FOUND -> HttpStatus.NOT_FOUND;
@@ -46,7 +46,7 @@ class GlobalExceptionHandlerTest {
     void testHandleConfigException() {
         ConfigException exception = new ConfigException("Config exception", ConfigException.ErrorType.NOT_FOUND);
 
-        var response = globalExceptionHandler.handleConfigException(exception);
+        var response = globalExceptionHandler.handleGCAException(exception);
 
         Assertions.assertEquals("Config exception", response.getBody());
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

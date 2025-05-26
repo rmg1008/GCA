@@ -1,12 +1,17 @@
 package com.gca.domain;
 
 import jakarta.persistence.*;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Template {
+public class Template implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -8738092240974220724L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,12 +29,6 @@ public class Template {
 
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TemplateCommand> templateCommands;
-
-    @OneToMany(mappedBy = "template")
-    private List<Device> devices;
-
-    @OneToMany(mappedBy = "template")
-    private List<Group> groups;
 
     public Long getId() {
         return id;
@@ -77,21 +76,5 @@ public class Template {
 
     public void setTemplateCommands(List<TemplateCommand> templateCommands) {
         this.templateCommands = templateCommands;
-    }
-
-    public List<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(List<Device> devices) {
-        this.devices = devices;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
     }
 }

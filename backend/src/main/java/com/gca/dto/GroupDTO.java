@@ -1,26 +1,8 @@
 package com.gca.dto;
 
-public class GroupDTO {
+public class GroupDTO extends BaseDTO {
 
-    private Long id;
-    private String name;
     private Long parent;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getParent() {
         return parent;

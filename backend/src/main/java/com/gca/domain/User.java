@@ -6,12 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "app_user")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 7342989458754255546L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,8 +49,8 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setId(Long user_id) {
-        this.id = user_id;
+    public void setId(Long userId) {
+        this.id = userId;
     }
 
     public String getName() {
