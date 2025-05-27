@@ -1,9 +1,11 @@
 package com.gca.service;
 
 import com.gca.domain.Group;
+import com.gca.domain.Template;
 import com.gca.dto.GroupDTO;
 import com.gca.dto.TreeNodeDTO;
 import com.gca.repository.GroupRepository;
+import com.gca.repository.TemplateRepository;
 import com.gca.service.impl.DefaultGroupServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +22,16 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GroupServiceTest {
 
     @Mock
     private GroupRepository groupRepository;
+
+    @Mock
+    private TemplateRepository templateRepository;
 
     @InjectMocks
     private DefaultGroupServiceImpl groupService;
@@ -46,6 +49,12 @@ class GroupServiceTest {
     @Test
     @DisplayName("Should get the root tree")
     void testGetTree() {
+        Group group2 = new Group();
+        group2.setName("TestGroup");
+        group2.setParent(group);
+        group2.setChildren(new java.util.ArrayList<>());
+        group.getChildren().add(group2);
+
         // Given
         given(groupRepository.findByParentIsNull()).willReturn(Optional.ofNullable(group));
 
@@ -54,7 +63,6 @@ class GroupServiceTest {
 
         // Then
         Assertions.assertEquals("TestGroup", tree.getName());
-        Assertions.assertTrue(tree.getChildren().isEmpty());
     }
 
     @Test
@@ -175,4 +183,83 @@ class GroupServiceTest {
         Assertions.assertThrows(Exception.class, () -> groupService.createGroup(groupDTO));
     }
 
+    @Test
+    @DisplayName("Should update the group")
+    void testUpdateGroup() {
+        group.setId(7L);
+
+        GroupDTO groupDTO = new GroupDTO();
+        groupDTO.setId(7L);
+        groupDTO.setName("TestGroup updated");
+        groupDTO.setParent(null);
+
+        given(groupRepository.save(any())).willReturn(group);
+        given(groupRepository.findById(7L)).willReturn(Optional.of(group));
+
+        // When
+        Long updateGroupID = groupService.updateGroup(groupDTO);
+
+        // Then
+        verify(groupRepository, times(1)).save(group);
+        Assertions.assertEquals(updateGroupID, group.getId());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when group not found")
+    void testUpdateGroup_NotFound() {
+        // Given
+        GroupDTO groupDTO = new GroupDTO();
+        groupDTO.setId(99L);
+        given(groupRepository.findById(99L)).willReturn(Optional.empty());
+
+        // Then
+        Assertions.assertThrows(Exception.class, () -> groupService.updateGroup(groupDTO));
+    }
+
+    @Test
+    @DisplayName("Should assign the template to the group")
+    void testAssignTemplateToGroup() {
+        group.setId(7L);
+
+        Template template = new Template();
+        template.setId(15L);
+
+        given(groupRepository.save(any())).willReturn(group);
+        given(groupRepository.findById(7L)).willReturn(Optional.of(group));
+        when(templateRepository.findById(15L)).thenReturn(Optional.of(template));
+
+        // When
+        groupService.assignTemplateToGroup(7L, 15L);
+
+        // Then
+        verify(groupRepository, times(1)).save(group);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when group not found")
+    void testAssignTemplateToGroup_GroupNotFound() {
+        given(groupRepository.findById(any())).willReturn(Optional.empty());
+
+        Assertions.assertThrows(Exception.class, () -> groupService.assignTemplateToGroup(null, null));
+    }
+
+    @Test
+    @DisplayName("Should throw exception when template not found")
+    void testAssignTemplateToGroup_TemplateNotFound() {
+        group.setId(7L);
+        given(groupRepository.findById(7L)).willReturn(Optional.of(group));
+
+        Assertions.assertThrows(Exception.class, () -> groupService.assignTemplateToGroup(7L, null));
+    }
+
+    @Test
+    @DisplayName("Should unassign the template to the group")
+    void testUnassignTemplateToGroup() {
+        group.setId(7L);
+        given(groupRepository.findById(7L)).willReturn(Optional.of(group));
+
+        groupService.unassignTemplateToGroup(7L);
+
+        verify(groupRepository, times(1)).save(group);
+    }
 }

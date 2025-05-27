@@ -1,0 +1,47 @@
+<dialog #modalRef class="modal">
+    <div class="modal-box" *ngIf="form">
+      <h3 class="font-bold text-lg mb-4">
+        {{ form.value.id ? 'Editar' : 'Nuevo' }} template
+      </h3>
+  
+      <form [formGroup]="form" (ngSubmit)="save()">
+
+      <div class="grid grid-cols-1 gap-4">
+          <label class="floating-label">
+            <span>Nombre <span class="text-red-500 text-sm">*</span></span>
+            <input
+            type="text"
+            placeholder="Nombre (obligatorio)"
+            formControlName="name"
+            class="input input-bordered w-full mb-3"
+            [ngClass]="{'border-red-500' : isInvalid('name')}"
+            />
+            <p *ngIf="isInvalid('name')" class="text-red-500 text-sm">El nombre es obligatorio</p>
+          </label>
+
+          <label class="floating-label">
+            <span>Descripción</span>
+            <input
+            type="text"
+            placeholder="Descripción"
+            formControlName="description"
+            class="input input-bordered w-full mb-4"
+            />
+          </label>
+          
+          <label class="select w-full mb-4">
+              <span class="label">OS</span>
+              <select class="select select-warning w-full" formControlName="os">
+              <option value="1">Windows</option>
+              </select>
+            </label>
+    
+          <div class="modal-action flex justify-center gap-4">
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar</button>
+            <button type="button" class="btn" (click)="close()">Cancelar</button>
+          </div>        
+        </div>
+      </form>
+    </div>
+  </dialog>
+  

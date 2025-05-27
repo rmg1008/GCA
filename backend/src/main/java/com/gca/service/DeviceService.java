@@ -9,13 +9,15 @@ public interface DeviceService {
 
     Long createDevice(DeviceDTO device);
 
-    Long updateDevice(DeviceDTO device) throws Exception;
+    Long updateDevice(DeviceDTO device);
 
     void deleteDevice(Long id);
 
     Device searchDeviceById(Long id);
 
-    Device searchDeviceByName(String name);
-
     List<DeviceDTO> searchDeviceByGroup(Long group);
+
+    void assignTemplateToDevice(Long templateId, Long deviceId);
+
+    void unassignTemplateToDevice(Long deviceId);
 }

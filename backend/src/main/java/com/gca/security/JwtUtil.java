@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     @Value("${security.jwt.secret-key}")
-    private String SECRET_KEY;
+    private String secretKey;
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
@@ -26,7 +26,7 @@ public class JwtUtil {
     }
 
     public SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

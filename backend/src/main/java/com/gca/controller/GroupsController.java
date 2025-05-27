@@ -19,12 +19,12 @@ public class GroupsController {
     }
 
     @PostMapping("/registerGroup")
-    public ResponseEntity<?> registerGroup(@RequestBody GroupDTO group) {
+    public ResponseEntity<Long> registerGroup(@RequestBody GroupDTO group) {
         return ResponseEntity.ok(groupService.createGroup(group));
     }
 
     @PostMapping("/updateGroup")
-    public ResponseEntity<?> updateGroup(@RequestBody GroupDTO group) throws Exception {
+    public ResponseEntity<Long> updateGroup(@RequestBody GroupDTO group) {
         return ResponseEntity.ok(groupService.updateGroup(group));
     }
 
@@ -39,8 +39,23 @@ public class GroupsController {
     }
 
     @DeleteMapping("/groups/{id}")
-    public ResponseEntity<?> deleteDevice(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDevice(@PathVariable Long id) {
         groupService.deleteGroup(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/groups/{groupId}/assign-template/{templateId}")
+    public ResponseEntity<Void> assignTemplateToGroup(
+            @PathVariable Long groupId,
+            @PathVariable(required = false) Long templateId) {
+        groupService.assignTemplateToGroup(groupId, templateId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/groups/{groupId}/unassign-template")
+    public ResponseEntity<Void> unassignTemplateToGroup(
+            @PathVariable Long groupId) {
+        groupService.unassignTemplateToGroup(groupId);
         return ResponseEntity.ok().build();
     }
 }

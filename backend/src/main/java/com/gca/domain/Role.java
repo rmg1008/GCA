@@ -2,8 +2,14 @@ package com.gca.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
-public class Role {
+public class Role implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -2078263980355550273L;
     @Id
     private Long id;
     private String name;

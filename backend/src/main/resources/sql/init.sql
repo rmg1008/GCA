@@ -1,112 +1,126 @@
-drop table if exists backup;
-drop table if exists record;
-drop table if exists device;
-drop table if exists device_group;
-drop table if exists template_command;
-drop table if exists command;
-drop table if exists templates;
-drop table if exists operating_system;
-drop table if exists user_role;
-drop table if exists role;
-drop table if exists user;
-drop table if exists App_user;
-
-
-CREATE TABLE Role (
+CREATE TABLE IF NOT EXISTS role (
                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                        name VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE App_user (
+CREATE TABLE IF NOT EXISTS app_user (
                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                           name VARCHAR(255) NOT NULL,
                           email VARCHAR(255) NOT NULL UNIQUE,
                           password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE User_Roles (
+CREATE TABLE IF NOT EXISTS user_roles (
                                   user_id INT NOT NULL,
                                   role_id INT NOT NULL,
                                   PRIMARY KEY (user_id, role_id),
-                                  FOREIGN KEY (user_id) REFERENCES App_user(id),
-                                  FOREIGN KEY (role_id) REFERENCES Role(id)
+                                  FOREIGN KEY (user_id) REFERENCES app_user(id),
+                                  FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
-CREATE TABLE Operating_System (
+CREATE TABLE IF NOT EXISTS operating_system (
                                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                    name VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE Device_Group (
-                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                        name VARCHAR(255) NOT NULL,
-                        parent INT,
-                        FOREIGN KEY (parent) REFERENCES Device_Group(id)
-);
-
-CREATE TABLE Device (
-                         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                         finger_print VARCHAR(255) NOT NULL UNIQUE,
-                         name VARCHAR(255) NOT NULL UNIQUE,
-                         created_at TIMESTAMP,
-                         group_id INT NOT NULL,
-                         os_id INT NOT NULL,
-                         FOREIGN KEY (group_id) REFERENCES Device_Group(id),
-                         FOREIGN KEY (os_id) REFERENCES Operating_System(id)
-);
-
-
-CREATE TABLE Backup (
-                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                        device_id INT,
-                        date TIMESTAMP,
-                        config BLOB,
-                        FOREIGN KEY (device_id) REFERENCES Device(id)
-);
-
-CREATE TABLE Record (
-                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                           device_id INT,
-                           date TIMESTAMP,
-                           result BLOB,
-                           FOREIGN KEY (device_id) REFERENCES Device(id)
-);
-
-CREATE TABLE Templates (
-                            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                            name VARCHAR(255),
-                            description VARCHAR(255),
-                            os_id INT NOT NULL,
-                            FOREIGN KEY (os_id) REFERENCES Operating_System(id)
-);
-
-CREATE TABLE Command (
+CREATE TABLE IF NOT EXISTS template (
                           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                          name VARCHAR(255),
+                          name VARCHAR(255) NOT NULL UNIQUE,
                           description VARCHAR(255),
-                          value VARCHAR(255)
+                          os_id INT NOT NULL,
+                          updated_at TIMESTAMP,
+                          FOREIGN KEY (os_id) REFERENCES operating_system(id)
 );
 
-CREATE TABLE Template_Command (
-                                   template_id INT NOT NULL,
-                                   command_id INT NOT NULL,
-                                   execution_order INT NOT NULL,
-                                   PRIMARY KEY (template_id, command_id),
-                                   FOREIGN KEY (template_id) REFERENCES Templates(id),
-                                   FOREIGN KEY (command_id) REFERENCES Command(id)
+CREATE TABLE IF NOT EXISTS command (
+                         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         name VARCHAR(255) NOT NULL UNIQUE,
+                         description VARCHAR(255),
+                         command_value TEXT
 );
-INSERT INTO App_user VALUES (1, "admin", "admin@testubu.es", SHA2( "1234", 512));
-INSERT INTO Operating_System VALUES (1, "Windows");
-INSERT INTO User_Roles VALUES (1, 1);
-INSERT INTO Device_Group (ID, name) VALUES (1, "UBU");
-INSERT INTO Device_Group (ID, name, parent) VALUES (2, "Biblioteca Central", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (3, "Centro de I+D+I", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (4, "Escuela Politécnica Superior - A", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (5, "Escuela Politécnica Superior - C", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (6, "Escuela Politécnica Superior - D", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (7, "Facultad de Ciencias", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (8, "Facultad de Educación", 1);
-INSERT INTO Device_Group (ID, name, parent) VALUES (9, "Biblioteca Central", 2);
 
-INSERT INTO Device(finger_print, name, created_at, group_id, os_id) VALUES ("test", "test1", '2025-04-23 01:02:03', 9, 1);
-INSERT INTO Device(finger_print, name, created_at, group_id, os_id) VALUES ("test2", "test2", '2025-04-23 01:02:03', 9, 1)
+CREATE TABLE IF NOT EXISTS template_command (
+                                  template_id INT NOT NULL,
+                                  command_id INT NOT NULL,
+                                  execution_order INT NOT NULL,
+                                  parameter_values TEXT NULL,
+                                  PRIMARY KEY (template_id, command_id),
+                                  FOREIGN KEY (template_id) REFERENCES template(id),
+                                  FOREIGN KEY (command_id) REFERENCES command(id)
+);
+
+CREATE TABLE IF NOT EXISTS device_group (
+                              id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                              name VARCHAR(255) NOT NULL,
+                              parent INT,
+                              template INT,
+                              FOREIGN KEY (parent) REFERENCES device_group(id),
+                              FOREIGN KEY (template) REFERENCES template(id)
+);
+
+CREATE TABLE IF NOT EXISTS device (
+                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                        finger_print VARCHAR(255) NOT NULL UNIQUE,
+                        finger_print_hash VARCHAR(255) NOT NULL UNIQUE,
+                        name VARCHAR(255) NOT NULL UNIQUE,
+                        created_at TIMESTAMP,
+                        group_id INT NOT NULL,
+                        os_id INT NOT NULL,
+                        template INT,
+                        FOREIGN KEY (group_id) REFERENCES device_group(id),
+                        FOREIGN KEY (os_id) REFERENCES operating_system(id),
+                        FOREIGN KEY (template) REFERENCES template(id)
+);
+
+INSERT IGNORE INTO app_user VALUES (1, "admin", "admin@testubu.es", SHA2("1234", 512));
+INSERT IGNORE INTO operating_system VALUES (1, "Windows");
+INSERT IGNORE INTO role VALUES (1, "Admin");
+INSERT IGNORE INTO role VALUES (2, "Gestor");
+INSERT IGNORE INTO user_roles VALUES (1, 1);
+INSERT IGNORE INTO device_group (ID, name) VALUES (1, "UBU");
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (2, "Biblioteca Central", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (3, "Centro de I+D+I", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (4, "Escuela Politécnica Superior - A", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (5, "Escuela Politécnica Superior - C", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (6, "Escuela Politécnica Superior - D", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (7, "Facultad de Ciencias", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (8, "Facultad de Educación", 1);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (9, "Sala 1", 2);
+INSERT IGNORE INTO device_group (ID, name, parent) VALUES (10, "Sala 2", 2);
+
+INSERT IGNORE INTO template(name, description, os_id, updated_at) VALUES
+('Windows 10', 'Template for Windows 10', 1, CURRENT_TIMESTAMP),
+('Windows 10 - Restrict accesses', 'Template for Windows 10 with limited network access', 1, CURRENT_TIMESTAMP),
+('Windows 11', 'Template for Windows 11', 1, CURRENT_TIMESTAMP),
+('Windows 11 - Without network', 'Template for Windows 11 that disables network access', 1, CURRENT_TIMESTAMP);
+
+INSERT IGNORE INTO command (name, description, command_value) VALUES
+('Bloquear todo el tráfico', 'Bloquea todas las conexiones entrantes y salientes',
+ 'netsh advfirewall firewall add rule name="Bloqueo Total Entrada" dir=in action=block remoteip=any && netsh advfirewall firewall add rule name="Bloqueo Total Salida" dir=out action=block remoteip=any'),
+
+('Permitir todo el tráfico', 'Elimina el bloqueo total de conexiones',
+ 'netsh advfirewall firewall delete rule name="Bloqueo Total Entrada" && netsh advfirewall firewall delete rule name="Bloqueo Total Salida"'),
+
+('Bloquear acceso a IP', 'Bloquea todo el tráfico hacia y desde una IP específica',
+ 'netsh advfirewall firewall add rule name="Bloquear IP Entrada" dir=in action=block remoteip={{direccionIP}} && netsh advfirewall firewall add rule name="Bloquear IP Salida" dir=out action=block remoteip={{direccionIP}}'),
+
+('Permitir acceso a IP', 'Permite el tráfico hacia y desde una IP específica',
+ 'netsh advfirewall firewall add rule name="Permitir IP Entrada" dir=in action=allow remoteip={{direccionIP}} && netsh advfirewall firewall add rule name="Permitir IP Salida" dir=out action=allow remoteip={{direccionIP}}'),
+
+('Bloquear puerto', 'Bloquea conexiones en un puerto TCP específico',
+ 'netsh advfirewall firewall add rule name="Bloquear Puerto Entrada" dir=in action=block protocol=TCP localport={{puerto}} && netsh advfirewall firewall add rule name="Bloquear Puerto Salida" dir=out action=block protocol=TCP remoteport={{puerto}}'),
+
+('Permitir puerto', 'Permite conexiones en un puerto TCP específico',
+ 'netsh advfirewall firewall add rule name="Permitir Puerto Entrada" dir=in action=allow protocol=TCP localport={{puerto}} && netsh advfirewall firewall add rule name="Permitir Puerto Salida" dir=out action=allow protocol=TCP remoteport={{puerto}}'),
+
+('Permitir acceso a IP y puerto', 'Permite tráfico hacia y desde una IP y puerto específicos',
+'netsh advfirewall firewall add rule name="Permitir Entrada IP y Puerto" dir=in action=allow remoteip={{direccionIP}} protocol=TCP localport={{puerto}} && netsh advfirewall firewall add rule name="Permitir Salida IP y Puerto" dir=out action=allow remoteip={{direccionIP}} protocol=TCP remoteport={{puerto}}'),
+
+('Bloquear acceso a IP y puerto', 'Bloquea tráfico hacia y desde una IP y puerto específicos',
+ 'netsh advfirewall firewall add rule name="Bloquear Entrada IP y Puerto" dir=in action=block remoteip={{direccionIP}} protocol=TCP localport={{puerto}} && netsh advfirewall firewall add rule name="Bloquear Salida IP y Puerto" dir=out action=block remoteip={{direccionIP}} protocol=TCP remoteport={{puerto}}'),
+
+('Activar cortafuegos', 'Activa el cortafuegos de Windows en todos los perfiles (dominio, privado, público)',
+ 'netsh advfirewall set allprofiles state on'),
+
+('Desactivar cortafuegos', 'Desactiva el cortafuegos de Windows en todos los perfiles (dominio, privado, público)',
+ 'netsh advfirewall set allprofiles state off');

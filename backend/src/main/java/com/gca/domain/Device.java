@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
-@Table(name = "device")
-public class Device {
+public class Device implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 8870823483894476299L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +21,15 @@ public class Device {
     @Column(name = "finger_print")
     private String fingerprint;
 
+    @NotNull
+    @Column(name = "finger_print_hash")
+    private String fingerprintHash;
+
     private String name;
 
     @CreationTimestamp
-    private Timestamp created_at;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
@@ -31,6 +38,10 @@ public class Device {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "os_id")
     private OperatingSystem os;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "template")
+    private Template template;
 
     public Long getId() {
         return id;
@@ -48,20 +59,16 @@ public class Device {
         this.fingerprint = fingerprint;
     }
 
+    public void setFingerprintHash(String fingerprintHash) {
+        this.fingerprintHash = fingerprintHash;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
     }
 
     public Group getGroup() {
@@ -78,5 +85,13 @@ public class Device {
 
     public void setOs(OperatingSystem os) {
         this.os = os;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

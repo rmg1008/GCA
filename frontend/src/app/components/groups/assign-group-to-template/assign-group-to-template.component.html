@@ -1,0 +1,69 @@
+<nav class="text-sm breadcrumbs">
+  <ul>
+    <li *ngFor="let node of selectedPath; let i = index">
+      <a
+        class="link link-hover flex items-center gap-1"
+        [class.text-primary]="i === selectedPath.length - 1"
+        (click)="onBreadcrumbClick(node)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+        {{ node.name }}
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div *ngIf="asignada" class="mb-6 card bg-base-100 shadow p-5">
+  <h2 class="text-lg font-bold mb-3">Plantilla actual asignada</h2>
+  <ul class="text-sm text-gray-700 list-disc list-inside space-y-1">
+    <li><strong>Nombre:</strong> {{ asignada.name }}</li>
+    <li><strong>Descripción:</strong> {{ asignada.description }}</li>
+    <li *ngIf="asignada.os">
+      <strong>Sistema operativo:</strong> 
+      <span *ngIf="asignada.os === 1"> Windows</span>
+      <span *ngIf="asignada.os !== 1">{{ asignada.os }}</span>
+    </li>
+  </ul>
+  <div class="mt-4">
+    <button type="button" class="btn btn-sm btn-error" (click)="unassign()">Eliminar asignación</button>
+  </div>
+</div>
+
+<div *ngIf="!asignada" class="mb-6 card bg-base-100 shadow p-5">
+  <h3 class="text-lg font-semibold mb-4">Asignar plantilla al dispositivo</h3>
+
+  <select class="select select-bordered w-full mb-4"
+          [(ngModel)]="selectedTemplateId"
+          (ngModelChange)="onTemplateChange($event)">
+    <option *ngFor="let template of templates" [value]="template.id">
+      {{ template.name }} - {{ template.description }}
+    </option>
+  </select>
+
+  <div class="flex justify-end">
+    <button type="button"
+            class="btn btn-primary"
+            [disabled]="!selectedTemplateId"
+            (click)="assign()">
+      Asignar
+    </button>
+  </div>
+</div>
+
+<div *ngIf="selectedTemplateCommands?.length" class="card bg-base-100 shadow p-5">
+  <h4 class="text-md font-bold mb-3">Comandos de esta plantilla</h4>
+  <ul class="list-disc list-inside text-sm text-gray-800 space-y-1">
+    <li *ngFor="let cmd of selectedTemplateCommands">
+      {{ renderCommand(cmd.command.value, cmd.parameterValues) }}
+    </li>
+  </ul>
+</div>

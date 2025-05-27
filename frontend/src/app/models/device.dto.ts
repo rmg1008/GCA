@@ -4,4 +4,5 @@ export interface DeviceDTO {
     fingerprint: string;
     group: number;
     os: number;
+    templateId: number;
   }

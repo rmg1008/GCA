@@ -1,0 +1,54 @@
+<dialog #modalRef class="modal">
+  <div class="modal-box max-w-4xl">
+    
+    <h3 class="text-2xl font-bold mb-6 text-primary">Asignación de Plantilla</h3>
+
+    <div *ngIf="device?.templateId && asignada" class="card bg-base-100 shadow mb-6 p-4">
+      <h4 class="text-lg font-bold mb-2">Plantilla actual asignada</h4>
+      <ul class="text-sm text-gray-700 list-disc list-inside space-y-1">
+        <li><strong>Nombre:</strong> {{ asignada.name }}</li>
+        <li><strong>Descripción:</strong> {{ asignada.description }}</li>
+        <li *ngIf="asignada.os"><strong>Sistema operativo:</strong> {{ asignada.os }}</li>
+      </ul>
+      <button type="button" class="btn btn-sm btn-error mt-4" (click)="unassign()">
+        Quitar asignación
+      </button>
+    </div>
+
+    <div *ngIf="!device?.templateId" class="card bg-base-100 shadow p-4 mb-6">
+      <h4 class="text-lg font-semibold mb-4">Asignar nueva plantilla al dispositivo</h4>
+
+      <select class="select select-bordered w-full mb-4" [(ngModel)]="selectedTemplateId" (ngModelChange)="onTemplateChange($event)">
+        <option *ngFor="let template of templates" [value]="template.id">
+          {{ template.name }} - {{ template.description }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="selectedTemplateCommands?.length" class="card bg-base-100 shadow mt-6 p-4">
+      <h4 class="text-md font-bold mb-3">Comandos de esta plantilla</h4>
+
+      <div class="max-h-60 overflow-y-auto pr-2">
+        <ul class="list-disc list-inside text-sm text-gray-800 space-y-1">
+          <li *ngFor="let cmd of selectedTemplateCommands">
+            {{ renderCommand(cmd.command.value, cmd.parameterValues) }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modal-action">
+      <div class="flex justify-center gap-4">
+        <button type="button" class="btn" (click)="close()">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!selectedTemplateId"
+          (click)="assign()">
+          Asignar
+        </button>
+      </div>
+    </div>
+
+  </div>
+</dialog>

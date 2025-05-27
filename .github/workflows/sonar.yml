@@ -44,4 +44,4 @@ jobs:
         working-directory: ./backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build -x test sonarqube --info
+        run: ./gradlew build sonarqube --info -Dspring.profiles.active=test

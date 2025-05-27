@@ -10,13 +10,14 @@ import { DeviceComponent } from '../../device/device.component';
 import { GroupService } from '../../services/group/group.service';
 import { GroupDTO } from '../../models/group.dto';
 import { ToastService } from '../../services/toast/toast.service';
+import { AssignGroupToTemplateComponent } from '../groups/assign-group-to-template/assign-group-to-template.component';
 import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, TreeNodeComponent, DeviceComponent, FormsModule],
+  imports: [CommonModule, RouterModule, TreeNodeComponent, DeviceComponent, FormsModule, AssignGroupToTemplateComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
@@ -25,7 +26,7 @@ export class DashboardComponent implements OnInit {
   private deviceService = inject(DeviceService);
   private groupService = inject(GroupService);
   private toastService = inject(ToastService);
-  
+
   selectedTab: 'dispositivos' | 'plantillas' = 'dispositivos';
   treeData?: TreeNodeDTO;
   currentGroup!: TreeNodeDTO;
@@ -52,7 +53,7 @@ export class DashboardComponent implements OnInit {
       error: (err) => console.error('Error cargando árbol:', err),
     });
   }
-  
+
 
   selectGroup(group: TreeNodeDTO): void {
     this.currentGroup = group;
@@ -68,29 +69,29 @@ export class DashboardComponent implements OnInit {
     if (node.id === targetId) {
       return [node];
     }
-  
+
     for (const child of node.children || []) {
       const path = this.findPathToGroup(child, targetId);
       if (path.length) {
         return [node, ...path];
       }
     }
-  
+
     return [];
   }
-  
+
   onContextMenu({ node, x, y }: { node: TreeNodeDTO; x: number; y: number }): void {
     this.contextMenuGroupId = node.id;
     this.contextMenuPosition = { x, y };
     this.groupToEdit = node;
   }
-  
+
   closeContextMenu(): void {
     this.contextMenuGroupId = null;
   }
 
-  
-  addGroup(): void {
+
+  addGroup(parentId?: number): void {
   this.isEditingGroup = false;
   this.contextMenuGroupId = this.contextMenuGroupId;
   this.groupNameInput = '';
@@ -134,7 +135,7 @@ export class DashboardComponent implements OnInit {
           },
           error: (err) => {
             this.toastService.show("error", "Error al añadir el grupo")
-            
+
           }
         });
       }
@@ -142,7 +143,7 @@ export class DashboardComponent implements OnInit {
       this.closeContextMenu();
   }
 }
-  
+
   deleteGroup(): void {
     if (this.contextMenuGroupId !== null) {
       const groupIdToDelete = this.contextMenuGroupId;
@@ -170,36 +171,36 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  
+
   closeGroupModal(): void {
   (this.groupModalRef.nativeElement as HTMLDialogElement).close();
 }
 
   findParentNode(current: TreeNodeDTO, childId: number): TreeNodeDTO | null {
     if (!current.children) return null;
-  
+
     for (const child of current.children) {
       if (child.id === childId) {
         return current;
       }
-  
+
       const found = this.findParentNode(child, childId);
       if (found) return found;
     }
-  
+
     return null;
   }
 
   saveOpenedNodes(): void {
     this.openedNodeIds = this.selectedPath.map(node => node.id);
   }
-  
+
   restoreOpenedNodes(): void {
     if (!this.treeData || this.openedNodeIds.length === 0) return;
-  
+
     const path: TreeNodeDTO[] = [];
     let currentLevel = this.treeData;
-  
+
     for (const id of this.openedNodeIds) {
       const match = this.findNodeById(currentLevel, id);
       if (match) {
@@ -207,22 +208,22 @@ export class DashboardComponent implements OnInit {
         currentLevel = match.children?.[0] ?? match;
       }
     }
-  
+
     this.selectedPath = path;
   }
-  
+
   findNodeById(node: TreeNodeDTO, id: number): TreeNodeDTO | null {
     if (node.id === id) return node;
-  
+
     for (const child of node.children || []) {
       const found = this.findNodeById(child, id);
       if (found) return found;
     }
-  
+
     return null;
   }
-  
-  
+
+
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     const modalOpen = (this.groupModalRef?.nativeElement as HTMLDialogElement)?.open;

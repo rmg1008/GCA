@@ -3,47 +3,31 @@ package com.gca.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeNodeDTO {
-    private Long id;
-    private String name;
-    private List<TreeNodeDTO> children = new ArrayList<>();
+public class TreeNodeDTO extends BaseDTO {
+    private final List<TreeNodeDTO> children = new ArrayList<>();
+    @SuppressWarnings("unused")
     private Long parentId;
+    private Long templateId;
 
-    public TreeNodeDTO(Long id, String name, Long parentId) {
-        this.id = id;
-        this.name = name;
+    public TreeNodeDTO() {
+    }
+
+    public TreeNodeDTO(Long id, String name, Long parentId, Long templateId) {
+        super.setId(id);
+        super.setName(name);
         this.parentId = parentId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.templateId = templateId;
     }
 
     public List<TreeNodeDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<TreeNodeDTO> children) {
-        this.children = children;
+    public Long getTemplateId() {
+        return templateId;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 }

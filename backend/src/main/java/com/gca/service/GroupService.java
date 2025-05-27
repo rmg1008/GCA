@@ -15,5 +15,9 @@ public interface GroupService {
 
     Long createGroup(GroupDTO group);
 
-    Long updateGroup(GroupDTO group) throws Exception;
+    Long updateGroup(GroupDTO group);
+
+    void assignTemplateToGroup(Long groupId, Long templateId);
+
+    void unassignTemplateToGroup(Long groupId);
 }

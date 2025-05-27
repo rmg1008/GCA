@@ -2,7 +2,7 @@
 <nav class="text-sm breadcrumbs mb-4">
     <ul>
       <li *ngFor="let node of selectedPath; let i = index">
-        <a 
+        <a
           class="link link-hover"
           [class.text-primary]="i === selectedPath.length - 1"
           (click)="onBreadcrumbClick(node)">
@@ -37,17 +37,23 @@
       <tr *ngFor="let device of devices" class="hover">
         <td>
           <div class="flex gap-2 justify-center">
-            <button 
-              class="btn btn-xs btn-outline btn-error tooltip" 
+            <button
+              class="btn btn-xs btn-outline btn-error tooltip"
               data-tip="Eliminar"
               (click)="deleteDevice(device.id)">
               <i class="fa-solid fa-trash"></i>
             </button>
-            <button 
+            <button
               (click)="openModal(device)"
-              class="btn btn-xs btn-outline btn-info tooltip" 
+              class="btn btn-xs btn-outline btn-info tooltip"
               data-tip="Editar">
               <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button
+              (click)="openAssignModal(device)"
+              class="btn btn-xs btn-outline tooltip"
+              data-tip="Asignar Plantilla">
+              <i class="fa-solid fa-wrench"></i>
             </button>
           </div>
         </td>
@@ -60,9 +66,9 @@
 </div>
 
 <div *ngIf="selectedPath.length" class="p-2">
-    <button 
+    <button
     (click)="openModal()"
-    class="btn btn-xs btn-outline btn-success tooltip" 
+    class="btn btn-xs btn-outline btn-success tooltip"
     data-tip="Añadir">
     Añadir dispositivo
     </button>
@@ -74,7 +80,7 @@
     } @else {
         <p class="text-sm text-gray-500 italic mt-4">Selecciona un grupo para ver los dispositivos.</p>
       }
-  
+
 </ng-template>
 
 <app-device-form-modal
@@ -83,3 +89,9 @@
 [group]="selectedPath[selectedPath.length - 1]"
 (saved)="handleSave($event)"
 ></app-device-form-modal>
+
+<app-assign-device2-template
+  #assignTemplateModal
+  [device]="selectedDeviceToAssign"
+  (assigned)="handleTemplateAssigned($event)"
+></app-assign-device2-template>

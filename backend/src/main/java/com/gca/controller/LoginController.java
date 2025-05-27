@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import javax.security.auth.login.LoginException;
 
 @RestController
 public class LoginController {
@@ -25,21 +26,21 @@ public class LoginController {
     private AuthenticationManager authManager;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User usuario){
+    public ResponseEntity<String> register(@RequestBody User usuario){
         userService.save(usuario);
         return ResponseEntity.ok("Usuario registrado");
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) throws Exception{
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO loginDTO) throws LoginException{
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
             );
 
         }catch (BadCredentialsException ex){
-            throw new Exception("Error de email o contraseña " + ex.getMessage());
+            throw new LoginException("Error de email o contraseña " + ex.getMessage());
         }
 
         final User userDetails = userService.findByEmail(loginDTO.getEmail());
