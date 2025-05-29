@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: gca-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASS}
+      MARIADB_DATABASE: GCA
+    ports:
+      - "3306:3306"
+    healthcheck:
+      : ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - gca-net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: gca-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      JWT_SECRET: ${JWT_SECRET}
+      APP_SECRET: ${APP_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASS: ${ADMIN_PASS}
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - gca-net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: gca-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - gca-net
+
+volumes:
+  mariadb_data:
+
+networks:
+  gca-net:
