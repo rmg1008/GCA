@@ -14,6 +14,8 @@ import com.gca.repository.OsRepository;
 import com.gca.repository.TemplateRepository;
 import com.gca.service.CipherService;
 import com.gca.service.DeviceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.Optional;
 
 @Service
 public class DefaultDeviceServiceImpl implements DeviceService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDeviceServiceImpl.class);
 
     private final DeviceRepository deviceRepository;
     private final GroupRepository groupRepository;
@@ -77,6 +81,7 @@ public class DefaultDeviceServiceImpl implements DeviceService {
     public List<DeviceDTO> searchDeviceByGroup(Long group) {
         List<DeviceDTO> deviceDTOS = new ArrayList<>();
         List<Device> devices = deviceRepository.findByGroup_Id(group).orElse(List.of());
+        LOGGER.debug("Se han encontrado {} dispositivos para el grupo {}", devices.size(), group);
         for (Device device : devices) {
             DeviceDTO deviceDTO = new DeviceDTO();
             deviceDTO.setId(device.getId());
@@ -92,6 +97,7 @@ public class DefaultDeviceServiceImpl implements DeviceService {
 
     @Override
     public void assignTemplateToDevice(Long templateId, Long deviceId) {
+        LOGGER.info("Asignando template {} al dispositivo {}", templateId, deviceId);
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new DeviceException("Device not found", GCAException.ErrorType.NOT_FOUND));
         Template template = templateRepository.findById(templateId)
@@ -103,6 +109,7 @@ public class DefaultDeviceServiceImpl implements DeviceService {
 
     @Override
     public void unassignTemplateToDevice(Long deviceId) {
+        LOGGER.info("Desasignando template al dispositivo {}", deviceId);
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new DeviceException("Device not found", GCAException.ErrorType.NOT_FOUND));
         device.setTemplate(null);

@@ -11,6 +11,8 @@ import com.gca.repository.CommandRepository;
 import com.gca.repository.OsRepository;
 import com.gca.repository.TemplateRepository;
 import com.gca.service.TemplateService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class DefaultTemplateServiceImpl implements TemplateService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTemplateServiceImpl.class);
 
     private final TemplateRepository templateRepository;
     private final CommandRepository commandRepository;
@@ -72,8 +76,10 @@ public class DefaultTemplateServiceImpl implements TemplateService {
                     .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(literal, literal, pageable);
         } else {
             templatePage = templateRepository.findAll(pageable);
+            LOGGER.info("No se ha proporcionado un literal para la búsqueda, se devuelven todas los templates");
         }
 
+        LOGGER.debug("Se han encontrado {} templates", templatePage.getTotalElements());
         List<TemplateDTO> dtoList = templatePage.getContent().stream()
                 .map(template -> {
                     TemplateDTO dto = new TemplateDTO();

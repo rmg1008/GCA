@@ -6,6 +6,8 @@ import com.gca.dto.TokenDTO;
 import com.gca.security.JwtUtil;
 import com.gca.service.UserService;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,6 +17,8 @@ import javax.security.auth.login.LoginException;
 
 @RestController
 public class LoginController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @Resource
     UserService userService;
@@ -27,6 +31,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User usuario){
+        LOGGER.debug("Registrar usuario: {}", usuario);
         userService.save(usuario);
         return ResponseEntity.ok("Usuario registrado");
     }

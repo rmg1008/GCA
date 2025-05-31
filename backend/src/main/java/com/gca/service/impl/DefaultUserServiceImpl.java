@@ -4,6 +4,8 @@ import com.gca.domain.User;
 import com.gca.repository.RoleRepository;
 import com.gca.repository.UserRepository;
 import com.gca.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultUserServiceImpl implements UserService, UserDetailsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUserServiceImpl.class);
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -28,6 +32,7 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findByEmail(String email) {
+        LOGGER.debug("Buscando usuario por email: {}", email);
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
@@ -36,6 +41,7 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.getRoleByName("Gestor"));
         userRepository.save(user);
+        LOGGER.info("Se ha creado el usuario {}", user.getEmail());
     }
 
     @Override
