@@ -1,7 +1,207 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 
-Este apartado pretende recoger los aspectos más interesantes del desarrollo del proyecto, comentados por los autores del mismo.
-Debe incluir desde la exposición del ciclo de vida utilizado, hasta los detalles de mayor relevancia de las fases de análisis, diseño e implementación.
-Se busca que no sea una mera operación de copiar y pegar diagramas y extractos del código fuente, sino que realmente se justifiquen los caminos de solución que se han tomado, especialmente aquellos que no sean triviales.
-Puede ser el lugar más adecuado para documentar los aspectos más interesantes del diseño y de la implementación, con un mayor hincapié en aspectos tales como el tipo de arquitectura elegido, los índices de las tablas de la base de datos, normalización y desnormalización, distribución en ficheros3, reglas de negocio dentro de las bases de datos (EDVHV GH GDWRV DFWLYDV), aspectos de desarrollo relacionados con el WWW...
-Este apartado, debe convertirse en el resumen de la experiencia práctica del proyecto, y por sí mismo justifica que la memoria se convierta en un documento útil, fuente de referencia para los autores, los tutores y futuros alumnos.
+En este punto se detallan los aspectos más relevantes en el desarrollo del proyecto, desde la primera reunión con el tutor para la
+elección del tema, hasta la entrega del mismo.
+
+\section{Elección del proyecto}\label{sec:eleccion-del-proyecto}
+
+En la primera reunión con el tutor, se enumeraron los posibles temas para el Trabajo de Fin de Grado.
+
+El motivo de la elección de este tema viene motivado por experiencias de desarrollo pasadas, donde realicé una aplicación
+web para la gestión de las escuelas deportivas del centro donde cursé el CFGS de Desarrollo de Aplicaciones Web (DAW).
+
+\section{Métodos de trabajo}\label{sec:metodos-de-trabajo}
+
+A pesar de no contar con un equipo de trabajo, se decidió seguir una metodología ágil, concretamente Scrum; al no
+contar, evidentemente, con un equipo de trabajo, no se ha aplicado de una manera estricta, pero se han seguido los
+principios básicos de la misma:
+\begin{itemize}
+    \item \textbf{Sprint}: se han realizado sprints de dos semanas, donde se planifica el trabajo a realizar
+    según un orden de prioridades.
+    \item \textbf{Reuniones semanales}: cada semana, los lunes concretamente, se mantuvieron reuniones con el tutor
+    para revisar el avance del proyecto (a modo de \textit{demo}) y resolver dudas.
+    \item \textbf{Backlog}: en esta lista se han ido añadiendo, durante el curso del desarrollo del proyecto,
+    todo tipo de tareas a realizar (de análisis, documentación,
+    diseño, desarrollo, pruebas\ldots).
+\end{itemize}
+
+En cuanto al desarrollo con Scrum, no se define un conjunto de fases específicas, sino que se trabaja de una forma
+iterativa e incremental: en cada sprint se van añadiendo nuevas funcionalidades y se van corrigiendo errores.
+
+\section{Fase de análisis}\label{sec:fase-de-analisis}
+
+Durante este periodo, se dedicaron varias sesiones a la recopilación de información sobre el tema a desarrollar, las distintas
+necesidades de los usuarios y la manera de satisfacerlas.
+
+La idea principal era crear una herramienta que permitiese gestionar, de forma centralizada, el acceso a la red de
+los dispositivos que dispone la Universidad.
+Para ello, se estudió la forma de gestionar este acceso desde la consola de comandos y se descubrieron herramientas que
+permitían esta gestión, como el firewall de Windows y Netsh.
+
+Uno de los principales problemas que surgieron fue la manera de identificar a cada dispositivo de forma única.
+La primera idea fue utilizar el GUID del dispositivo, pero se descubrió que los dispositivos del centro son
+clonados, y, por lo tanto, comparten el mismo, por lo que se tuvo que descartar irremediablemente esta vía.
+
+Ante esta dificultad, se planteó la posibilidad de combinar este identificador GUID con el nombre del dispositivo para
+crear una huella única.
+
+Estos dispositivos se guardarían en una base de datos junto con las configuraciones que se pretendan aplicar.
+Un detalle importante que se especificó en esta fase, es que contaríamos con grupos o localizaciones de dispositivos
+que formarían una jerarquía y, así, se podrían aplicar configuraciones de carácter general a todos los dispositivos que
+pertenecen a cada grupo.
+
+\section{Fase de diseño}\label{sec:fase-de-diseno}
+
+Barajamos la posibilidad de utilizar un script que se mantuviese en ejecución en segundo plano, pero se
+descartó por ser poco eficiente y seguro.
+En su lugar, decidimos utilizar un ejecutable y mantenerlo activo de forma continua, mediante el programador de
+tareas de Windows; de esta manera, se restringe la posibilidad de que un usuario pueda modificar el script y ejecutar
+comandos que puedan comprometer la seguridad del sistema.
+Las tecnologías propuestas para el ejecutable fueron Java y Python, pero la creación de un ejecutable (.exe) en Java
+causó muchos problemas y no se pudo realizar.
+Con un archivo JAR sí se pudo crear, pero generaba la necesidad de tener instalado Java en cada dispositivo.
+Por eso se optó por utilizar Python, ya que permite crear un ejecutable independiente del sistema operativo.
+
+En cuanto a la base de datos (BD) se decidió utilizar un modelo relacional, porque los datos a almacenar son de
+carácter estructurado y van a tener relación entre ellos.
+
+Para la API se decidió utilizar un modelo REST, ya que es el más utilizado en la actualidad y permite una fácil
+interacción entre el cliente y el servidor.
+La herramienta elegida fue Spring Boot y Java, debido a que está enfocada a la creación de servicios REST y cuenta con una
+gran cantidad de herramientas y librerías ya instaladas.
+
+Por último, se decidió crear una interfaz web para realizar toda la gestión de manera centralizada: por compatibilidad
+y por ser uno de los frameworks actuales más utilizados, se decidió utilizar Angular.
+
+Con toda esta estructura, aseguramos que la aplicación sea escalable y fácil de mantener, e incluso si se quisiese
+crear una aplicación para smartphone en un futuro, se podría reutilizar la parte backend, agilizando el proceso de
+desarrollo de la app.
+
+\section{Fase de desarrollo}\label{sec:fase-de-desarrollo}
+
+La construcción del código comienza con el ejecutable en Python: una primera versión con una ventana
+y un formulario para iniciar sesión, y, tras la autenticación, un botón para registrar el dispositivo
+en la base de datos.
+
+El principal desafío consistió en crear un instalador.
+Para ello, se utilizó Inno Setup combinado con el ejecutable (.exe) generado mediante la librería PyInstaller; esto
+permitió no solo instalar la aplicación en el dispositivo, sino también mantenerla en ejecución en segundo plano,
+mostrando un icono en la barra de tareas.
+
+
+El siguiente paso fue la creación de la API con la base de datos, que se realizó de forma paralela al ejecutable.
+La configuración inicial de la API con Spring Boot fue lo más tedioso, porque fue necesario instalar todas aquellas
+dependencias que se van a utilizar, además de establecer la estructura de carpetas y archivos.
+La forma de autenticación elegida fue mediante JWT, una de las más utilizadas en la actualidad, lo que hace posible
+una fácil interacción entre el cliente y el servidor.
+Se implementaron, de manera gradual, los distintos casos de uso de la API, generando diferentes endpoints para
+cada uno de estos.
+Añadimos SonarCloud para el análisis de la calidad del código con GitHub Actions; sin embargo, inicialmente, se
+desactivaron los tests porque la BD no es en memoria ni se contaba con Docker, además tuvimos que utilizar una versión
+de Java inferior a la 21, ya que SonarCloud soporta hasta la 17.
+
+Para el desarrollo de la interfaz web, fue necesario descargar Node.js y Angular CLI con tal de generar el proyecto
+y sus dependencias.
+A partir de este paso, cualquier librería externa se añade mediante el gestor de paquetes NPM\@.
+Utilizamos Tailwind CSS + DaisyUI para el diseño de la interfaz, ya que incluye estilos predefinidos para
+maquetar la aplicación.
+
+La interfaz web se desarrolla de forma paralela a la API: primero se escriben los tests de la API, y a continuación, se escribe
+el código necesario para que pasen, aplicando el desarrollo dirigido por pruebas (TDD); por último, se implementa la interfaz web.
+Una de las funcionalidades más difíciles de implementar fue la estructura arbórea de los grupos situada en el menú
+izquierdo de la interfaz; tenía que cargar de forma dinámica el listado de dispositivos que pertenecen a cada uno en
+la parte derecha, además de mantener la concordancia con los datos.
+Esto es clave, porque facilita al usuario la gestión de los dispositivos de una manera intuitiva y rápida.
+
+La gestión de plantillas y comandos se implementa de una manera en la que se crean los comandos ``fijos``, y estos
+son añadidos a las distintas plantillas.
+No obstante, se descubrió que esta lógica no era muy eficaz.
+Si queríamos, por ejemplo, añadir un valor a un comando de una dirección IP, teníamos que crear un comando para cada
+dirección, lo que resultaría tremendamente tedioso y se perdería la agilidad que pretendemos conseguir de forma general con GCA.
+Para solventar este problema, se estableció una estructura básica para añadir valores tal que el valor de un comando que contenga \verb|{{variable}}|
+sirve para cambiar el valor de esa variable al asignarse a una plantilla.
+
+Cuando terminamos con la construcción de la API (o, al menos, el desarrollo de aquellas estructuras que se consideraron
+necesarias para su funcionamiento), se decidió mejorar la aplicación Python para el cliente.
+Inicialmente, había demasiada lógica en cada archivo .py, por lo que creamos clases más pequeñas con una lógica bien definida.
+El funcionamiento de mostrar / ocultar botones limita el desarrollo y añade lógica innecesaria, por lo que se opta por
+crear frames o páginas y añadir en estas los elementos necesarios.
+En nuestro caso, creamos una página para iniciar sesión y otra para mostrar el panel de usuario una vez iniciada.
+Otro punto a destacar aquí es que, cuando intentamos realizar el registro de un equipo y aplicar la configuración,
+no se sabía qué estaba ocurriendo, más allá de alguna alerta programada.
+Introdujimos un recuadro para ir mostrando todos los logs de la aplicación mediante diferentes colores: los de
+información en azul, advertencias en naranja y errores en rojo.
+
+Tras conseguir una primera aplicación de la configuración asignada a un dispositivo, comenzaron los problemas:
+\begin{itemize}
+    \item Al deshabilitar la red para el dispositivo, se perdía la conectividad a la API.
+    \item Tras aplicar la configuración de plantilla, quitar la asignación y añadir otra diferente, no se aplicaba
+    correctamente.
+    \item Al bloquear toda conexión saliente de la interfaz, no podíamos conectar de nuevo a la API.
+\end{itemize}
+
+Tuvimos que trabajar en el algoritmo para aplicar la configuración; así, el funcionamiento queda definido de la siguiente
+manera:
+
+\begin{enumerate}
+    \item Se restaura la copia de seguridad.
+    \item Se eliminan los registros de plantillas anteriores.
+    \item A partir de aquí, se comprueba de manera periódica la existencia de configuración a aplicar.
+    \item Se obtiene el valor de la huella digital almacenada en el dispositivo.
+    \item Si existe una huella digital, se solicita al servidor la configuración a aplicar.
+    \item Si se reciben datos de configuración:
+    \begin{itemize}
+        \item Se comprueba si la configuración obtenida es más actual que la que tiene el equipo.
+        \item Si hay cambios, se restaura la copia de seguridad y se aplican los comandos.
+        \item Se actualizan los valores en el registro del dispositivo.
+    \end{itemize}
+    \item Si no hay configuración o está vacía, se revisa si se ha eliminado la asignación del equipo y restaura.
+    \item Se espera el tiempo definido antes de reiniciar el ciclo.
+\end{enumerate}
+
+La copia de seguridad se realiza una única vez en el momento de registrar el equipo, de forma que nos aseguramos de que
+el dispositivo pueda volver a su estado original ante cualquier imprevisto.
+Esta copia incluye la configuración del firewall y la configuración de red.
+En el proceso de restauración también se habilitan de nuevo las interfaces de red y se configuran las reglas de firewall
+para mantener la conexión a las URL's configuradas en el json como permitidas.
+
+\section{Fase de pruebas}\label{sec:fase-de-pruebas}
+
+Las pruebas se realizan de manera continua a lo largo de todo el ciclo del desarrollo: para el backend utilizamos las
+librerías JUnit para pruebas unitarias, y Spring Boot Test para pruebas de integración.
+
+En primer lugar, escogimos la misma BD con la que inicia la API para ejecutar los tests, pero esto generaba
+conflictos con los datos, por lo que se decidió utilizar una BD en memoria, H2, para realizar las pruebas.
+Para la configuración de la BD en memoria, creamos un nuevo archivo de application.properties dentro del directorio
+de test/resources.
+Este archivo contiene la configuración de la BD en memoria, y se carga automáticamente al ejecutar los tests.
+Aquí surgió un problema: los scripts se ejecutaban antes de que Hibernate crease la BD dando lugar a errores de inserción.
+Para que funcionase correctamente, según lo propuesto en StackOverflow\cite{stackoverflowSpringBootError},
+fue necesario añadir la siguiente propiedad spring.jpa.defer-datasource-initialization=true para invertir el orden, y
+que primero se generase la estructura y después se insertase los datos.
+
+Una vez configurada la BD en memoria, se vuelven a activar los tests en SonarQube Cloud, pero se producen una serie
+de errores relacionados con el contexto de Spring.
+Aquellos test que hacen uso de la anotación @SpringBootTest levantan el contexto, permiten inyectar beans y utilizar
+todos los componentes, y como resultado, se ejecutaban de nuevo los scripts de la base de datos.
+Existía una confusión entre las tablas generadas por JPA y los scripts que se ejecutaban para la BD en memoria,
+por lo que se ajustó poniendo todos los nombres de tablas en minúsculas, y para los tests de spring,
+estableciendo el perfil activo a la hora de ejecutar los tests de ''tests''.
+De esta manera, solamente se ejecutan aquellas propiedades dentro de la carpeta test/.
+
+Mediante este enfoque conseguimos un entorno de pruebas aislado, reproducible y compatible con SonarQube.
+
+Las pruebas de la aplicación cliente se hicieron de manera manual, tratando de cubrir todos aquellos casos que
+se puedan dar, como por ejemplo:
+\begin{itemize}
+    \item Asignar una plantilla de configuración vacía.
+    \item Asignar una plantilla a un dispositivo y al grupo directo al que pertenece y ver qué plantilla se obtiene.
+    \item Eliminar la plantilla asignada y ver qué sucede con la configuración.
+    \item Reiniciar / Apagar el dispositivo y comprobar que se aplique la configuración correcta.
+\end{itemize}
+
+De esta manera, aseguramos que la funcionalidad más importante esté cubierta.
+
+Por último, para la aplicación web, al alojar un número reducido de funcionalidades, simplemente se comprueba que
+toda la gestión de dispositivos, grupos, comandos y plantillas sea correcta, es decir, que se pueda añadir, eliminar,
+modificar y listar.
