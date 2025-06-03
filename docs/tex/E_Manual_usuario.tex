@@ -2,10 +2,391 @@
 
 \section{Introducción}
 
+El público al que va dirigido este manual son los usuarios de la aplicación GCA: Administradores y Gestores.
+Por lo que para entender su contenido, se asume que el lector tiene conocimientos en la administración de sistemas y
+redes.
+Este manual tiene como objetivo detallar todos aquellos aspectos que se consideran necesarios para los usuarios,
+desde la instalación y sus requisitos hasta el uso de la aplicación.
+
 \section{Requisitos de usuarios}
+
+Es importante mencionar que GCA utiliza dos herramientas:
+\begin{itemize}
+    \item \textbf{Plataforma web}
+    \item \textbf{Aplicación cliente}
+\end{itemize}
+
+\subsection{Plataforma web}
+
+Para la utilización de la web, se requiere de:
+\begin{itemize}
+    \item Navegador web moderno (Google Chrome, Microsoft Edge o Firefox actualizados a su última versión).
+    \item Conexión a internet estable.
+    \item Dispositivo con una resolución mínima de 1280x720 píxeles.
+    \item Acceso a la URL de la plataforma y credenciales proporcionadas por el administrador del sistema.
+\end{itemize}
+
+\subsection{Aplicación cliente}
+
+Para la aplicación de escritorio, es necesario instalar el agente en un dispositivo con sistema operativo
+Windows.
+Los requisitos son:
+\begin{itemize}
+    \item Sistema operativo Windows (64 bits) o superior.
+    \item Procesador con, al menos, dos núcleos para asegurar una ejecución fluida de los procesos en paralelo.
+    \item Al menos 100 MB de espacio libre en el disco.
+    \item Permisos de administrador.
+    \item Conexión a internet para comunicarse con el servidor.
+    \item Credenciales de acceso al sistema, las mismas que se utilizan en la web.
+\end{itemize}
 
 \section{Instalación}
 
+\subsection{Plataforma web}
+
+La plataforma web no requiere ninguna instalación, simplemente acceder a la URL proporcionada por el administrador
+del sistema.
+
+\subsection{Aplicación cliente}
+
+Para ello, es necesario descargar el instalador.
+Se puede acceder a él a través del siguiente
+\href{https://github.com/rmg1008/GCA/blob/main/client/output/GCA_Installer.exe}{enlace} o utilizar el proporcionado
+por el administrador del sistema.
+
+\imagen{gca_installer.png}{Instalador aplicación cliente}{0.5}
+
+Una vez descargado:
+\begin{itemize}
+    \item Clic derecho sobre el instalador y pulsamos en ``Ejecutar como administrador``: aparecerá un recuadro
+    de confirmación para permitir su ejecución.
+    \item Se abrirá un asistente de instalación.
+    Escogemos la ruta para instalarlo: podemos utilizar la que viene por defecto y pulsamos en ``Siguiente``.
+    \item Elegir dónde colocar el acceso directo y pulsar ``Siguiente``.
+    \item Marcar la casilla si se quiere crear un acceso directo en el escritorio y pulsar ``Siguiente``.
+    \item Por último, cuando se muestra el resumen de la configuración selecciona, pulsar ``Instalar``.
+    \item Una vez instalado, se muestra una última ventana que nos permite lanzar directamente la aplicación.
+\end{itemize}
+
+\imagen{gca_installer_1.png}{Ventana para elegir la ruta de instalación}{0.7}
+
+\imagen{gca_installer_2.png}{Ventana resumen de la configuración seleccionada}{0.7}
+
+\imagen{gca_installer_3.png}{Finalización de la instalación}{0.7}
+
+Siguiendo estos pasos, la aplicación se instala correctamente.
+Sin embargo, es necesario realizar una última configuración para permitir su ejecución sin ser eliminada por Windows
+Defender.
+
+\begin{itemize}
+    \item Acude a ``Seguridad de Windows`` - ``Protección contra virus y amenazas``
+    \item Haz clic en ``Administrar configuración`` y busca ``Añadir o quitar exclusiones``.
+    \item Añade la carpeta dónde se ha instalado la aplicación.
+    \item Puedes obtener más información en el siguiente
+    \href{https://consumer.huawei.com/es/support/content/es-es00694627/#:~:text=Acceda%20a%20Seguridad%20de%20Windows,o%20quitar%20exclusiones%20en%20Exclusiones.}
+    {tutorial}.
+\end{itemize}
+
+Tras realizar la configuración, la aplicación se encuentra totalmente lista para ser ejecutada.
+
+\imagen{gca_installer_4.png}{Exclusión de la aplicación GCA}{0.5}
+
 \section{Manual del usuario}
 
+Se detallan los procesos necesarios para la utilización de ambas herramientas.
 
+\subsection{Plataforma web}
+
+Toda la plataforma web se divide en diferentes secciones, cada una de ellas con un propósito específico.
+\begin{enumerate}
+    \item \textbf{Cabecera}.
+    En la parte superior de la pantalla, se muestra el icono de la aplicación a la izquierda, y los
+    enlaces a las diferentes secciones de la plataforma a la derecha.
+    \item \textbf{Contenido principal}.
+    En el centro de la pantalla, se muestra el contenido principal de la página
+    seleccionada.
+    Dependiendo de la página, se mostrarán diferentes elementos, como tablas, formularios, buscadores, etc.
+    \item \textbf{Pie de página}.
+    En la parte inferior de la pantalla, se muestra el nombre de la aplicación y la licencia
+    bajo la que se distribuye.
+\end{enumerate}
+
+El acceso a la plataforma web se realiza mediante el inicio de sesión, donde se debe introducir el correo del usuario
+y la contraseña.
+\imagen{gca_web.png}{Página de Inicio de Sesión de la plataforma web}{1}
+
+Tras introducir las credenciales correctamente, se muestra la página principal de la plataforma:
+
+\imagen{dashboard_web.png}{Página principal de la plataforma web}{1}
+
+Dentro del contenido principal, se observan diferentes secciones:
+\begin{itemize}
+    \item \textbf{Menú lateral izquierdo}.
+    A la izquierda de la pantalla, se muestra un menú con los diferentes grupos que conforman la plataforma.
+    El grupo raíz ``UBU`` contiene a todos los demás grupos, y siempre se muestra al inicio.
+    Para mostrar el resto de grupos (si los hay), se debe hacer clic en el desplegable, y se abrirá un listado de los diferentes
+    grupos que tiene como hijos.
+    \item \textbf{Sección central}.
+    La sección central se distribuye en dos pestañas: dispositivos y plantillas.
+    Por defecto, se muestra la pestaña de dispositivos.
+    Si no se ha seleccionado ningún grupo o el grupo seleccionado no tiene dispositivos, se muestra una indicación de
+    que no hay dispositivos en el grupo.
+    Si se ha seleccionado un grupo que tiene dispositivos, se muestra una tabla con los dispositivos del grupo y
+    diferentes opciones para interactuar con ellos.
+    En cada pestaña se muestra la ruta completa del grupo seleccionado, desde el grupo raíz hasta el grupo actual, y
+    se puede navegar por estos haciendo clic en el nombre del grupo.
+\end{itemize}
+
+\subsubsection{Gestión de grupos}
+
+La gestión de grupos se realiza desde el menú lateral izquierdo, donde se pueden crear, editar y eliminar grupos.
+Para ello, se debe hacer clic derecho sobre un grupo y se desplegará un menú con las diferentes opciones:
+
+\imagen{menu_grupos.png}{Menú de gestión de grupos}{0.5}
+
+\begin{itemize}
+    \item \textbf{Añadir grupo}.
+    Inserta un nuevo grupo.
+    Se debe introducir el nombre de este y se generará dentro del grupo seleccionado.
+    \item \textbf{Modificar grupo}.
+    Edita el nombre del grupo seleccionado.
+    \item \textbf{Eliminar grupo}.
+    Elimina el grupo seleccionado.
+    Si este tiene dispositivos o grupos hijos, se mostrará un mensaje de error indicando que no se puede eliminar.
+\end{itemize}
+
+Para la asignación de plantillas a un grupo, hay que seleccionar la pestaña de plantillas.
+Si no se selecciona un grupo, la pestaña se mantiene deshabilitada.
+Una vez seleccionado un grupo, si no tiene plantillas, se muestra un desplegable con las plantillas disponibles y
+los comandos que se ejecutarán al asignar la plantilla.
+
+\imagen{asignar_plantilla_grupo_form.png}{Asignación de plantilla a un grupo}{1}
+
+Si el grupo ya tiene una plantilla asignada, se muestra un botón de ``Eliminar asignación``:
+
+\imagen{desasignar_plantilla_grupo_form.png}{Desasignación de plantilla a un grupo}{1}
+
+\subsubsection{Gestión de dispositivos}
+
+La gestión de dispositivos se realiza desde la pestaña de dispositivos: se muestra una tabla donde se pueden eliminar,
+editar y asignar plantillas a los dispositivos:
+
+\imagen{gestion_dispositivos.png}{Tabla de dispositivos}{1}
+
+\imagen{eliminar_dispositivos.png}{Icono para eliminar un dispositivo}{0.1}
+
+\imagen{modificar_dispositivos.png}{Icono para editar un dispositivo}{0.1}
+
+\imagen{asignar_dispositivos.png}{Icono para asignar una plantilla a un dispositivo}{0.1}
+
+\begin{itemize}
+    \item \textbf{Eliminar dispositivo}.
+    Elimina el dispositivo seleccionado previa confirmación.
+    \item \textbf{Añadir dispositivo}.
+    Esta funcionalidad se utiliza a modo de ejemplo, ya que para añadir un dispositivo se debe utilizar la aplicación cliente.
+    \item \textbf{Editar dispositivo}
+    Edita la información del dispositivo seleccionado.
+    \item \textbf{Asignar plantilla}.
+    Asigna una plantilla al dispositivo seleccionado.
+    Se debe seleccionar la plantilla de la lista de plantillas existentes.
+    \item \textbf{Desasignar plantilla}.
+    Desasigna la plantilla del dispositivo seleccionado.
+\end{itemize}
+
+El formulario para editar un dispositivo es el siguiente:
+
+\imagen{modificar_dispositivo_form.png}{Formulario de edición de dispositivo}{1}
+
+Se pueden editar los campos de nombre, sistema operativo y grupo al que pertenece.
+Una vez validados los datos, se pulsa en ``Guardar`` y se actualiza la tabla de dispositivos mostrando un mensaje de
+éxito.
+
+Para la asignación de plantillas a un dispositivo, al hacer clic en el icono de asignar plantilla, se muestra un
+diálogo con una lista de las plantillas disponibles: se selecciona la plantilla deseada y se pulsa en ``Asignar``:
+
+\imagen{asignar_plantilla_dispositivo_form.png}{Asignación de plantilla a un dispositivo}{1}
+
+Una vez seleccionada una plantilla, en la parte inferior del diálogo se muestra un resumen de los comandos que serán
+ejecutados en el dispositivo.
+Si no aparecen comandos es porque la plantilla no tiene ninguno asociado.
+
+Para desasignar una plantilla, se utiliza el mismo icono de asignar plantilla: ahora se muestra un botón de
+``Desasignar plantilla``:
+
+\imagen{desasignar_plantilla_dispositivo_form.png}{Desasignación de plantilla a un dispositivo}{1}
+
+\subsubsection{Gestión de comandos}
+
+Para acceder a la gestión de comandos, se debe pulsar en el enlace de ``Comandos`` que se encuentra en la cabecera
+de la plataforma web.
+
+Se muestra una tabla paginada con los comandos existentes y un buscador para filtrarlos por nombre o descripción.
+En cada fila de la tabla, se muestra un icono para editar el comando y otro para eliminarlo.
+Para añadir un nuevo comando, se debe pulsar en el botón ``Añadir`` que se encuentra en la parte superior derecha de la
+página.
+
+\imagen{gestion_comandos.png}{Gestion de comandos}{1}
+
+Tanto para añadir como para editar un comando, se muestra un formulario donde se deben introducir los siguientes campos:
+\begin{itemize}
+    \item \textbf{Nombre}: nombre del comando.
+    \item \textbf{Descripción}: descripción del comando.
+    \item \textbf{Comando}: el comando que se pretende ejecutar en el dispositivo.
+    Se pueden insertar variables en el comando, las cuales serán sustituidas por los valores que se definan en la
+    plantilla a la que se asigne el comando.
+    Deben tener el formato \texttt{\{\{nombre\_variable\}\}}, donde \texttt{nombre\_variable} se reemplazará por el
+    valor correspondiente.
+\end{itemize}
+
+\imagen{añadir_comando.png}{Formulario para un comando}{1}
+
+En este ejemplo, se inserta un comando de prueba que realiza un ping a una dirección IP de manera dinámica.
+A la hora de asignar este comando a una plantilla, se puede definir la variable \texttt{direcciónIP} con el valor
+deseado, y el comando se ejecutará con ese valor en lugar de la variable.
+
+El botón ''Guardar'' valida los datos introducidos y, si son correctos, añade o edita el comando en la tabla.
+
+Para la eliminación de un comando, se debe pulsar en el icono de ''Eliminar'', y se mostrará un mensaje de
+confirmación para eliminar el comando.
+Si el comando no está asociado a ninguna plantilla, se eliminará; si lo está, se mostrará un mensaje de error.
+
+\subsubsection{Gestión de plantillas}
+
+La gestión de plantillas se realiza accediendo mediante el enlace de ``Plantillas`` en la cabecera de la plataforma web.
+Se comporta de manera similar a la gestión de comandos, con una tabla paginada y un buscador para filtrar las plantillas por
+nombre o descripción.
+Para añadir una nueva plantilla, se debe pulsar en el botón ``Añadir`` que se encuentra en la parte superior derecha de la
+página.
+Adicionalmente, la asignación de comandos a la plantilla se realiza desde un nuevo botón que aparece en cada fila
+de la tabla.
+
+\imagen{gestion_plantillas.png}{Gestion de plantillas}{1}
+
+El formulario para añadir o editar una plantilla se compone de los siguientes campos:
+
+\begin{itemize}
+    \item \textbf{Nombre}: nombre de la plantilla.
+    \item \textbf{Descripción}: descripción de la plantilla.
+    \item \textbf{Sistema Operativo}: sistema operativo sobre el que se ejecutará la plantilla.
+\end{itemize}
+
+\imagen{crear_plantilla.png}{Creación de una plantilla}{1}
+
+Mediante el botón ``Guardar``, los datos son validados y almacenados, y se muestra un mensaje de éxito.
+
+Para eliminar una plantilla, es necesario que no se encuentre asignada a un dispositivo o grupo; si estuviese asignada,
+se mostrará un mensaje de error.
+
+La asignación de comandos a una plantilla existente se realiza en una página aislada, de manera que el usuario se
+pueda enfocar únicamente en la tarea.
+Este botón se encuentra disponible en cada registro de la tabla de plantillas.
+
+\imagen{icono_asignar_comandos.png}{Icono para asignar comandos a una plantilla}{0.1}
+
+La asignación de comandos consta de dos columnas:
+\begin{itemize}
+    \item \textbf{Comandos disponibles}.
+    Aquí se muestran todos los comandos que pueden aplicarse a la plantilla.
+    Se pueden realizar búsquedas tal y como se hace para los comandos y plantillas.
+    Para añadir un comando y asignarlo a la plantilla, basta con pulsar sobre el botón que tiene cada comando con el
+    símbolo ''+'' y automáticamente se desplaza a la siguiente columna.
+    \item \textbf{Comandos asignados}.
+    Aquellos comandos que se encontraban previamente asignados aparecerán en esta columna.
+    Cuando se añaden desde la anterior columna, se colocarán al final.
+    No obstante, mediante las flechas ↑ y ↓ puede modificarse el orden en el que se ejecutarán los comandos, se ejecutan
+    de arriba hacia abajo.
+    Por último, se puede eliminar un comando pulsando sobre el botón que aparece al lado de las flechas.
+
+\end{itemize}
+
+\imagen{asignar_comandos.png}{Asignar comandos a una plantilla}{1}
+
+\imagen{asignar_comandos_2.png}{Comandos asignado a una plantilla}{1}
+
+En aquellos comandos que posean variables dinámicas, deberá añadirse obligatoriamente un valor que sustituya a la
+variable; aparecerá además el comando resultante.
+
+Cuando hayamos realizado los cambios necesarios, pulsamos sobre ``Guardar`` para aplicar los cambios.
+
+\subsection{Aplicación cliente}
+
+Al iniciar la aplicación (con permisos de administrador) por primera vez, cuando dispositivo aún no se encuentra
+registrado, se mostrará una ventana para iniciar sesión y un recuadro que muestra los logs de la aplicación en tiempo
+real.
+
+\imagen{app_start.png}{Inicio de la aplicación cliente}{1}
+
+Cada vez que se inicia la aplicación, se restaura la configuración base y se aplica la configuración más actual para el
+dispositivo, siempre y cuando esté registrado.
+
+\subsubsection{Dar de alta a un dispositivo}
+
+Para dar de alta un dispositivo es necesario iniciar sesión, de forma que se habilitan los botones para iniciar el
+proceso.
+Si las credenciales son correctas, se mostrará un mensaje y se carga el panel de usuario.
+
+\imagen{app_login.png}{Mensaje de inicio de sesión}{0.2}
+
+\imagen{app_user.png}{Panel de usuario}{1}
+
+Cuando el equipo no se encuentre registrado, se muestra el botón ``Registrar equipo``.
+Una vez realizado el registro (si se ha realizado de manera satisfactoria), se informa al usuario de la huella con
+la que ha sido dado de alta.
+
+Tras realizar el alta, se realiza una copia de seguridad de las configuraciones de firewall y de red del dispositivo
+para ser restaurada al eliminar el equipo o tras una nueva aplicación de una plantilla.
+
+\imagen{app_register.png}{Mensaje de alta del equipo}{1}
+
+De forma paralela, la aplicación comprobará periódicamente si hay configuraciones que aplicar.
+Este registro queda reflejado en el recuadro de logs de la aplicación, que siempre se mantiene activo.
+
+Para comprobar que se ha registrado correctamente, accedemos a la plataforma web, y en el grupo raíz ``UBU`` debería
+aparecer el dispositivo:
+
+\imagen{dispositivo_registrado.png}{Dispositivo dado de alta desde el cliente}{1}
+
+\subsubsection{Asignar plantilla a un dispositivo}
+
+Seleccionamos el dispositivo registrado, pulsamos en el botón de asignación de plantilla y escogemos la que
+queremos aplicar:
+
+\imagen{asignar_plantilla_equipo.png}{Asignación de una plantilla al dispositivo registrado}{1}
+
+Mediante la plantilla que se ha escogido, deshabilitaremos el firewall del dispositivo.
+Hecho esto, el cliente se encargará de aplicar la configuración al equipo.
+
+La aplicación registra la ejecución de comandos y lista aquellos que se han ejecutado:
+
+\imagen{comandos_ejecutados.png}{Registro de un comando ejecutado satisfactoriamente}{1}
+
+Además, podemos comprobar en el equipo que el firewall se encuentra desactivado:
+
+\imagen{firewall_off.png}{Firewall desactivado}{1}
+
+Al aplicar la plantilla, el dispositivo registra el instante en el que fue aplicada, de forma que, mientras no se actualize la plantilla
+en la aplicación web, no se aplicará una nueva configuración.
+Del mismo modo, si asignamos una nueva plantilla al dispositivo, se ejecutarán los comandos de esta última.
+Ante cualquier cambio de comandos y plantillas, se restaura la copia de seguridad que se realizó previamente en el
+registro.
+
+\subsubsection{Dar de baja un dispositivo}
+
+El proceso de baja es similar al de alta: requiere iniciar sesión y que el dispositivo se encuentre registrado.
+Si se cumplen estas condiciones, podemos pulsar en el botón ``Eliminar dispositivo`` y confirmar la eliminación:
+
+\imagen{app_delete.png}{Mensaje de baja del equipo}{1}
+
+De esta manera, se borran todos los registros del equipo, tanto en el propio dispositivo como en la base de datos, y
+se restaura la configuración inicial.
+Como la plantilla que deshabilitaba el firewall se elimina, el firewall vuelve a estar activo.
+
+\subsubsection{Consideraciones a tener en cuenta}
+
+Existen comandos que deshabilitan el acceso a Internet en su totalidad, por lo que el acceso a la API se vuelve imposible.
+Para volver a tener acceso, al iniciar la aplicación nuevamente, se restaura la configuración de red y vuelve
+a comprobar qué plantilla tiene asignada: si la plantilla asignada sigue deshabilitando la conexión, volverá a aplicarse
+nuevamente.
+
+Aunque se deshabilite el tráfico entrante y saliente, la conexión a la API estará siempre habilitada para
+que el dispositivo pueda seguir actualizando su configuración.
