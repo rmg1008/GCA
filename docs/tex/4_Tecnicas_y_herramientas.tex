@@ -8,7 +8,7 @@ La metodología ágil utilizada ha sido Scrum\cite{scrumorg:whatis}, mediante la
 interaciones cortas llamadas sprints.
 En cada uno de estos se establecen una serie de tareas, ordenadas por prioridad.
 
-Este enfoque permite una mayor flexibilidad, ya que no se necesita tener todo definido desde el inicio del proyecto,
+Este enfoque permite una mayor flexibilidad, ya que no se necesita tener todo definido desde el inicio del proyecto, y
 si surgen imprevistos, como cambios de requisitos, nuevas ideas, o cualquier tipo de problema, se introducen nuevas tareas
 en los siguientes sprints.
 
@@ -23,22 +23,23 @@ se escriben los tests antes de implementar el código que se necesita probar.
 TDD consta de tres fases repetitivas:
 
 \begin{enumerate}
-    \item \textbf{Fase roja :} se escriben los test destinados a comprobar una determinada funcionalidad.
+    \item \textbf{Fase roja:} se escriben los test destinados a comprobar una determinada funcionalidad.
     Inicialmente, estos tests fallan.
-    \item \textbf{Fase verde :} se implementa el mínimo código necesario para que los tests anteriores pasen.
-    \item \textbf{Refactorización :} se optimiza el código a la vez que se asegura que todos los test siguen siendo correctos.
+    \item \textbf{Fase verde:} se implementa el mínimo código necesario para que los tests anteriores pasen.
+    \item \textbf{Refactorización:} se optimiza el código a la vez que se asegura que todos los test siguen siendo correctos.
 \end{enumerate}
 
 \section{Gestión del proyecto}\label{sec:gestion}
 
-\subsection{Control de versión}\label{subsec:control}
+\subsection{Control de versiones}\label{subsec:control}
 
 Para la gestión de versiones del proyecto se ha escogido Git\cite{git:official}, una herramienta de control de versiones distribuido.
 
 Permite llevar un seguimiento de todos los cambios realizados en el código, además de facilitar la creación de ramas
 independientes que pueden usarse para implementar nuevas funcionalidades o corregir errores.
 
-Existen otras herramientas de gestión como Subversion (SVN)\cite{svn:official}, la cual se había considerado también:
+Existen otras herramientas de gestión como Subversion (SVN)\cite{svn:official}, la cual se había considerado también,
+aunque finalmente fue descartada tras un análisis comparativo con Git:
 
 \begin{itemize}
     \item \textbf{Modelo:} Git es un sistema distribuido, mientras que Subversion (SVN) es centralizado.
@@ -52,27 +53,27 @@ Existen otras herramientas de gestión como Subversion (SVN)\cite{svn:official},
 \subsection{Repositorio}\label{subsec:repositorio}
 
 Las opciones contempladas fueron GitHub o Gitlab, debido a su integración nativa con Git.
-Finalmente se ha optado por utilizar GitHub\cite{wikipedia:github}, ya que se trata de una plataforma muy popular en proyectos open source, es
+Finalmente se ha optado por utilizar GitHub\cite{wikipedia:github}, ya que se trata de una plataforma muy popular en proyectos open source porque es
 muy intuitiva y está enfocada a desarrolladores individuales y equipos colaborativos.
 
 Por su parte, Gitlab está más enfocada a entornos de empresas, es más completo pero más complejo de utilizar.
 
-Además, GitHub incluye una serie de herramientas de integración CI / CD llamda GitHub Actions que se utilizará en
+Además, GitHub incluye una serie de herramientas de integración CI / CD llamda GitHub Actions que se utilizarán en
 conjunto con otras herramientas que describiremos en otras secciones.
 
 \subsection{Plataforma de gestión}\label{subsec:plataforma}
 
-Existen infinidad de plataformas enfocadas a la gestión de proyectos; Trello, Jira, Asana, ZenHub \ldots
+Existen infinidad de plataformas enfocadas a la gestión de proyectos; Trello, Jira, Asana, Zube, ZenHub \ldots
 
-Hemos optado por utilizar ZenHub\cite{zenhub:gettingstarted}, ya que es una herramienta que se integra fácilmente con GitHub, permite crear
+Hemos optado por utilizar Zube\cite{zube:gettingstarted}, ya que es una herramienta que se integra fácilmente con GitHub, permite crear
 sprints, épicas y tableros Kanban.
 
-Si bien es cierto que la herramienta más utilizada por excelencia es Jira, no obstante considero que tiene demasiadas
-funcionalidades que no van a ser aprovechadas en este proyecto, por lo que es mas conveniente utilizar algo menos potente.
+Si bien es cierto que la herramienta por excelencia en entornos empresariales es Jira, considero que tiene demasiadas
+funcionalidades que no van a ser aprovechadas en este proyecto, por lo que es más conveniente utilizar algo más ligero.
 
 \subsection{Comunicación}\label{subsec:comunicacion}
 
-Para cualquier tipo de comunicación, se utilizará email y Teams.
+Para cualquier tipo de comunicación, se utilizarán email y Teams.
 
 \section{Lengujes de programación}\label{sec:lenguajes}
 
@@ -94,37 +95,38 @@ Todos son lenguajes que permiten satisfacer los requisitos del proyecto, con lig
     software adicional en los dispositivos cliente.
 \end{itemize}
 
-Por esto, se decide utilizar Python\cite{python:docs} para desarrollar la aplicación de escritorio.
+Entre estas tres alternativas, se decide utilizar Python\cite{python:docs} para desarrollar la aplicación de escritorio,
+ya que sus características se ajustan mejor al objetivo del proyecto.
 
 \subsection{API}\label{subsec:api}
 
-En cuanto al desarrollo de APIs, los dos cantidatos por excelencia son Spring Boot y Node.js.
+En cuanto al desarrollo de la API, los dos candidatos por excelencia son Spring Boot y Node.js.
 
-Node.js ha adquirido gran relevancia en los ultimos años, ya que permite crear APIs de una manera muy sencilla,
-siendo especialmente útil en aplicaciones que precisan de una gran velocidad y eficiencia en tiempo real.
-Por otro lado, Spring Boot, ofrece un amplio conjunto de módulos, que permiten configurar la aplicación atendiendo
+Node.js ha adquirido gran relevancia en los últimos años porque permite crear APIs de una manera muy sencilla,
+siendo especialmente útil en aplicaciones que precisan de mucha velocidad y eficiencia en tiempo real.
+Por otro lado, Spring Boot ofrece un amplio conjunto de módulos que permiten configurar la aplicación atendiendo
 a las necesidades de cada proyecto, a cambio de una mayor complejidad de desarrollo.
 
-Se ha escogido Spring Boot\cite{spring:docs} debido a que, aunque el proyecto inicial es relativamente pequeño, ofrece la  posibilidad
+Se ha escogido Spring Boot\cite{spring:docs}: aunque el proyecto inicial es relativamente pequeño, ofrece la  posibilidad
 de escalar la aplicación y gestionar un mayor número de usuarios en un futuro.
 Además, integra módulos (beans, core, security\ldots) que facilitan la implementación de mecanismos avanzados de desarrollo,
 como el control de accesos de usuarios.
 
 \subsection{Frontal}\label{subsec:frontal}
 
-Finalmente, para el frontend, se evaluaron dos alternativas: Angular o React.
+Finalmente, para el frontend se evaluaron dos alternativas: Angular o React.
 React proporciona gran flexibilidad y es ideal para proyectos en los que se quiere tener control total de la arquitectura
-y librerias usadas, aunque depende en gran medida de librerias de terceros para su desarrollo.
-Angular, en cambio ofrece un framework completo, con una gran cantidad de funcionalidades predefinidas, lo que facilita
+y librerias usadas, aunque tiene la desventaja de que depende en gran medida de librerias de terceros para su desarrollo.
+Angular, en cambio, ofrece un framework completo con una gran cantidad de funcionalidades predefinidas, lo que facilita
 el mantenimiento y la optimización del código, especialmente en proyectos grandes.
 
-Se ha optado por Angular\cite{angular:docs}, priorizando su robustez, escalabilidad y la gran cantidad de herramientas que proporciona.
+Por esto, se ha optado por Angular\cite{angular:docs}, priorizando su robustez, escalabilidad y la gran cantidad de herramientas que proporciona.
 
 \section{Arquitectura}\label{sec:arquitectura}
 
 \subsection{Patrón de diseños}\label{subsec:patron}
 
-En este proyecto se han aplicado distintos patrones de diseño, adaptados a las diferentes necesidades.
+En este proyecto se han aplicado distintos patrones de diseño adaptados a las diferentes necesidades.
 
 La aplicación de escritorio del cliente, desarrollada en Python, emplea una estructura basada en la gestión dinámica
 de una única ventana, ocultando y mostrando distintos elementos.
@@ -142,7 +144,7 @@ son los servicios que encapsulan el modelo de datos y la comunicación con la AP
 Para el desarrollo de la aplicación cliente se ha utilizado el Entorno de Desarrollo Integrado (IDE) PyCharm\cite{pycharm:official},
 ya que se encuentra plenamente enfocado a Python, ofrece multitud de herramientas y permite realizar configuraciones rápidas.
 
-Otra opción era Visual Studio Code, pero para este lenguaje en concreto, se necesitan descargar multitud de extensiones
+Otra opción era Visual Studio Code, pero para este lenguaje en concreto se necesita descargar multitud de extensiones
 para poder desarrollar cómodamente.
 
 Para la instalación de librerias externas, se utiliza PIP\cite{pip:official}, un gestor de paquetes que permite
@@ -152,54 +154,64 @@ instalar, actualizar y gestionar librerías.
 
 Para nuestra API con Spring Boot, se ha optado por el IDE IntelliJ IDEA\cite{intellij:official} frente a Eclipse,
 por la sencilla razón de que IntelliJ es mucho más potente, intuitivo y dispone de todas las herramientas necesarias,
-sin necesidad de instalar nada.
+sin tener que instalar nada.
 
-En conjunto con este IDE, se ha añadido una herramienta de automatización de compilación moderna y potente, como es
-Gradle\cite{gradle:official}, permite compilar, construir, testear y desplegar aplicaciones de software.
+En conjunto con este IDE, se ha añadido una herramienta de automatización de compilación moderna y potente, como
+Gradle\cite{gradle:official}, que permite compilar, construir, testear y desplegar aplicaciones de software.
 
 En combinación con Spring Boot, destaca su uso frente al de Maven, ya que es más ligero, flexible y permite tener un control de
 los despliegues.
 
 \subsection{Frontend}\label{subsec:desarrollo_frontend}
 
-El frontend se ha desarrollado utilizando Visual Studio Code\cite{vscode:official}, también es posible utilizar IntelliJ y tener ambos
+El frontend se ha desarrollado utilizando Visual Studio Code\cite{vscode:official}; también es posible utilizar IntelliJ y tener ambos
 proyectos (API y Frontend) en el mismo IDE, sin embargo, no está tan optimizado para la parte front y la sensación de
 programar el frontal dista mucho de ser óptima.
 
-Además, utilizamos NPM (Node Package Manager)\cite{npm:official} como gestor de paquetes para instalar librerias
+Además, utilizamos NPM (Node Package Manager)\cite{npm:official} como gestor de paquetes para instalar librerías
 externas de una manera simple y segura.
 
 \section{Integración contínua}\label{sec:integracion}
 
 \subsection{Integración y despliegue continuos (IC/DC)}\label{subsec:integracion_continua}
 
-Para automatizar compilaciones, pruebas y despliegue, se ha utilizado GitHub actions\cite{github:actions}, en este caso, al
-escoger GitHub como repo, viene incluido sin necesidad de instalar nada más.
+Para automatizar compilaciones, pruebas y despliegue, se ha utilizado GitHub Actions\cite{github:actions}; al
+escoger GitHub como repositorio, viene nativamente integrado.
 
 \subsection{Cobertura y calidad de código}\label{subsec:cobertura}
 
 SonarQube Cloud\cite{sonarcloud:official} se ha seleccionado como plataforma para analizar la calidad y cobertura del código fuente.
-La razón de su uso se debe a que no es necesario instalar ningún servidor, basta con conectarlo al respositorio de GitHub y
-se puede consultar todos los resultados online.
+La razón de su uso se debe a que no es necesario instalar ningún servidor, basta con conectarlo al repositorio de GitHub
+para auditar el código.
 
 \subsection{Despliegue}\label{subsec:despliegue}
 
 Docker\cite{docker:official} es una plataforma que permite empaquetar una aplicación y todas sus dependencias en un
-contenedor portable y que puede ejecutarse en cualquier entorno
+contenedor portable y ejecutarse en cualquier entorno, siempre y cuando Docker esté instalado en él.
 
 \section{Documentación}\label{sec:documentacion}
 
-La documentación se ha desarrollado utilizando LaTeX\cite{latex:official}, en lugar de otras herramientas de procesamiento de texto como Word.
-Word funciona muy bien para documentos simples y además es fácil e intuitivo desde el principio.
-No obstante, LaTeX permite un control de todo el formato, genera documentos de una calidad tipográfica
+La documentación se ha desarrollado utilizando LaTeX\cite{latex:official} en lugar de otras herramientas de procesamiento de texto, como Word.
+Word funciona muy bien para documentos simples y, además, es fácil e intuitivo desde el principio.
+En cambio, LaTeX supone un manejo más complicado y necesita un periodo de adaptación para aprender a usarlo, pero
+permite un control de todo el formato, genera documentos de una calidad tipográfica
 excelente y es ideal para documentos técnicos.
-Sin embargo, es necesario un periodo de adaptación para aprender a usarlo.
 
 Como editor LaTeX se utiliza IntelliJ Idea junto con el plugin TeXiFy-IDEA y el compilador pdfLaTeX.
 
-Visualizamos los documentos PDF generados con SumatraPDF por integrarse de manera excelente con las herramientas
+Visualizamos los documentos PDF generados con SumatraPDF por integrarse perfectamente con las herramientas
 mencionadas.
 
+\subsection{Diagramas}\label{subsec:diagramas}
+
+Para la creación de diagramas y esquemas, se han utilizado dos herramientas:
+\begin{itemize}
+    \item \textbf{Draw.io:} es una herramienta en línea que permite crear diagramas de flujo, organigramas,
+    diagramas UML\ldots
+    Es fácil de usar y permite exportar los diagramas en diferentes formatos.
+    \item \textbf{PlantUML:} es una herramienta que permite crear diagramas a partir de texto, lo que facilita
+    su integración en el código fuente y su mantenimiento.
+\end{itemize}
 
 \section{Librerias}\label{sec:librerias}
 
@@ -211,7 +223,7 @@ frameworks utilizados.
 \textbf{PyInstaller}
 
 PyInstaller\cite{pyinstaller:official} es una herramienta que permite convertir programas escritos en Python en ejecutables independientes para
-Windows, Linux y macOS.
+Windows, Linux y MacOS.
 
 
 \textbf{Inno Setup Compiler}
@@ -231,10 +243,13 @@ JSON Web Tokens (JWT) en aplicaciones Java.
 
 \textbf{JUnit}
 
-JUnit\cite{junit:official} es uno de los frameworks de testing más populares para aplicaciones Java.
-Permite crear y ejecutar de manera estructurada tests unitarios, ayudando a garantizar que cada componente de un
+JUnit\cite{junit:official} es uno de los frameworks de testing más utilizados para aplicaciones Java.
+Permite crear y ejecutar de manera estructurada tests unitarios, ayudando a garantizar que cada componente del
 programa funcione correctamente de forma aislada.
 
+\textbf{Jacoco}
+
+Jacoco\cite{jacoco:official} es una herramienta de análisis de cobertura de código para aplicaciones Java.
 
 \subsection{Frontend}\label{subsec:librerias_frontend}
 
@@ -248,15 +263,14 @@ construir y mantener aplicaciones Angular desde la línea de comandos.
 
 \textbf{Tailwind CSS}
 
-Tailwind CSS\cite{tailwind:official} es un framework de CSS utilitario que permite diseñar interfaces de usuario
-rápidamente mediante la combinación de pequeñas clases directamente en el HTML .
+Tailwind CSS\cite{tailwind:official} es un framework de CSS que permite diseñar interfaces de usuario
+rápidamente mediante la combinación de pequeñas clases directamente en el HTML.
 
 
 \textbf{DaisyUI}
 
-DaisyUI\cite{daisyui:official} es un complemento de componentes UI construido sobre Tailwind CSS .
-
-Ofrece componentes predefinidos como botones, modales, menús, tabs, alertas, etc., todos diseñados usando clases de Tailwind.
+DaisyUI\cite{daisyui:official} es un complemento de componentes UI construido sobre Tailwind CSS. Ofrece componentes
+predefinidos como botones, modales, menús, tabs, alertas, etc., todos diseñados usando clases de Tailwind.
 
 
 

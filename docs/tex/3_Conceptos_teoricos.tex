@@ -3,28 +3,27 @@
 El funcionamiento del proyecto se divide en varias fases.
 \begin{enumerate}
 	\item \textbf{Registro de dispositivos:} cada dispositivo se registra usando la aplicación cliente y se mantiene
-	a la espera de recibir configuraciones.
-	\item \textbf{Configuración inicial:} una vez registrado, el gestor asigna una localización específica al dispositivo
+	a la espera de recibir configuraciones por parte de la API.
+	\item \textbf{Configuración inicial:} una vez registrado, el gestor asigna una localización específica al dispositivo.
 	\item \textbf{Asignación de configuraciones:} se asignan configuraciones a cada dispositivo o al grupo que pertenece.
 	\item \textbf{Aplicación de configuraciones:} mediante la aplicación cliente, se obtiene la configuración asignada
 	para el dispositivo y se aplican los comandos correspondientes.
 \end{enumerate}
 
-Para entender mejor cómo se desarrollan cada fase, es recomendable explicar algunos conceptos teóricos relacionados
+Para entender mejor cómo se desarrolla cada fase, es imprescindible explicar algunos conceptos teóricos relacionados
 con la gestión de configuraciones, protocolos de red y herramientas de administración.
 
-\section{Comunicación mediante APIs REST}\label{sec:comunicacion-mediante-apis-rest}
+\section{Comunicación mediante API REST}\label{sec:comunicacion-mediante-apis-rest}
 
 Las comunicaciones entre el cliente y el servidor, así como entre el servidor y la interfaz web, se realizan mediante
 APIs REST.
 
 Una API REST (Representational State Transfer) es un conjunto de definiciones y protocolos utilizados para integrar
-sistemas entre aplicaciones\cite{redhatRestAPI}.
-Permite realizar comunicaciones entre consumidores (aquellos que realizan las llamadas) y proveedores (aquellos que
-reciben la llamada y devuelven la respuesta).
+sistemas entre aplicaciones\cite{redhatRestAPI}: permite realizar comunicaciones entre consumidores (aquellos que
+realizan las llamadas) y proveedores (aquellos que reciben la llamada y devuelven la respuesta).
 La información se transmite en formato JSON (JavaScript Object Notation), que es un formato de intercambio de datos
 ligero y fácil de leer.
-Esta comunicación utiliza el protocolo HTTP (Hypertext Transfer Protocol), que es el protocolo de transferencia de
+Esta comunicación hace uso del protocolo HTTP (Hypertext Transfer Protocol), que es el protocolo de transferencia de
 hipertexto utilizado en la World Wide Web.
 HTTP utiliza una serie de métodos para definir las diferentes acciones, los más comunes son:
 \begin{itemize}
@@ -34,13 +33,17 @@ HTTP utiliza una serie de métodos para definir las diferentes acciones, los má
 	\item \textbf{DELETE}: Elimina un recurso del servidor.
 \end{itemize}
 
+\imagen{restAPI.pdf}{Funcionamiento de una API.}{1}
+
+
 \subsection{Autenticación}\label{subsec:autenticacion}
 
 Para la autenticación de los usuarios, se utilizan tokens JWT (JSON Web Tokens)\cite{fusionauthJWT}.
-Estos tokens son objetos que contienen información codificada de datos del usuario así como la fecha de expiración
-y permite transmitir información entre cliente y servidor de forma segura, ya que pueden ser firmados y verificados.
+Estos tokens son objetos que contienen información codificada de datos del usuario, así como la fecha de expiración,
+y permiten transmitir información entre cliente y servidor de forma segura, ya que pueden ser firmados y verificados.
 
 La estructura de un token JWT consta de tres partes:
+\imagen{json-web-token.png}{Componentes de un JWT\cite{fusionauthJWT}}{0.8}
 
 \begin{itemize}
 	\item \textbf{Header}: Contiene información sobre el tipo de token y el algoritmo utilizado para firmarlo.
@@ -54,16 +57,17 @@ y otorgar acceso (o no) al recurso solicitado.
 
 \section{Gestión de configuraciones}\label{sec:gestion-de-configuraciones}
 
-Para la gestión de configuraciones utilizamos una herramienta propia, la cual se puede instalar en cualquier sistema
-operativo, ya sea Windows, Linux o MacOS .
-Esta herramienta se mantendrá ejecutándose en segundo plano de manera ininterrumpida, y se encargará de solicitar
+Para la gestión de configuraciones utilizamos una herramienta de creación propia que se puede instalar en cualquier sistema
+operativo, ya sea Windows, Linux o MacOS\@.
+Una vez instalada en los equipos, esta herramienta se mantiene en segundo plano ejecutándose de manera ininterrumpida, encargándose de solicitar
 a la API las configuraciones que le correspondan.
 
-Se gestiona a través de una interfaz web, mediante la cual se crean comandos, se agrupan en plantillas y se aplican
+Se gestiona a través de una interfaz web, mediante la cual se crean comandos que se agrupan en plantillas y se aplican
 a cada dispositivo de forma individual o grupos de dispositivos.
-Las plantillas incluyen un orden de ejecución de los comandos, lo que permite establecer prioridades.
-Si una plantilla es aplicada a un grupo de dispositivos, y otra plantilla es aplicada a un dispositivo de ese mismo
-grupo, la plantilla del dispositivo tiene prioridad sobre la plantilla del grupo.
+Las plantillas incluyen un orden de ejecución de los comandos, lo que permite establecer prioridades. Por ejemplo,
+una plantilla se asigna a un grupo de dispositivos, y a su vez, otra plantilla se asigna a un dispositivo de ese mismo
+grupo: por el orden de prioridad establecido, esta segunda plantilla asignada a este último dispositivo tiene prioridad
+sobre la plantilla del grupo.
 
 \section{Comandos y protocolos para la gestión del acceso a la red}
 \label{sec:comandos-y-protocolos-para-la-gestion-del-acceso-a-la-red}
@@ -76,29 +80,34 @@ Netsh (Network Shell) es una herramienta de línea de comandos de Microsoft que 
 dispositivos de red en sistemas operativos Windows.
 
 Su sintaxis es la siguiente:
-\begin{verbatim}
-netsh [-a <Aliasfile>]
-      [-c <Context>]
-      [-r <Remotecomputer>]
-      [-u [<domainname>\<username>]
-      [-p <Password> |
-      [{<NetshCommand> | -f <scriptfile>}]
-\end{verbatim}
-
+\begin{center}
+	\begin{minipage}{0.7\textwidth}
+		\begin{verbatim}
+		netsh [-a <Aliasfile>]
+			  [-c <Context>]
+			  [-r <Remotecomputer>]
+			  [-u [<domainname>\<username>]
+			  [-p <Password> |
+			  [{<NetshCommand> | -f <scriptfile>}]
+		\end{verbatim}
+	\end{minipage}
+\end{center}
 
 Una explicación mas detallada puede encontrarse en la documentación oficial de
 Microsoft\cite{microsoftNetsh}.
 
 \subsection{Firewall}\label{subsec:firewall}
 
-El firewall\cite{cloudflareFirewall} es un sistema de seguridad de red que actúa como una barrera entre una red interna y externa.
+El firewall\cite{cloudflareFirewall} es un sistema de seguridad de red que actúa como una barrera entre una red interna y una red externa.
 Su principal función es controlar el tráfico de red, permitiendo o bloqueando paquetes de datos según un conjunto
 de reglas de seguridad.
 Los firewalls pueden implementarse en hardware, software o de manera híbrida.
 En el caso de Windows, el firewall se implementa como un software integrado dentro del sistema operativo.
-En nuestro caso particular, administramos el el firewall de Windows mediante la consola de comandos:
+En nuestro caso particular, administramos el firewall de Windows mediante la consola de comandos:
 
-\begin{verbatim}
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\begin{verbatim}
 	netsh advfirewall firewall
 		[add | delete | set | show]
 		[<RuleName>]
@@ -113,37 +122,41 @@ En nuestro caso particular, administramos el el firewall de Windows mediante la 
 		[<Program>]
 		[<Service>]
 		[<InterfaceType>]
-\end{verbatim}
+		\end{verbatim}
+	\end{minipage}
+\end{center}
 
-Mediante la ejecución de este comando, se pueden añadir, eliminar o modificar reglas del firewall, por ejemplo,
+Mediante la ejecución de este comando, se pueden añadir, eliminar o modificar reglas del firewall: por ejemplo,
 habilitar o deshabilitar un puerto específico, bloquear un programa o servicio, e incluso deshabilitar el firewall
-\cite{microsoftFirewallCLI}
+\cite{microsoftFirewallCLI}.
 
 \subsection{PowerShell}\label{subsec:powershell}
 
-PS (PowerShell)\cite{microsoftPowerShellOverview} es una solución para la automatización de tareas multiplataforma,
+PS (PowerShell)\cite{microsoftPowerShellOverview} es una solución para la automatización de tareas multiplataforma
 desarrollada por Microsoft.
 Combina un shell de línea de comandos, un lenguaje de scripting y un marco de administración de configuración.
 
 La sintaxis de un comando de PowerShell es la siguiente:
 
 \begin{verbatim}
-	Get-Command [[-ArgumentList] <Object[]>] [-Verb <string[]>] [-Noun <string[]>]
-	[-Module <string[]>] [-FullyQualifiedModule <ModuleSpecification[]>]
-	[-TotalCount <int>] [-Syntax] [-ShowCommandInfo] [-All] [-ListImported]
+	Get-Command [[-ArgumentList] <Object[]>][-Verb <string[]>]
+	[-Noun <string[]>] [-Module <string[]>]
+	[-FullyQualifiedModule <ModuleSpecification[]>] [-TotalCount
+	<int>] [-Syntax] [-ShowCommandInfo] [-All] [-ListImported]
 	[-ParameterName <string[]>] [-ParameterType <PSTypeName[]>]
 	[<CommonParameters>]
 
 	Get-Command [[-Name] <string[]>] [[-ArgumentList] <Object[]>]
-	[-Module <string[]>] [-FullyQualifiedModule <ModuleSpecification[]>]
-	[-CommandType <CommandTypes>] [-TotalCount <int>] [-Syntax] [-ShowCommandInfo]
+	[-Module <string[]>] [-FullyQualifiedModule
+	<ModuleSpecification[]>] [-CommandType <CommandTypes>]
+	[-TotalCount <int>] [-Syntax] [-ShowCommandInfo]
 	[-All] [-ListImported] [-ParameterName <string[]>]
 	[-ParameterType <PSTypeName[]>] [-UseFuzzyMatching]
 	[-FuzzyMinimumDistance <uint>] [-UseAbbreviationExpansion]
 	[<CommonParameters>]
 \end{verbatim}
 
-Puede ser ejecutado mediante la consola de windows, o mediante un script.
+Puede ser ejecutado mediante la consola de Windows, o mediante un script.
 En concreto, para este proyecto, se utilizará para automatizar la configuración de sistemas y aplicaciones e
 implementar políticas de seguridad y configuración de red.
 
@@ -151,19 +164,19 @@ implementar políticas de seguridad y configuración de red.
 
 Los protocolos de red son un conjunto de reglas y convenciones que permiten la comunicación entre dispositivos dentro
 de una red.
-A continuación se describen aquellos más relevantes en el contexto del presente proyecto:
+A continuación, se describen aquellos más relevantes en el contexto del presente proyecto:
 
 \begin{itemize}
 	\item \textbf{TCP/IP:} conjunto de protocolos fundamentales que permite la comunicación entre dispositivos en red.
 	Incluye mecanismos para diferenciar aplicaciones mediante puertos.
-	Cualquier configuración de red o del firewall afecta directamente a este protocolo. \cite{wikipediaTCP}
+	Cualquier configuración de red o del firewall afecta directamente a este protocolo\cite{wikipediaTCP}.
 
 	\item \textbf{HTTPS:} extensión segura del protocolo HTTP que utiliza SSL/TLS para cifrar la comunicación entre
 	cliente y servidor.
-	Es utilizado por la aplicación para el registro de dispositivos y la consulta de configuraciones a través de la API\cite{wikipediaHTTPS}
+	Es utilizado por la aplicación para el registro de dispositivos y la consulta de configuraciones a través de la API\cite{wikipediaHTTPS}.
 
-	\item \textbf{DNS:} sistema encargado de traducir nombres de dominio (más fáciles de recordar) a direcciones IP .
-	Desde comandos como \texttt{netsh} es posible añadir o eliminar entradas relacionadas con el DNS\cite{wikipediaDNS}
+	\item \textbf{DNS:} sistema encargado de traducir nombres de dominio (más fáciles de recordar) a direcciones IP.
+	Desde comandos como \texttt{netsh} es posible añadir o eliminar entradas relacionadas con el DNS\cite{wikipediaDNS}.
 
 	\item \textbf{DHCP:} protocolo que asigna direcciones IP dinámicas a dispositivos en una red.
 	Aunque es utilizado por los dispositivos de la Universidad, no se contempla su modificación dentro del proyecto\cite{microsoftDHCP}.
@@ -174,8 +187,8 @@ A continuación se describen aquellos más relevantes en el contexto del present
 
 	\item \textbf{SMB:} protocolo de nivel de aplicación que permite compartir archivos, impresoras y otros recursos
 	dentro de una red.
-	Mediante SMB, se puede restringir el acceso a determinados recursos por dispositivo\cite{techtargetSMB}
+	Mediante SMB se puede restringir el acceso a determinados recursos por dispositivo\cite{techtargetSMB}.
 
 	\item \textbf{ARP:} protocolo responsable de resolver direcciones IP en direcciones MAC dentro de una red local.
-	Aunque es más avanzado, se puede utilizar para establecer restricciones a nivel de dispositivos concretos\cite{wikipediaARP}
+	Aunque es más avanzado, se puede utilizar para establecer restricciones a nivel de dispositivos concretos\cite{wikipediaARP}.
 \end{itemize}

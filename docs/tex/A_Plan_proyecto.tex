@@ -13,7 +13,7 @@ del proyecto.
 Dividiremos el plan en dos apartados:
 \begin{itemize}
     \item \textbf{La planificación temporal:} donde se establece el modo de organizar las actividades a realizar,
-    una estimación de estas y las fechas de inicio y fin del proyecto.
+    una estimación del tiempo que se va a dedicar a cada una de ellas y las fechas de inicio y fin del proyecto.
     \item \textbf{El estudio de viabilidad:} en el que se analiza si el proyecto es factible desde el punto de vista
 financiero y legal, atendiendo a los elementos necesarios para su realización.
 \end{itemize}
@@ -25,75 +25,126 @@ características específicas del contexto.
 
 
 Debido a la inexistencia de un equipo, la falta de un entorno estructurado (roles definidos, reuniones diarias, retrospectivas
-y demos), no se ha aplicado en su totalidad.
-Sin embargo, se han mantenido varios de sus fundamentos claves, con ciertos matices:
+y \textit{demos}), esta planificación no se ha podido aplicar en su totalidad; aún así, se han mantenido varios de sus
+fundamentos claves, aunque con ciertos matices:
 
 \begin{itemize}
     \item \textbf{Iteraciones cortas:} organizadas en sprints de 2 semanas, durante los cuales se han desarrollado
     nuevas funcionalidades de manera incremental.
     \item \textbf{Equipos autoorganizados:} aunque no exista un equipo como tal, el desarrollo se ha producido de una manera autónoma.
-    \item \textbf{Reuniones semanales:} todos los lunes se programaba una reunión formal para revisar el estado del proyecto, y
+    \item \textbf{Reuniones semanales:} se programó una reunión formal todos los lunes para revisar el estado del proyecto y
     resolver posibles dudas surgidas durante la semana anterior.
-    \item \textbf{Backlog del producto:} en el que se van añadiendo todas las tareas pendientes de realizar, ya sean de
-    desarrollo, documentación\ldots Y se mantiene un listado de tareas ordenadas por prioridad.
-    \item \textbf{Planificación de los sprints:} en el que se estudian las tareas que se realizarán para entregar en el
+    \item \textbf{Backlog del producto:} en el que se van añadiendo de forma continua todas las tareas pendientes de realizar (ya sean de
+    desarrollo, documentación\ldots) y se mantiene un listado de tareas ordenadas por prioridad.
+    \item \textbf{Planificación de los sprints:} en la que se estudian las tareas que se realizarán para entregar en el
     siguiente incremento, atendiendo a características como prioridad y complejidad.
 \end{itemize}
 
-A cada tarea se le asigna un valor estimado de esfuerzo, denominado ``story points`` basados en la secuencia de
-Fibonacci: 1, 2, 3, 5, 8\ldots Un story point representa una combinación de dificultad y tiempo estimado.
-Es decir, una tarea con 3 puntos comparada con una de 5 es considerada más sencilla, y se realizará en menor tiempo.
-No obstante, este sistema no establece una equivalencia exacta con días de trabajo.
+A cada tarea se le asigna un valor estimado de esfuerzo, denominado \textit{story point}, los cuales están basados en la secuencia de
+Fibonacci (1, 2, 3, 5, 8\ldots).
 
-Esta forma de trabajar no es la más exacta, no obstante permite flexibilizar el trabajo, lo que resulta útil en este contexto
-específico en el que el tiempo disponible puede variar en el tiempo.
-Incluso en entornos ideales, los equipos pueden verse afectados por situaciones como bajas, vacaciones\ldtos por eso la
-planificación debe poder ser adaptable.
+Un \textit{story point} representa una combinación de dificultad y tiempo estimado; en este sentido, decimos que una
+tarea de 3 puntos comparada con una de 5 se considera más sencilla, y, por tanto, se realizará en menor tiempo.
+Cabe mencionar que este sistema permite hacer estimaciones de tiempo para las tareas, pero no establece una equivalencia exacta con días de trabajo.
 
+Esta forma de trabajar no es la más exacta, pero permite flexibilizar el trabajo, lo que resulta útil en este contexto
+específico en el que la capacidad disponible de trabajo puede variar en el tiempo: incluso en entornos ideales, los
+equipos pueden verse afectados por situaciones como bajas, vacaciones\ldots Por eso, la planificación debe poder ser adaptable.
 
 \textbf{Sprint 0 (25/02/2025 - 05/03/2025)}
-
-Este primer sprint sirvió como punto de partida, se estableció una reunión inicial con el tutor, \textbf{Pedro Renedo}, en el que
-tratamos de conocer acerca del proyecto que se pretende realizar.
+Este primer sprint sirvió como punto de partida: se estableció una reunión inicial con el tutor, \textbf{Pedro Renedo}, en la que
+abordamos y concretamos el tema central del proyecto que se pretende realizar.
 
 Se creó el repositorio inicial en GitHub y estudiamos las posibles herramientas y lenguajes de programación que se utilizarían
 en el desarrollo.
 
-Se estimaron  \textbf{7 story points}, que aproximadamente se corresponde con la semana que duró el sprint.
-Esta duración fue una excepción, ya que se trató del primer sprint, después se optó por dos semanas, porque una única
-semana se hace muy corto cuando se introducen tareas de desarrollo.
+Además, se estimaron  \textbf{7 \textit{story points}}, que correspondieron aproximadamente con la semana que duró el sprint.
+Esta duración fue una excepción, ya que se trató del primero; después se optó por alargar este tiempo a dos
+semanas, ya que observamos que un sprint de solo siete días era demasiado corto cuando se introducían tareas de desarrollo.
 
 \textbf{Sprint 1 (05/03/2025 - 20/03/2025)}
 
 Durante este sprint se profundizó en el análisis del proyecto, tratando de responder a preguntas clave como:
-\textbf{¿Qué se necesita realizar?, ¿Cómo ha de hacerse?, ¿Con base a qué surge esta necesidad? \ldots}
+\textbf{¿Qué se necesita realizar?¿Cómo ha de hacerse?¿Con base a qué surge esta necesidad? \ldots}
 
-Además, se estudia el tipo de aplicación que se va a necesitar en los dispositivos, se modela una primera versión de
-base de datos y se crea la estructura inicial de la aplicación backend en Java.
-Surge un problema técnico, los ordenadores del centro son clonados, por lo que tienen el mismo GUID y no sirve como
-identificador único, por lo que hay que seguir investigando para encontrar algún método alternativo.
+Además, se estudió el tipo de aplicación que se iba a necesitar en los dispositivos, se modeló una primera versión de
+base de datos y se creó la estructura inicial de la aplicación backend en Java.
+En este punto surgió un problema técnico: los ordenadores del centro son clonados, por lo que tienen el mismo GUID y no sirve como
+identificador único, por lo que hay que se hizo necesario seguir investigando para encontrar algún método alternativo.
 
-Se estimaron \textbf{19 story points} de trabajo para los 15 días de trabajo.
+Se estimaron \textbf{19 \textit{story points}} de trabajo para los 15 días de trabajo.
 
 
 \textbf{Sprint 2 (20/03/2025 - 02/04/2025)}
 
-Se sigue con la línea de definición de requisitos y objetivos funcionales, se desarrollan los CU principales, además de
-diseñar un método de autentificación para los equipos, que combina el GUID con el nombre de los equipos, aprovechando
+Continuamos con la línea de definición de requisitos y objetivos funcionales, se desarrollaron los CU principales, y además, se
+diseñó un método de autentificación para los equipos, el cual combina el GUID con el nombre de los equipos, aprovechando
 que estos sí son únicos para cada uno.
 
-Por otro lado, se crea la estructura de la aplicación frontal.
+Por otro lado, se creó la estructura de la aplicación frontal.
 
-Se estimaron \textbf{15.5 story points} para los 15 días de trabajo, en este caso, se ajustó a 1 story point por día prácticamente.
+Se estimaron \textbf{15.5 \textit{story points}} para los 15 días de trabajo; en este caso, se ajustó a 1 \textit{story point} por día prácticamente.
 
 
 \textbf{Sprint 3 (02/04/2025 - 16/04/2025)}
 
-En esta etapa se comienza con las tareas de desarrollo del backend, para ello, se crea una base de datos inicial
-con MariaDB, después de refinar el diagrama E-R actual, y se implementan las bases de nuestra API con Spring Boot, configurando
-los primeros end points e implementando medidas de seguridad en las llamadas mediante login y generación de tokens.
+En esta etapa comenzaron las tareas de desarrollo del backend.
+Para ello, se creó una base de datos inicial con MariaDB después de refinar el diagrama E-R actual, y se implementaron
+las bases de nuestra API con Spring Boot, configurando los primeros end points e implementando medidas de seguridad
+en las llamadas mediante login y generación de tokens.
 
-Se estimaron \textbf{21 story points} en este sprint, ya que la disponibilidad prevista era superior a la de otros sprints.
+Se estimaron \textbf{21 \textit{story points}} en este sprint, ya que la disponibilidad prevista era superior a la de otros sprints.
+
+\textbf{Sprint 4 (16/04/2025 - 30/04/2025)}
+
+Avanzamos creando nuevos endpoints básicos, sentando las bases que utilizaremos en la aplicación web para gestionar
+los diferentes grupos y dispositivos.
+En paralelo, trabajamos en el desarrollo de nueva documentación, definiendo los requisitos no funcionales y las técnicas y
+herramientas que se pretenden utilizar, así como el estudio de viabilidad del proyecto.
+
+Es estimaron \textbf{17 \textit{story points}} para este sprint, ya que se consideró que la disponibilidad de tiempo
+iba a ser menor que en el anterior.
+
+\textbf{Sprint 5 (30/04/2025 - 14/05/2025)}
+
+Continuamos con el desarrollo de la API, pero en este caso, también diseñamos una posible aproximación a la interfaz
+de usuario, generamos diagramas de los casos de uso más importantes, y comenzamos a implementar la parte de la aplicación
+frontal utilizando Angular.
+
+En la reunión semanal con el tutor, se aclararon puntos relevantes relativos a la aplicación: uno de ellos fue la
+posibilidad de generar comandos con valores dinámicos, de forma que, en el futuro, para cada plantilla, se puedan asignar
+valores diferentes en función de la plantilla utilizada.
+
+Otro punto relevante que surgió fue la necesidad de investigar qué hacer con los equipos a los que se les deshabilita
+el acceso a la red, ya que no se podrían gestionar de manera remota.
+Una posibilidad que se barajó fue realizar una copia del estado del equipo antes de aplicar la plantilla, para que cuando se
+reinicie, se restaure el estado anterior, de manera que el equipo se mantenga tal y como estaba antes de aplicar la plantilla.
+
+Se estimaron \textbf{20 \textit{story points}} para este sprint, ya que se consideró que la disponibilidad iba a ser mayor y en
+este punto del proyecto, las bases ya estaban más asentadas, el trabajo se hacía más fluido y había menos dudas.
+
+\textbf{Sprint 6 (14/05/2025 - 28/05/2025)}
+
+Este Sprint es uno de los más críticos: se actualizó la aplicación cliente, permitiendo obtener y aplicar las plantillas
+de manera remota.
+De forma paralela, completamos la interfaz web, permitiendo gestionar comandos y plantillas de forma visual.
+En cuanto a test se refiere, mejoramos la cobertura del código, añadiendo pruebas unitarias y de integración.
+
+Se estimaron \textbf{20 \textit{story points}} para este sprint porque disponíamos de más tiempo para la realización de las
+tareas.
+
+\textbf{Sprint 7 (28/05/2025 - 04/06/2025)}
+
+El penúltimo sprint antes de la entrega final consistió en rellenar la documentación del proyecto, así como añadir
+logs en el backend para mejorar la trazabilidad de las acciones realizadas.
+Tras realizar una demostración del proyecto al tutor, se crearon nuevas tareas para mejorar la usabilidad de la
+aplicación cliente.
+
+La duración de este sprint y el siguiente se redujeron a una semana, ya que al tratarse de la fase final, es más sencillo
+contar con períodos más cortos de tiempo y poder así ajustar si surgen problemas inesperados.
+Se estimaron \textbf{10 \textit{story points}} para este sprint.
+
+\textbf{Sprint 8 (04/06/2025 - 11/06/2025)}
 
 \section{Estudio de viabilidad}
 
@@ -104,187 +155,181 @@ a cabo.
 
 \textbf{Costes}
 
-\textbf{Costes de personal:} todo el desarrollo ha sido realizado por un único desarrollador en un tiempo total de cinco meses, de febrero
-a junio.
-El sueldo base promedio para un puesto de desarrollador ``Full Stack Developer`` en España es de 30 mil €/año brutos de acuerdo con
+\textbf{Costes de personal:} todo el desarrollo ha sido realizado por un único desarrollador en un tiempo total de cinco
+meses comprendidos entre febrero y junio.
+El sueldo base promedio para un puesto de desarrollador ``Full Stack Developer`` en España es de 30 mil €/año brutos, de acuerdo con
 la información publicada en Glassdor\cite{glassdoorSueldo}
 
 
-Calculamos el salario con base a una persona de 30 años, soltera y sin hijos\cite{seguridadSocial2025}
+Calculamos el salario en base a una persona de 30 años, soltera y sin hijos\cite{seguridadSocial2025}
 
-\begin{center}
-\begin{tabular}{| c | c |}\hline
-\Xhline{2\arrayrulewidth}
-\textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
-Salario neto & 1929,8€ \\ \hline
-Retención IRPF & 411,5€ \\ \hline
-Cuota seguridad social & 148,75€ \\ \hline
-Salario mensual bruto & 2500€ \\ \hline
-\Xhline{2\arrayrulewidth}
-\textbf{Total 5 meses} & \textbf{12500€} \\ \Xhline{2\arrayrulewidth}
-\end{tabular}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| c | c |}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        Salario neto & 1929,8€ \\ \hline
+        Retención IRPF & 411,5€ \\ \hline
+        Cuota seguridad social & 148,75€ \\ \hline
+        Salario mensual bruto & 2500€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total 5 meses} & \textbf{12500€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+    \caption{\textit{Nómina del empleado.}}
+\end{table}
 
-
-\vspace{0.3em}
-\textit{Tabla: Costes de empleado.}
-\end{center}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| c | c |}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        Salario bruto & 2500€ \\ \hline
+        Contingencias Comunes & 590€ \\ \hline
+        Accidentes de Trabajo y Enfermedades Profesionales (AT y EP) & 22,5€ \\ \hline
+        Desempleo & 137,5€ \\ \hline
+        Formación Profesional & 15€ \\ \hline
+        Fondo de garantía salarial (FOGASA) & 5€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total 5 meses} & \textbf{16350€} \\ \Xhline{2\arrayrulewidth}
+    \end{tabular}
+    \caption{\textit{Coste para la empresa.}}
+\end{table}
 
 \textbf{Costes de hardware}
 
-Para el hardware utilizado, no se emplean demasiadas herramientas más allá de un ordenador para la realización del proyecto,
-que se hará a medida, a priori, con un dispositivo de 16GB de RAM, SSD NVMe, procesador actual y una tarjeta gráfica estándard
+Para el hardware utilizado, no se emplearon demasiadas herramientas más allá de un ordenador para la realización del proyecto,
+que se hará a medida, a priori, con un dispositivo de 16GB de RAM, SSD NVMe, procesador actual y una tarjeta gráfica estándar
 será suficiente.
 En el precio viene ya incluido una licencia de Win 11.
 
+\begin{gather*}
+    \text{Coste amortizado} = \frac{\text{Coste total del equipo}}{\text{Vida útil (en meses)}} \times \text{Meses del proyecto}\\
+    \text{Coste amortizado} = \frac{1200\,€}{48\,\text{meses}} \times 5\,\text{meses} = 125\,€\\
+\end{gather*}
 
-\begin{center}
-    \begin{tabular}{| c | c |}\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
-    Ordenador a medida & 1200€ \\ \hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Total} & \textbf{1200€} \\ \Xhline{2\arrayrulewidth}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| c | c |}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        Ordenador a medida & 1200€ \\ \hline
+        Amortización durante 5 meses & 125€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total amortizado} & \textbf{125€} \\ \Xhline{2\arrayrulewidth}
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Costes del hardware.}
-\end{center}
-
+    \caption{\textit{Costes del hardware.}}
+\end{table}
 \textbf{Costes de software}
 
-En este apartado, tendremos en cuenta las licencias necesarias para el desarrollo del proyecto, para los IDE's, existen
-dos opciones, o bien utilizar las licencias gratuitas ``Community Edition`` o las de pago\cite{jetbrainsPrecios}
-Escogemos esta última porque cuentan con características que ayudan a desarrollar rápidamente nuestro proyecto.
+En este apartado tendremos en cuenta las licencias necesarias para el desarrollo del proyecto: para los IDE's existen
+dos opciones, o bien utilizar las licencias gratuitas ``Community Edition``, o las de pago\cite{jetbrainsPrecios}
+Escogemos esta última porque cuenta con características que ayudan a desarrollar rápidamente nuestro proyecto.
 
-\begin{center}
+\begin{table}[H]
+    \centering
     \begin{tabular}{| c | c | c |}\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Concepto} & \textbf{Coste} & \textbf{Coste Amortizado} \\ \Xhline{2\arrayrulewidth}
-    All Products Pack & 474,8€ & 19,78€ \\ \hline
-    Visual Studio Code & 0€ & 0€ \\ \hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Total} & \textbf{474,8€} & \textbf{19,78€} \\ \Xhline{2\arrayrulewidth}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        All Products Pack (mes) & 94,26€ \\ \hline
+        Visual Studio Code & 0€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total 5 meses} & \textbf{471,3€} \\ \Xhline{2\arrayrulewidth}
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Costes del software.}
-\end{center}
+    \caption{\textit{Costes del software.}}
+\end{table}
 
 \textbf{Costes variados}
 
-En este apartado incluimos otros costes a tener en cuenta
+En este apartado incluimos otros costes a tener en cuenta:
 
-\begin{center}
+
+\begin{table}[H]
+    \centering
     \begin{tabular}{| c | c |}\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
-    Dominio web & 20€ \\ \hline
-    Hosting / contendor & 50€\\ \hline
-    Internet & 100€ \\ \hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Total} & \textbf{170€} \\ \Xhline{2\arrayrulewidth}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        Dominio web & 20€ \\ \hline
+        Hosting / contendor & 50€\\ \hline
+        Internet & 100€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total} & \textbf{170€} \\ \Xhline{2\arrayrulewidth}
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Costes variados.}
-\end{center}
-
+    \caption{\textit{Costes varios.}}
+\end{table}
 
 \textbf{Costes totales}
 
 Se muestra el sumatorio de todos los costes:
 
-\begin{center}
+\begin{table}[H]
+    \centering
     \begin{tabular}{| c | c |}\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
-    Personal & 12500€ \\ \hline
-    Hardware & 1200€\\ \hline
-    Software & 478,8€ \\ \hline
-    Variados & 170€ \\ \hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Total} & \textbf{14348,8€} \\ \Xhline{2\arrayrulewidth}
+        \Xhline{2\arrayrulewidth}
+        \textbf{Concepto} & \textbf{Coste} \\ \Xhline{2\arrayrulewidth}
+        Personal & 16350€ \\ \hline
+        Hardware & 125€\\ \hline
+        Software & 471,3€ \\ \hline
+        Variados & 170€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Total} & \textbf{17116,3€} \\ \Xhline{2\arrayrulewidth}
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Costes totales.}
-\end{center}
+    \caption{\textit{Costes totales del proyecto.}}
+\end{table}
 
 \textbf{Beneficios}
 
-Se trata de un proyecto con fines estrictamente académicos, de hecho, la idea es poder llegar a ser desarrollado para
+Se trata de un proyecto con fines estrictamente académicos, pues la idea es que pueda llegar a ser desarrollado para
 la Universidad de Burgos.
 
-No obstante, se podría considerar establecer algún tipo de suscripción (ya sea mensual o anual) u otras entidades educativas
-o incluso a empresas privadas.
+No obstante, se podría considerar establecer algún tipo de suscripción (ya sea mensual o anual) y que pueda ser
+utilizado por otras entidades educativas o, incluso, por empresas privadas.
 
-\begin{center}
+\begin{table}[H]
+    \centering
     \begin{tabular}{| c | c | c | c | }\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Tipo} & \textbf{Objetivo} & \textbf{Precio mensual} & \textbf{Precio anual} \\ \Xhline{2\arrayrulewidth}
-    Básica & Centros educativos pequeños & 49,90€ & 499€ \\ \hline
-    Profesional & Instituciones grandes & 89,90€ & 899€ \\ \hline
-    Empresarial & Empresas privadas & 149,90€ & 1149€ \\ \hline
-    Premium & Incluye personalización total & 250€ & 2500€ \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Tipo} & \textbf{Objetivo} & \textbf{Precio mensual} & \textbf{Precio anual} \\ \Xhline{2\arrayrulewidth}
+        Básica & Centros educativos pequeños & 49,90€ & 499€ \\ \hline
+        Profesional & Instituciones grandes & 89,90€ & 899€ \\ \hline
+        Empresarial & Empresas privadas & 149,90€ & 1149€ \\ \hline
+        Premium & Incluye personalización total & 250€ & 2500€ \\ \hline
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Monetización del proyecto.}
-\end{center}
+    \caption{\textit{Monetización del proyecto.}}
+\end{table}
 
 Para calcular el número de suscripciones que necesitaríamos para cubrir gastos, utilizamos la siguiente fórmula:
 
 \[
-    \text{Suscripciones necesarias} = \frac{14.348{,}8\,€}{\text{Precio de la suscripción anual}}
+    \text{Suscripciones necesarias} = \frac{17.116{,}3\,€}{\text{Precio de la suscripción anual}}
 \]
 
-\begin{center}
+\begin{table}[H]
+    \centering
     \begin{tabular}{| c | c | c | }\hline
-    \Xhline{2\arrayrulewidth}
-    \textbf{Tipo} & \textbf{Precio anual} & \textbf{Suscripciones necesarias} \\ \Xhline{2\arrayrulewidth}
-    Básica & 499€ & 29 \\ \hline
-    Profesional & 899€ & 16 \\ \hline
-    Empresarial & 1149€ & 13 \\ \hline
-    Premium & 2500€ & 6 \\ \hline
+        \Xhline{2\arrayrulewidth}
+        \textbf{Tipo} & \textbf{Precio anual} & \textbf{Suscripciones necesarias} \\ \Xhline{2\arrayrulewidth}
+        Básica & 499€ & 35 \\ \hline
+        Profesional & 899€ & 19 \\ \hline
+        Empresarial & 1149€ & 15 \\ \hline
+        Premium & 2500€ & 7 \\ \hline
     \end{tabular}
-
-
-    \vspace{0.3em}
-    \textit{Tabla: Suscripciones necesarias para cubrir gastos.}
-\end{center}
+    \caption{\textit{Suscripciones necesarias para cubrir gastos.}}
+\end{table}
 
 De esta manera, calculamos el número de suscripciones necesarias (si solo se tuviesen de un mismo tipo)
 para llegar a cubrir los gastos totales del proyecto.
-También se podría utilizar un modelo mixto, e incluir suscripciones de cada tipo.
-
-\textbf{Responsabilidad social}
-
-Si este proyecto se implementase de manera real, uno de los aspectos más importantes a tener en cuenta es el impacto
-sobre los trabajadores que actualmente desempeñan manualmente este tipo de tareas.
-Es cierto que para este proyecto siempre se va a necesitar un mínimo de una persona, que ha de ejecutar la aplicación
-en cada cliente, al menos para su instalación y llevar un mantenimiento por si se produjese algún tipo de error.
-Sin embargo, se necesitarían muchas menos personas de las que actualmente se dedican a este tipo de tareas de una manera
-más ``manual``, por lo que muchos puestos de trabajos actuales se verían afectados.
-Por eso, se propone una formación continúa para el personal afectado, de manera que su perfil profesional pueda evolucionar
-además de una trasparencia y comunicación interna que ayude a construir un entorno de confianza y adaptación responsable.
+También se podría utilizar un modelo mixto e incluir suscripciones de cada tipo.
 
 \subsection{Viabilidad legal}
 
-Abordamos aquellos temas relacionados con el contexto legal del proyecto así como el de las licencias.
+Abordamos aquellos temas relacionados con el contexto legal del proyecto, así como lo relativo a las licencias.
 
-La implementación del proyecto ha sido propia, a excepción de:
-
-\textbf{Software}
+La implementación del proyecto ha sido propia, a excepción de las librerías y dependencias de terceros.
 
 En este punto, diferenciaremos las dependencias utilizadas en el cliente (Python) de las utilizadas en la API (Java) y
 la interfaz de gestión de usuario (Angular)
 
-Python
+\subsubsection{Python}
 
 \begin{longtable}[]{@{}llll@{}}
     \toprule
@@ -336,7 +381,7 @@ Python
 \end{longtable}
 
 
-Java
+\subsubsection{Java}
 
 \begin{longtable}[]{@{}p{0.18\columnwidth}p{0.10\columnwidth}p{0.49\columnwidth}p{0.11\columnwidth}@{}}
     \toprule
@@ -371,12 +416,17 @@ Java
 
     \begin{minipage}[t]{0.18\columnwidth}\raggedright jjwt-api \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 0.12.3 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright API para creación y verificación de JSON Web Tokens (JWT). \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright Apache-2.0 \end{minipage} \\ \tabularnewline
 
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright jacoco \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 0.8.12 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Agente para la recolección de cobertura de código en tiempo de ejecución. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright EPL-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright junit-jupiter-api \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 5.11.4 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright API principal de JUnit 5 para pruebas unitarias. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright EPL-2.0 \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright junit-jupiter-engine \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 5.11.4 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Motor de ejecución de pruebas para JUnit 5. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright EPL-2.0 \end{minipage} \\ \tabularnewline
     \bottomrule
     \caption{Dependencias principales del proyecto Java}
 \end{longtable}
 
 
-Angular
+\subsubsection{Angular}
 
 \begin{longtable}[]{@{}p{0.25\columnwidth}p{0.10\columnwidth}p{0.49\columnwidth}p{0.11\columnwidth}@{}}
     \toprule
@@ -411,6 +461,11 @@ Angular
 
     \begin{minipage}[t]{0.18\columnwidth}\raggedright zone.js \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 0.15.0 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Implementación de zonas para la gestión del contexto de ejecución. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
 
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright @fortawesome \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 6.7.2 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Biblioteca de iconos escalables basada en Font Awesome. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright tailwindcss \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 4.1.4 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Framework de utilidad para crear interfaces modernas y responsivas. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
+
+    \begin{minipage}[t]{0.18\columnwidth}\raggedright daisyui \end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\raggedright 5.0.27 \end{minipage} & \begin{minipage}[t]{0.49\columnwidth}\raggedright Plugin de componentes UI para Tailwind CSS. \end{minipage} & \begin{minipage}[t]{0.11\columnwidth}\raggedright MIT \end{minipage} \\ \tabularnewline
     \bottomrule
     \caption{Dependencias principales del proyecto Angular}
 \end{longtable}
@@ -425,8 +480,8 @@ Una vez estudiadas las dependencias y tipos de licencias de nuestro proyecto, ob
     \item \textbf{0BSD}
 \end{itemize}
 
-Se ha optado por utilizar una licencia menos permisiva, para no tener problemas con el uso de otros tipos de licencias,
-en este caso elegimos Apache License 2.0\cite{apacheLicense}:
+Se ha optado por utilizar una licencia menos permisiva para no tener problemas con el uso de otros tipos de licencias.
+En este caso elegimos Apache License 2.0\cite{apacheLicense}:
 
 \begin{longtable}[]{@{}p{0.25\columnwidth}p{0.70\columnwidth}@{}}
     \toprule
@@ -464,7 +519,7 @@ se ha escogido Creative Commons Attribution 4.0 International\cite{ccby4}
 \textbf{Imágenes y vídeos}
 
 Para las imágenes y vídeos, utilizamos la licencia Creative Commons Attribution-NonCommercial 4.0 International\cite{ccby_nc4},
-ya que las imágenes utilizadas son propias, protegemos el contenido, pero permitimos su difusión.
+ya que las imágenes utilizadas son propias; así, protegemos el contenido pero permitimos su difusión.
 
 
 \textbf{Resumen}

@@ -25,10 +25,10 @@ A continuación, se muestra el listado de los requisitos específicos del proyec
 	\item \textbf{RF-1 Gestión de la plataforma web de configuraciones:} La aplicación debe ser capaz de gestionar las configuraciones de los distintos equipos.
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-1.1 Registrar equipos:} El usuario debe poder dar de alta los ordenadores, mediante un identificador que permita validar la veracidad del equipo.
+		\item \textbf{RF-1.1 Registrar equipos:} El usuario debe poder dar de alta los ordenadores mediante un identificador que permita validar la veracidad del equipo.
 		\item \textbf{RF-1.2 Editar equipos:} La aplicación podrá permitir modificar datos de los equipos, así como sus configuraciones.
 		\item \textbf{RF-1.3 Eliminar equipos:} El usuario debe poder dar de baja equipos que no se deseen seguir gestionando y eliminar la información asociada.
-		\item \textbf{RF-1.4 Listar equipos:} La aplicación debe ser capaz de realizar listados de equipos y agruparlos atendiendo a diferentes características para después aplicar configuraciones pertinentes.
+		\item \textbf{RF-1.4 Listar equipos:} La aplicación debe ser capaz de realizar listados de equipos y agruparlos atendiendo a diferentes características para después aplicar las configuraciones pertinentes.
 		\item \textbf{RF-1.5 Ver equipos:} La aplicación debe ser capaz de mostrar la configuración que aplica a un determinado equipo.
 	\end{itemize}
 	\item \textbf{RF-2 Gestión de plantillas de configuraciones:} La aplicación debe ser capaz de ofrecer una gestión eficiente de las plantillas de configuraciones que se aplicarán a los equipos.
@@ -57,7 +57,6 @@ A continuación, se muestra el listado de los requisitos específicos del proyec
 		\item \textbf{RF-4.2 Aplicar configuración:} La aplicación tiene que ser capaz de aplicar la configuración registrada para cada dispositivo.
 		\item \textbf{RF-4.3 Eliminar configuración:} La aplicación tiene que ser capaz de revertir los cambios realizados a un dispositivo.
 	\end{itemize}
-	\item 	\textbf{RF-5 Ayuda de la aplicación:} El usuario podrá obtener una ayuda acerca de cómo utilizar las funciones que se ofrecen en la aplicación.
 \end{itemize}
 
 
@@ -80,7 +79,6 @@ Los requisitos no funcionales definen cómo debe comportarse un sistema.
 
 \subsection{Casos de uso}\label{subsec:casos-de-uso}
 
-% Caso de Uso 1.2 -> Registrar equipos.
 \begin{table}[p]
 	\centering
 	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
@@ -656,39 +654,6 @@ Los requisitos no funcionales definen cómo debe comportarse un sistema.
 		\bottomrule
 	\end{tabularx}
 	\caption{CU-15 Eliminar configuración.}\label{tab:table-15}
-\end{table}
-
-\begin{table}[p]
-	\centering
-	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
-		\toprule
-		\textbf{CU-16}    & \textbf{ Ayuda de la aplicación}\\
-		\toprule
-		\textbf{Versión}              & 1.0    \\
-		\textbf{Autor}                & \@author{} \\
-		\textbf{Requisitos asociados} & RF-5\\
-		\textbf{Descripción}          & Permite ofrecer ayuda a los usuarios de la aplicación. \\
-		\textbf{Precondición}         &
-		\begin{itemize}
-			\tightlist
-			\item La aplicación se encuentra operativa.
-		\end{itemize}\\
-		\textbf{Acciones}             &
-		\begin{enumerate}
-			\tightlist
-			\item El usuario pulsa en ayuda de la aplicación.
-			\item Se abre un manual de ayuda para el usuario.
-		\end{enumerate}\\
-		\textbf{Postcondición}        & El usuario obtiene ayuda acerca de la aplicación.\\
-		\textbf{Excepciones}          &
-		\begin{itemize}
-			\tightlist
-			\item Error al generar la ayuda (se muestra mensaje).
-		\end{itemize}\\
-		\textbf{Importancia}          & Baja\\
-		\bottomrule
-	\end{tabularx}
-	\caption{CU-16 Ayuda de la aplicación.}\label{tab:table-16}
 \end{table}
 
 \begin{landscape}
