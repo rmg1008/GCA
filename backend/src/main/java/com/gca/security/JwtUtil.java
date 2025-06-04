@@ -3,6 +3,8 @@ package com.gca.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,10 +14,13 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
+
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
     public String generateToken(UserDetails userDetails) {
+        LOGGER.debug("Generando token para usuario: {}", userDetails.getUsername());
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities())

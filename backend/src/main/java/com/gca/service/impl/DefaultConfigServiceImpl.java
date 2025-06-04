@@ -10,6 +10,8 @@ import com.gca.exception.GCAException;
 import com.gca.repository.DeviceRepository;
 import com.gca.service.CipherService;
 import com.gca.service.ConfigService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DefaultConfigServiceImpl implements ConfigService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConfigServiceImpl.class);
 
     private final DeviceRepository deviceRepository;
     private final CipherService cipherService;
@@ -38,6 +42,7 @@ public class DefaultConfigServiceImpl implements ConfigService {
         if (template != null) {
             return buildConfigDTO(template);
         }
+        LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo {}", huella);
         throw throwNotFoundException("No se ha encontrado ninguna configuración para este dispositivo").get();
     }
 
@@ -54,11 +59,13 @@ public class DefaultConfigServiceImpl implements ConfigService {
 
     private Template findTemplate(Device device) {
         if (device.getTemplate() != null) {
+            LOGGER.info("El dispositivo con huella {} tiene asignada directamente una configuración", device.getFingerprint());
             return device.getTemplate();
         }
         Group group = device.getGroup();
         while (group != null) {
             if (group.getTemplate() != null) {
+                LOGGER.debug("El grupo {} tiene asignada una configuración", group.getName());
                 return group.getTemplate();
             }
             group = group.getParent();
@@ -84,6 +91,10 @@ public class DefaultConfigServiceImpl implements ConfigService {
 
     private String buildCommandString(TemplateCommand templateCommand) {
         String rawCommand = templateCommand.getCommand().getValue();
+        if (rawCommand == null) {
+            LOGGER.warn("El comando {} no tiene valor", templateCommand.getCommand().getName());
+            return "";
+        }
         Map<String, String> params = templateCommand.getParameterValues();
 
         if (params == null || params.isEmpty()) {

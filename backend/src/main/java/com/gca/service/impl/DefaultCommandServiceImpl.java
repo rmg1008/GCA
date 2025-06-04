@@ -6,6 +6,8 @@ import com.gca.exception.CommandException;
 import com.gca.exception.GCAException;
 import com.gca.repository.CommandRepository;
 import com.gca.service.CommandService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class DefaultCommandServiceImpl implements CommandService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCommandServiceImpl.class);
 
     private final CommandRepository commandRepository;
 
@@ -53,9 +57,10 @@ public class DefaultCommandServiceImpl implements CommandService {
             commandPage = commandRepository
                     .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(literal, literal, pageable);
         } else {
+            LOGGER.info("No se ha proporcionado un literal para la búsqueda, se devuelven todos los comandos");
             commandPage = commandRepository.findAll(pageable);
         }
-
+        LOGGER.debug("Se han encontrado {} comandos", commandPage.getTotalElements());
         List<CommandDTO> dtoList = commandPage.getContent().stream()
                 .map(command -> {
                     CommandDTO dto = new CommandDTO();

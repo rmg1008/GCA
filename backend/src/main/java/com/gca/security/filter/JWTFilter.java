@@ -9,6 +9,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,8 @@ import java.util.function.Function;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JWTFilter.class);
 
     private final UserService userService;
 
@@ -40,6 +44,7 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = extractBearerToken(request);
+        LOGGER.debug("Token: {}", token);
         if (token != null && validateToken(token)) {
             String username = extractUserName(token);
             User user = userService.findByEmail(username);
@@ -59,6 +64,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
+        LOGGER.warn("No se ha encontrado el token en la cabecera de la petición");
         return null;
     }
 
@@ -68,6 +74,7 @@ public class JWTFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userService.findByEmail(userEmail);
             return isTokenValid(token, userDetails);
         }
+        LOGGER.debug("El token no es válido");
         return false;
     }
 
@@ -81,7 +88,6 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     private Date extractExpiration(String token) {
-
         return extractClaim(token, Claims::getExpiration);
     }
 

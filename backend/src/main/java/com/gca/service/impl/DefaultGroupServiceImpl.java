@@ -10,6 +10,8 @@ import com.gca.exception.TemplateException;
 import com.gca.repository.GroupRepository;
 import com.gca.repository.TemplateRepository;
 import com.gca.service.GroupService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class DefaultGroupServiceImpl implements GroupService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultGroupServiceImpl.class);
 
     private final GroupRepository groupRepository;
     private final TemplateRepository templateRepository;
@@ -69,6 +73,7 @@ public class DefaultGroupServiceImpl implements GroupService {
 
     @Override
     public void assignTemplateToGroup(Long groupId, Long templateId) {
+        LOGGER.info("Asignando template al grupo {}: {}", groupId, templateId);
         Group group = getGroupById(groupId);
 
         Template template = templateRepository.findById(templateId)
@@ -80,6 +85,7 @@ public class DefaultGroupServiceImpl implements GroupService {
 
     @Override
     public void unassignTemplateToGroup(Long groupId) {
+        LOGGER.info("Desasignando template al grupo {}", groupId);
         Group group = getGroupById(groupId);
         group.setTemplate(null);
         groupRepository.save(group);

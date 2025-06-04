@@ -1,39 +1,40 @@
 \capitulo{1}{Introducción}
 
-La Universidad de Burgos (UBU) cuenta con más de 1000 equipos informáticos distribuidos en aulas entre 8 y 10 centros.
-Cada una de estas aulas dispone de dispositivos destinados a satisfacer una serie de necesidades distintas, como por ejemplo,
-la realización de operaciones matemáticas complejas, redacción de documentos, edición de contenido multimedia, entre otras.
+La Universidad de Burgos (UBU) cuenta con más de 1000 equipos informáticos distribuidos en las aulas de sus centros;
+cada una de ellas dispone de dispositivos destinados a satisfacer necesidades muy diversas (resolución de operaciones
+matemáticas complejas, redacción, edición multimedia\ldots etc.).
+No obstante, dado que un mismo equipo no está enfocado a un único uso, el acceso ilimitado a todo tipo de herramientas
+de las que dispone puede derivar en un uso indebido por parte del usuario y suponer un riesgo para la seguridad de la
+información: en este contexto, por ejemplo, puede utilizarse fraudulentamente por los estudiantes a la hora de
+realizar una prueba de evaluación, como podría ser el acceso a información no autorizada o transferir archivos entre
+dispositivos de red.
 
-Sin embargo, un mismo equipo no está destinado a un único uso y con las aplicaciones instaladas pueden permitir el acceso a otros
-recursos y dispositivos no deseados, esto supone un riesgo para la seguridad de la información y puede derivar en un uso
-indebido, como acceder a información no autorizada durante una prueba de evaluación.
-
-En los últimos años, se ha observado un incremento de las peticiones entre los docentes, para limitar los recursos a
+En los últimos años, se ha observado un incremento de las peticiones entre los docentes para limitar los recursos a
 los que se pueden acceder desde los ordenadores.
-Por este motivo, surge la necesidad de implementar una gestión centralizada en las aulas, que permita, de una manera sencilla, controlar
-los accesos de los distintos equipos, atendiendo a características diferentes, como nombres de equipo, aulas, centros\ldots
+Por este motivo, surge la necesidad de implementar una gestión centralizada en las aulas, que permita de una manera
+sencilla controlar los accesos de los equipos, atendiendo a características diferentes, como nombres de equipo, aulas,
+centros\ldots
 
-De acuerdo con Microsoft\cite{microsoftQuAccess}existen cuatro formas de control de acceso:
-    \begin{itemize}
-        \item Control de accesso dicrecional (DAC): un propietario concede acceso a otros usuarios.
-        \item Control de acceso basado en roles (RBAC): se otorga acceso según funciones empresariales definidas.
-        \item Control de acceso obligatorio (MAC): se concede acceso en forma de autorización regulado por una autoridad central.
-        \item Control de acceso basado en atributos (ABAC): se da de manera flexible en función de variables y condiciones.
-    \end{itemize}
+Actualmente disponemos de herramientas comerciales capaces de gestionar el acceso a los recursos de manera eficiente;
+sin embargo, su elevado coste económico puede hacerlas poco rentables.
+Por otro lado, optar por un enfoque manual —donde un
+administrador configura y audita cada dispositivo individualmente— conlleva, inevitablemente, un notable aumento de
+la carga de trabajo y, en consecuencia, la posible necesidad de incorporar más personal, además de elevar el riesgo
+de errores humanos.
 
-Actualmente, los usuarios de los equipos, mediante el protocolo 802.1X\cite{eswiki:802.1X} han de ingresar sus credenciales
-y tras una autentificación satisfactoria, se les asigna una dirección IP, que les permite hacer uso del dispositivo, navegar
-por Internet, acceder a los distintos recursos de red\ldots.
+La solución que se propone en este proyecto es crear una plataforma para la Gestión Centralizada de las Aulas (GCA),
+con la que se pretende optimizar costes y ofrecer una solución práctica, diseñada a medida para la UBU\@.
+El gran potencial de esta iniciativa es que se enfoca en resolver problemas reales sin añadir funciones
+innecesarias que acaban dificultando su uso.
 
-Existen herramientas que pueden ayudar a limitar el acceso a los recursos, como software específico, no obstante,
-estad opciones pueden resultar costosas.
-También se pueden configurar uno a uno los permisos de cada dispositivo, pero ello requiere
-que manualmente, un administrador tenga que cambiar los distintos permisos, y llevar un control de cada uno de ellos.
+GCA es capaz de:
+\begin{enumerate}
+    \item \textbf{Registrar} cada dispositivo en un servidor centralizado utilizando una aplicación cliente.
+    \item \textbf{Aplicar} de forma automática políticas de control de acceso (IP, puertos, servicios\ldots)
+    \item \textbf{Gestionar} remotamente las configuraciones individualmente o por grupos.
+\end{enumerate}
 
-La plataforma propuesta, busca optimizar costes y ofrecer una solución práctica, diseñada a medida para la UBU.
-A diferencia de otras propuestas, esta iniciativa se enfoca en resolver problemas reales sin añadir funciones innecesarias
-que acaban dificultando el uso.
-Para su implementación, solo requiere un servidor web encargado de gestionar las configuraciones y una puesta a punto inicial
-en cada equipo para su registro en el sistema.
-Posteriormente, un software se encargará de aplicar las configuraciones
-necesarias en cada dispositivo de forma automática.
+En los apartados siguientes del presente proyecto se expondrán de forma más amplia y pormenorizada los objetivos
+específicos de este, así como una guía del trabajo de programación llevado a cabo bajo una metodología definida.
+
+\imagen{logo.png}{Logo de GCA}{0.7}
