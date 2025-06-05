@@ -139,22 +139,22 @@ INSERT IGNORE INTO command (name, description, command_value) VALUES
  'netsh advfirewall firewall set rule group="Network Discovery" new enable=No'),
 
 ('Desactivar descubrimiento red', 'Deshabilita el acceso a la red a un programa determinado',
- 'powershell -Command "$paths = @(''C:\Program Files'',''C:\Program Files (x86)'',''C:\Users\*\AppData\Local''); $exe = foreach ($p in $paths) { Get-ChildItem -Path $p -Recurse -Include *.exe -ErrorAction SilentlyContinue | Where-Object { $_.Name -like ''*{{name}}*'' } | Select-Object -ExpandProperty FullName -First 1; if ($_) { break } }; if ($exe) { netsh advfirewall firewall add rule name=''Bloqueo {{name}}'' dir=out action=block program=\"$exe\" enable=yes >$null 2>&1 }"'),
+ 'powershell -Command "$paths = @(\'C:\\Program Files\',\'C:\\Program Files (x86)\',\'C:\\Users\\*\\AppData\\Local\'); $exe = foreach ($p in $paths) { Get-ChildItem -Path $p -Recurse -Include *.exe -ErrorAction SilentlyContinue | Where-Object { $_.Name -like \'*{{name}}*\' } | Select-Object -ExpandProperty FullName -First 1; if ($_) { break } }; if ($exe) { netsh advfirewall firewall add rule name=\'Bloqueo {{name}}\' dir=out action=block program=\\\"$exe\\\" enable=yes >$null 2>&1 }"'),
 
 ('Mostrar aviso', 'Mensaje de aviso a los usuarios',
- 'echo MsgBox "{{aviso}}", 64, "Aviso" > %TEMP%\popup.vbs && start "" wscript.exe %TEMP%\popup.vbs'),
+ 'echo MsgBox \"{{aviso}}\", 64, \"Aviso\" > %TEMP%\\popup.vbs && start \"\" wscript.exe %TEMP%\\popup.vbs'),
 
 ('Deshabilitar Administrador de tareas', 'Deshabilita la posibilidad de iniciar el administrador',
- 'reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f'),
+ 'reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f'),
 
 ('Deshabilitar USB', 'Deshabilita el uso de unidades USB',
- 'reg add "HKLM\SYSTEM\CurrentControlSet\Services\USBSTOR" /v Start /t REG_DWORD /d 4 /f'),
+ 'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR" /v Start /t REG_DWORD /d 4 /f'),
 
 ('Habilitar USB', 'Habilita el uso de unidades USB',
- 'reg add "HKLM\SYSTEM\CurrentControlSet\Services\USBSTOR" /v Start /t REG_DWORD /d 3 /f'),
+ 'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR" /v Start /t REG_DWORD /d 3 /f'),
 
 ('Habilitar Administrador de tareas', 'Habilita el uso del administrador de tareas',
- 'reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableTaskMgr /f'),
+ 'reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /f'),
 
 ('Forzar cierre app', 'Fuerza el cierre de una aplicación',
  'taskkill /f /im {{app}} 2>nul || echo {{app}} no se estaba ejecutando.');
