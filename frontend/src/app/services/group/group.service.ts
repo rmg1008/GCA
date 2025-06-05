@@ -5,6 +5,9 @@ import { environment } from '../../../environments/environment';
 import { TreeNodeDTO } from '../../models/tree-node.dto';
 import { GroupDTO } from '../../models/group.dto';
 
+/**
+ * Servicio para la gestión de grupos
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -13,59 +16,58 @@ export class GroupService {
   private apiUrl = environment.apiUrl;
   private readonly baseUrl = this.apiUrl + '/groups';
 
+  /**
+   * 
+   * @param group Grupo a añadir
+   * @returns 
+   */
   addGroup(group: GroupDTO) : Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
     });
-    console.log(group)
     return this.http.post<void>(this.apiUrl + "/registerGroup", group, { headers })
   }
 
-    updateGroup(group: GroupDTO) : Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
+  /**
+   * 
+   * @param group Grupo a modificar
+   * @returns 
+   */
+  updateGroup(group: GroupDTO) : Observable<void> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
     });
-    console.log(group)
     return this.http.post<void>(this.apiUrl + "/updateGroup", group, { headers })
   }
 
+  /**
+   * 
+   * @returns Devuelve todos los grupos
+   */
   getAllGroups(): Observable<TreeNodeDTO[]> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.get<TreeNodeDTO[]>(this.baseUrl, { headers });
+    return this.http.get<TreeNodeDTO[]>(this.baseUrl);
   }
 
-
+  /**
+   * 
+   * @param id Identificador del grupo a eliminar
+   * @returns 
+   */
   deleteGroup(id:number): Observable<void> {
-    console.log(this.baseUrl + id)
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.delete<void>(this.baseUrl + "/" + id, { headers })
+    return this.http.delete<void>(this.baseUrl + "/" + id)
   }
 
+  /**
+   * Asigna / Elimina una plantilla a un determinado grupo
+   * @param groupId Identificador del grupo
+   * @param templateId Identificador de la plantilla
+   * @returns 
+   */
   asignTemplateToGroup(groupId:number, templateId:number): Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    console.log(this.baseUrl + groupId + "/assign-template/" + templateId)
     if (templateId) {
-      return this.http.post<void>(this.baseUrl + "/" +groupId + "/assign-template/" + templateId, null, { headers })
+      return this.http.post<void>(this.baseUrl + "/" +groupId + "/assign-template/" + templateId, null)
     } else {
-      return this.http.delete<void>(this.baseUrl + "/" + groupId + "/unassign-template" , { headers })
+      return this.http.delete<void>(this.baseUrl + "/" + groupId + "/unassign-template" )
     }
   }
 }

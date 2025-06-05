@@ -11,7 +11,7 @@ public class OperatingSystem implements Serializable {
     @Serial
     private static final long serialVersionUID = 550816886951063730L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incrementa el ID
     private Long id;
     private String name;
 

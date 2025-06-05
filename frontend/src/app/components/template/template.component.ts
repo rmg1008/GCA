@@ -17,6 +17,7 @@ export class TemplateComponent {
   filter: string = '';
   templates: TemplateDTO[] = [];
   isEdit: boolean = false;
+  // Valores por defecto para la paginación
   page = 0;
   size = 10;
   totalPages = 0;
@@ -28,6 +29,9 @@ export class TemplateComponent {
   selectedTemplate?: TemplateDTO;
   private router: Router = new Router;
 
+  /**
+   * Carga todas las plantillas al inicio
+   */
   ngOnInit(): void {
     this.searchCommands();
   }
@@ -50,7 +54,7 @@ export class TemplateComponent {
   }
 
   resetAndSearch(): void {
-    this.page = 0;
+    this.page = 0; // Resetea la página al buscar por literal
     this.searchCommands();
   }
   
@@ -73,6 +77,10 @@ export class TemplateComponent {
     this.isEdit = false;
   }
 
+  /**
+   * Crea o modifica una plantilla
+   * @param template Plantilla que se desea añadir o modificar
+   */
   handleSave(template: TemplateDTO): void {
     const isEdit = template.id ? true : false
     const call = isEdit ? this.templateService.updateTemplate(template) : this.templateService.addTemplate(template);
@@ -101,6 +109,10 @@ export class TemplateComponent {
       this.templateModal.open();
     }
 
+    /**
+     * Regirige a la asignación de comandos para una plantilla
+     * @param id Plantilla a la que se quiere asignar los comandos
+     */
     assignCommands(id: number): void {
       this.router.navigate(['/plantillas', id, 'asignar-comandos']);
     }

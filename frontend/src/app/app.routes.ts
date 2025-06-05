@@ -6,6 +6,9 @@ import { CommandComponent } from './components/command/command.component';
 import { TemplateComponent } from './components/template/template.component';
 import { AssignCommands2TemplateComponent } from './components/template/assign-commands2-template/assign-commands2-template.component';
 
+/**
+ * Rutas de la aplicación
+ */
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] } ,

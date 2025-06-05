@@ -4,27 +4,28 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
+/**
+ * Intercepta cada petición y agrega el token JWT.
+ */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private router = inject(Router);
   private authService = inject(AuthService);
   
+  /**
+   * Intercepta cada petición y añade el token 
+   * @param req Petición HTTP
+   * @param next  Siguiente interceptor
+   * @returns Observable del evento
+   */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('auth_token');
-
+    const token = localStorage.getItem('token');
     const authReq = token
       ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
       : req;
 
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401 || err.status === 403) {
-          localStorage.removeItem('auth_token');
-          this.router.navigate(['/login']);
-          this.authService.logout();
-          alert('Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
-        }
-
         return throwError(() => err);
       })
     );

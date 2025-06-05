@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { DeviceDTO } from '../../models/device.dto';
-import { TemplateDTO } from '../../models/template.dto';
-import { TemplateService } from '../../services/template/template.service';
+import { DeviceDTO } from '../../../models/device.dto';
+import { TemplateDTO } from '../../../models/template.dto';
+import { TemplateService } from '../../../services/template/template.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AssignedCommandsDTO } from '../../models/assignedCommands';
+import { AssignedCommandsDTO } from '../../../models/assignedCommands';
 
 @Component({
   selector: 'app-assign-device2-template',
@@ -13,8 +13,8 @@ import { AssignedCommandsDTO } from '../../models/assignedCommands';
   styleUrl: './assign-device2-template.component.css'
 })
 export class AssignDevice2TemplateComponent {
-  @Input() device!: DeviceDTO;
-  @Output() assigned = new EventEmitter<number>();
+  @Input() device!: DeviceDTO; // Recibe un dispositivo si se trata de modificar
+  @Output() assigned = new EventEmitter<number>(); // Evento para indicar al padre la acción realizada
   @ViewChild('modalRef') modalRef!: ElementRef<HTMLDialogElement>;
 
   templates: TemplateDTO[] = [];
@@ -25,12 +25,16 @@ export class AssignDevice2TemplateComponent {
 
   asignada?: TemplateDTO;
 
+  /**
+   * Carga todas las plantillas que se pueden asignar
+   */
   open(): void {
     this.selectedTemplateCommands = [];
     this.templateService.searchTemplates('', 0, 100).subscribe(res => {
       const currentId = this.device.templateId;
       this.asignada = res.content.find(t => t.id === currentId);
       this.templates = res.content.filter(t => t.id !== currentId);
+      // Tras cargar el componente, muestra la plantilla asignada y los comandos que la componen
       if (this.asignada) {
         this.templateService.getAssignedCommands(this.asignada.id).subscribe(assigned => {
           this.selectedTemplateCommands = assigned.map(dto => {
@@ -52,7 +56,7 @@ export class AssignDevice2TemplateComponent {
         });
       }
       this.selectedTemplateId = null as any;
-      this.modalRef.nativeElement.showModal();
+      this.modalRef.nativeElement.showModal(); // Se abre el modal
     });
   }
 
@@ -66,10 +70,16 @@ export class AssignDevice2TemplateComponent {
   }
 
   assign(): void {
-    this.assigned.emit(this.selectedTemplateId);
+    this.assigned.emit(this.selectedTemplateId); // Indica al padre que se ha asignado una plantilla al dispositivo
     this.close();
   }
 
+
+  /**
+   * Muestra la información de la plantilla seleccionada
+   * @param templateId Template seleccionada
+   * @returns Comandos que pertenecen a esa template
+   */
   onTemplateChange(templateId: number): void {
     if (!templateId) {
       this.selectedTemplateCommands = [];
@@ -96,7 +106,13 @@ export class AssignDevice2TemplateComponent {
     });
   }
 
-  renderCommand(template: string, values: { [key: string]: string } = {}): string {
-    return template.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
+  /**
+   * 
+   * @param command comando
+   * @param values valores para ese comando
+   * @returns Comando con los valores sustituidos
+   */
+  renderCommand(command: string, values: { [key: string]: string } = {}): string {
+    return command.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
   }
 }

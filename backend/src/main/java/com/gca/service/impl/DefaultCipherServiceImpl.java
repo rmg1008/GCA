@@ -13,6 +13,9 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+/**
+ * Implementación por defecto del servicio de cifrado.
+ */
 @Service
 public class DefaultCipherServiceImpl implements CipherService {
 
@@ -27,6 +30,11 @@ public class DefaultCipherServiceImpl implements CipherService {
         this.properties = properties;
     }
 
+    /**
+     * Inicializa la clave secreta a partir de las propiedades configuradas.
+     * La clave debe tener exactamente 16 bytes (AES-128).
+     * @throws IllegalArgumentException si la clave no tiene 16 bytes.
+     */
     @PostConstruct
     public void init() {
         byte[] keyBytes = properties.getSecretKey().getBytes(StandardCharsets.UTF_8);
@@ -36,11 +44,18 @@ public class DefaultCipherServiceImpl implements CipherService {
         this.keySpec = new SecretKeySpec(keyBytes, "AES");
     }
 
+    /**
+     * Cifra un valor utilizando un algoritmo simétrico:  AES en modo GCM.
+     * @param value el valor a cifrar.
+     * @return el valor cifrado en Base64.
+     * @throws CipherException si ocurre un error durante el cifrado.
+     */
+    @Override
     public String encrypt(String value) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             byte[] iv = new byte[IV_LENGTH];
-            new SecureRandom().nextBytes(iv);
+            new SecureRandom().nextBytes(iv); // Genera una clave IV aleatoria
 
             GCMParameterSpec spec = new GCMParameterSpec(TAG_LENGTH_BIT, iv);
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, spec);
@@ -56,6 +71,13 @@ public class DefaultCipherServiceImpl implements CipherService {
         }
     }
 
+    /**
+     * Descifra un valor cifrado en Base64 utilizando AES en modo GCM.
+     * @param encryptedBase64 el valor cifrado en Base64.
+     * @return el valor descifrado.
+     * @throws CipherException si ocurre un error durante el descifrado.
+     */
+    @Override
     public String decrypt(String encryptedBase64) {
         try {
             byte[] combined = Base64.getDecoder().decode(encryptedBase64);
@@ -75,6 +97,12 @@ public class DefaultCipherServiceImpl implements CipherService {
         }
     }
 
+    /**
+     * Calcula un hash SHA-256 de un valor.
+     * @param value el valor a hashear.
+     * @return el hash en Base64.
+     * @throws CipherException si ocurre un error durante el cálculo del hash.
+     */
     public String calculateHash(String value) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

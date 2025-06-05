@@ -13,7 +13,7 @@ public class Template implements Serializable {
     @Serial
     private static final long serialVersionUID = -8738092240974220724L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incrementa el ID
     private Long id;
 
     private String name;

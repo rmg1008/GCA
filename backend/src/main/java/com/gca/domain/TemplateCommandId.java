@@ -6,6 +6,10 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Clase que representa la clave primaria compuesta para la entidad TemplateCommand.
+ * Utilizada para mapear las relaciones entre Template y Command.
+ */
 @Embeddable
 public class TemplateCommandId implements Serializable {
 

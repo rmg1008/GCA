@@ -13,12 +13,12 @@ public class Group implements Serializable {
     @Serial
     private static final long serialVersionUID = 1029882785305430206L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incrementa el ID
     private Long id;
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // EAGER carga la entidad relacionada inmediatamente
     @JoinColumn(name = "parent")
     private Group parent;
 

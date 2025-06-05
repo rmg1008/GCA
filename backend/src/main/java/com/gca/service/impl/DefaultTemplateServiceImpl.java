@@ -28,6 +28,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Implementación por defecto del servicio de plantillas.
+ */
 @Service
 public class DefaultTemplateServiceImpl implements TemplateService {
 
@@ -44,6 +47,11 @@ public class DefaultTemplateServiceImpl implements TemplateService {
         this.commandRepository = commandRepository;
     }
 
+    /**
+     * Crea una nueva plantilla en la base de datos.
+     * @param templateDTO DTO que contiene los datos de la plantilla a crear.
+     * @return El ID de la plantilla creada.
+     */
     @Override
     public Long createTemplate(TemplateDTO templateDTO) {
         Template templateModel = new Template();
@@ -52,6 +60,11 @@ public class DefaultTemplateServiceImpl implements TemplateService {
         return templateRepository.save(templateModel).getId();
     }
 
+    /**
+     * Actualiza una plantilla existente en la base de datos.
+     * @param templateDTO DTO que contiene los datos de la plantilla a actualizar.
+     * @return El ID de la plantilla actualizada.
+     */
     @Override
     public Long updateTemplate(TemplateDTO templateDTO) {
         Template templateModel = templateRepository.findById(templateDTO.getId()).orElseThrow(throwNotFoundException());
@@ -62,11 +75,21 @@ public class DefaultTemplateServiceImpl implements TemplateService {
         return templateRepository.save(templateModel).getId();
     }
 
+    /**
+     * Elimina una plantilla de la base de datos.
+     * @param id ID de la plantilla a eliminar.
+     */
     @Override
     public void deleteTemplate(Long id) {
         templateRepository.deleteById(id);
     }
 
+    /**
+     * Busca plantillas por un literal por su nombre o descripción.
+     * @param literal Literal a buscar en el nombre o descripción de las plantillas.
+     * @param pageable Información de paginación.
+     * @return Una página de plantillas que coinciden con el literal proporcionado.
+     */
     @Override
     public Page<TemplateDTO> searchTemplate(String literal, Pageable pageable) {
         Page<Template> templatePage;
@@ -93,6 +116,11 @@ public class DefaultTemplateServiceImpl implements TemplateService {
         return new PageImpl<>(dtoList, pageable, templatePage.getTotalElements());
     }
 
+    /**
+     * Asigna un template a un dispositivo.
+     * @param templateId ID del template a asignar.
+     * @return Lista de comandos asignados al template.
+     */
     @Override
     public List<TemplateCommandDTO> getAssignedCommands(Long templateId) {
         Template template = templateRepository.findById(templateId)
@@ -109,10 +137,15 @@ public class DefaultTemplateServiceImpl implements TemplateService {
                     dto.setParameterValues(tc.getParameterValues());
                     return dto;
                 })
-                .sorted(Comparator.comparingInt(TemplateCommandDTO::getExecutionOrder))
+                .sorted(Comparator.comparingInt(TemplateCommandDTO::getExecutionOrder)) // Ordena por el orden de ejecución
                 .toList();
     }
 
+    /**
+     * Obtiene todos los comandos disponibles que no están asignados a un template específico.
+     * @param templateId ID del template para el cual se buscan comandos disponibles.
+     * @return Lista de DTOs de comandos disponibles.
+     */
     @Override
     public List<CommandDTO> getAvailableCommands(Long templateId) {
         Template template = templateRepository.findById(templateId)
@@ -122,6 +155,7 @@ public class DefaultTemplateServiceImpl implements TemplateService {
                 .map(tc -> tc.getCommand().getId())
                 .collect(Collectors.toSet());
 
+        // Filtra los comandos que no están asignados al template
         return StreamSupport.stream(commandRepository.findAll().spliterator(), false)
                 .filter(c -> !assignedCommandIds.contains(c.getId()))
                 .map(c -> {
@@ -135,13 +169,18 @@ public class DefaultTemplateServiceImpl implements TemplateService {
                 .toList();
     }
 
+    /**
+     * Asigna comandos a un template específico.
+     * @param templateId ID del template al que se asignarán los comandos.
+     * @param comandos Lista de DTOs de comandos a asignar al template.
+     */
     @Override
-    @Transactional
+    @Transactional // Para asegurar que la operación es atómica y se maneja correctamente en caso de error
     public void assignCommandsToTemplate(Long templateId, List<TemplateCommandDTO> comandos) {
         Template template = templateRepository.findById(templateId)
                 .orElseThrow(throwNotFoundException());
 
-        template.getTemplateCommands().clear();
+        template.getTemplateCommands().clear(); // Limpia comandos existentes antes de asignar nuevos
 
         for (TemplateCommandDTO dto : comandos) {
             Command command = commandRepository.findById(dto.getCommandId())
@@ -156,7 +195,7 @@ public class DefaultTemplateServiceImpl implements TemplateService {
 
             template.getTemplateCommands().add(tc);
         }
-        template.setUpdatedAt(LocalDateTime.now());
+        template.setUpdatedAt(LocalDateTime.now()); // Actualiza la fecha de modificación del template
         templateRepository.save(template);
     }
 

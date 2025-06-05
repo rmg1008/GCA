@@ -12,7 +12,7 @@ import java.util.Map;
 public class TemplateCommand implements Serializable {
     @Serial
     private static final long serialVersionUID = 1758986836350600479L;
-    @EmbeddedId
+    @EmbeddedId // Utiliza una clave primaria compuesta
     private TemplateCommandId id = new TemplateCommandId();
 
     @ManyToOne

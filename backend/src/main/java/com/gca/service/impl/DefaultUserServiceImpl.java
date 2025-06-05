@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementación por defecto del servicio de usuarios.
+ */
 @Service
 public class DefaultUserServiceImpl implements UserService, UserDetailsService {
 
@@ -22,7 +25,6 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Autowired
     public DefaultUserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -30,16 +32,26 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * Busca un usuario por su email.
+     * @param email El email del usuario a buscar.
+     * @return El usuario encontrado.
+     * @throws UsernameNotFoundException Si no se encuentra el usuario.
+     */
     @Override
     public User findByEmail(String email) {
         LOGGER.debug("Buscando usuario por email: {}", email);
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
+    /**
+     * Almacena un nuevo usuario en la base de datos.
+     * @param user El usuario a almacenar.
+     */
     @Override
     public void save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.getRoleByName("Gestor"));
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Codifica la contraseña antes de guardarla
+        user.setRoles(roleRepository.getRoleByName("Gestor")); // Solo asigna el rol "Gestor" por defecto
         userRepository.save(user);
         LOGGER.info("Se ha creado el usuario {}", user.getEmail());
     }

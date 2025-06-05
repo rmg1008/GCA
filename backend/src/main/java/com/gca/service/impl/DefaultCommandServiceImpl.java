@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/**
+ * Implementación por defecto del servicio de comandos.
+ */
 @Service
 public class DefaultCommandServiceImpl implements CommandService {
 
@@ -25,6 +28,11 @@ public class DefaultCommandServiceImpl implements CommandService {
         this.commandRepository = commandRepository;
     }
 
+    /**
+     * Crea un nuevo comando en la base de datos.
+     * @param commandDTO DTO que contiene los datos del comando a crear.
+     * @return El ID del comando creado.
+     */
     @Override
     public Long createCommand(CommandDTO commandDTO) {
         Command commandModel = new Command();
@@ -33,6 +41,11 @@ public class DefaultCommandServiceImpl implements CommandService {
         return commandRepository.save(commandModel).getId();
     }
 
+    /**
+     * Actualiza un comando existente en la base de datos.
+     * @param commandDTO DTO que contiene los datos del comando a actualizar.
+     * @return El ID del comando actualizado.
+     */
     @Override
     public Long updateCommand(CommandDTO commandDTO) {
         Command commandModel = commandRepository.findById(commandDTO.getId()).orElseThrow(() ->
@@ -44,11 +57,22 @@ public class DefaultCommandServiceImpl implements CommandService {
         return commandRepository.save(commandModel).getId();
     }
 
+    /**
+     * Elimina un comando de la base de datos.
+     * @param id ID del comando a eliminar.
+     */
     @Override
     public void deleteCommand(Long id) {
         commandRepository.deleteById(id);
     }
 
+    /**
+     * Busca comandos por un literal en su nombre o descripción.
+     * Si no se proporciona un literal, devuelve todos los comandos.
+     * @param literal Literal para buscar en el nombre o descripción de los comandos.
+     * @param pageable Información de paginación.
+     * @return Una página de DTOs de comandos que coinciden con la búsqueda.
+     */
     @Override
     public Page<CommandDTO> searchCommand(String literal, Pageable pageable) {
         Page<Command> commandPage;
@@ -71,7 +95,7 @@ public class DefaultCommandServiceImpl implements CommandService {
                     return dto;
                 })
                 .toList();
-
+        // Convertimos la lista de entidades a una lista paginada de DTOs
         return new PageImpl<>(dtoList, pageable, commandPage.getTotalElements());
     }
 

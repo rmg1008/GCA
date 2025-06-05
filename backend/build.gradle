@@ -11,10 +11,13 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(17) // Versión de Java
 	}
 }
 
+/*
+ * Configuración de SonarQube para análisis de código
+ */
 sonar {
 	properties {
 		property "sonar.projectKey", "rmg1008_GCA"
@@ -24,7 +27,7 @@ sonar {
 }
 
 repositories {
-	mavenCentral()
+	mavenCentral() // Repositorio de dependencias
 }
 
 dependencies {
@@ -48,9 +51,12 @@ dependencies {
 test {
 	systemProperty 'spring.profiles.active', 'test'
 	useJUnitPlatform()
-	finalizedBy jacocoTestReport, jacocoTestCoverageVerification
+	finalizedBy jacocoTestReport, jacocoTestCoverageVerification // Ejecuta Jacoco después de las pruebas
 }
 
+/**
+ * Configuración de Jacoco para la cobertura de pruebas
+ */
 jacocoTestReport {
 	dependsOn test
 	reports {
@@ -64,7 +70,7 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			limit {
-				minimum = 0.8
+				minimum = 0.8  // Mínimo de cobertura del 80%
 			}
 		}
 	}
