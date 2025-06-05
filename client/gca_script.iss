@@ -1,6 +1,6 @@
 [Setup]
 AppName=GCA
-AppVersion=2.0
+AppVersion=2.1
 DefaultDirName={pf}\GCA
 DefaultGroupName=GCA
 UninstallDisplayIcon={app}\main.exe
