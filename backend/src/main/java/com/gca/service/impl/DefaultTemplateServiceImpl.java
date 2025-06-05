@@ -99,7 +99,7 @@ public class DefaultTemplateServiceImpl implements TemplateService {
                     .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(literal, literal, pageable);
         } else {
             templatePage = templateRepository.findAll(pageable);
-            LOGGER.info("No se ha proporcionado un literal para la búsqueda, se devuelven todas los templates");
+            LOGGER.debug("No se ha proporcionado un literal para la búsqueda, se devuelven todas los templates");
         }
 
         LOGGER.debug("Se han encontrado {} templates", templatePage.getTotalElements());

@@ -50,11 +50,8 @@ public class DefaultConfigServiceImpl implements ConfigService {
     public ConfigDTO getConfig(String huella) {
         Device device = getDevice(huella);
         Template template = findTemplate(device);
-        if (template != null) {
-            return buildConfigDTO(template);
-        }
-        LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo {}", huella);
-        throw throwNotFoundException("No se ha encontrado ninguna configuración para este dispositivo").get();
+        return buildConfigDTO(device, template, huella);
+
     }
 
     /**
@@ -70,7 +67,7 @@ public class DefaultConfigServiceImpl implements ConfigService {
 
     private Device getDevice(String huella) {
         String hash = cipherService.calculateHash(huella);
-        return deviceRepository.findByFingerprintHash(hash).orElseThrow(throwNotFoundException("Dispositivo no encontrado"));
+        return deviceRepository.findByFingerprintHash(hash).orElseThrow(throwNotFoundException());
     }
 
     /**
@@ -97,12 +94,18 @@ public class DefaultConfigServiceImpl implements ConfigService {
         return null;
     }
 
-    private ConfigDTO buildConfigDTO(Template template) {
+    private ConfigDTO buildConfigDTO(Device device, Template template, String huella) {
         ConfigDTO configDTO = new ConfigDTO();
-        configDTO.setId(template.getId());
-        configDTO.setLastUpdate(template.getUpdatedAt());
-        configDTO.setName(template.getName());
-        configDTO.setConfig(parseTemplate(template.getTemplateCommands()));
+        if (template == null) {
+            LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo {}", huella);
+        } else {
+            configDTO.setId(template.getId());
+            configDTO.setLastUpdate(template.getUpdatedAt());
+            configDTO.setName(template.getName());
+            configDTO.setConfig(parseTemplate(template.getTemplateCommands()));
+        }
+        configDTO.setFingerprint(huella);
+        configDTO.setGroupName(device.getGroup() != null ? device.getGroup().getName() : "Sin grupo");
         return configDTO;
     }
 
@@ -153,7 +156,7 @@ public class DefaultConfigServiceImpl implements ConfigService {
         return sb.toString();
     }
 
-    private static Supplier<ConfigException> throwNotFoundException(String message) {
-        return () -> new ConfigException(message, GCAException.ErrorType.NOT_FOUND);
+    private static Supplier<ConfigException> throwNotFoundException() {
+        return () -> new ConfigException("Dispositivo no encontrado", GCAException.ErrorType.NOT_FOUND);
     }
 }

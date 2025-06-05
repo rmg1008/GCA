@@ -81,7 +81,7 @@ public class DefaultCommandServiceImpl implements CommandService {
             commandPage = commandRepository
                     .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(literal, literal, pageable);
         } else {
-            LOGGER.info("No se ha proporcionado un literal para la búsqueda, se devuelven todos los comandos");
+            LOGGER.debug("No se ha proporcionado un literal para la búsqueda, se devuelven todos los comandos");
             commandPage = commandRepository.findAll(pageable);
         }
         LOGGER.debug("Se han encontrado {} comandos", commandPage.getTotalElements());
