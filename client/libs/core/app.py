@@ -37,7 +37,7 @@ class App:
 
         ttk.Button(self.root, text="Cerrar APP", command=self.stop).pack()
 
-        self.client = Client()
+        self.client = Client(self)
 
         self.frames = {}
         self.set_app_pages()
@@ -62,6 +62,8 @@ class App:
             frame = PageClass(parent=container, controller=self)
             self.frames[PageClass.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
+
+        self.client.set_frames(self.frames)
 
     def show_frame(self, name) -> None:
         """Muestra un frame en la interfaz gráfica"""

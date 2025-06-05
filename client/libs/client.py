@@ -11,7 +11,8 @@ from client.libs.config import Config
 from client.libs.registry import Registry
 
 class Client:
-    def __init__(self, email_entry='', password_entry='') -> None:
+    def __init__(self, app, email_entry='', password_entry='') -> None:
+        self.app = app
         self.token = None
         self.email = email_entry
         self.password = password_entry
@@ -20,6 +21,10 @@ class Client:
         self.is_rollback_enabled = config.get_rollback()
         self.retrieval_time = config.get_retrieval_time()
         self.registry = Registry()
+        self.frames = {}
+
+    def set_frames(self, frames) -> None:
+        self.frames = frames
 
     def set_email(self, email) -> None:
         self.email = email
@@ -184,8 +189,9 @@ class Client:
             huella = self.registry.get_registry_value("huellaDigital")
             if huella:
                 config_data = self.get_config(huella)
-                if config_data:
-                    config_string = config_data.get("config")
+                self.send_device_info(config_data)
+                config_string = config_data.get("config")
+                if config_string:
                     config_last_update = config_data.get("lastUpdate")
                     config_id = config_data.get("id")
                     if config_string:
@@ -237,3 +243,14 @@ class Client:
             self.registry.save_registry("templateID", config_id)
         elif self.is_rollback_enabled: # Si está activo, se hace un rollback de la configuración
             Backup().restore_all()
+
+    def send_device_info(self, config_data) -> Any | None:
+        """Envía la información del equipo al panel de usuario"""
+        if config_data:
+            config = {
+            "Huella": config_data.get("fingerprint") or "No existe huella",
+            "Grupo": config_data.get("groupName") or "Sin grupo",
+            "Plantilla": config_data.get("name") or "Ninguna"
+        }
+            self.app.root.after(0, lambda: self.app.frames["UserPage"].update_device_info(config))
+

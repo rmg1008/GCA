@@ -12,7 +12,8 @@ class UIManager:
         self.page_container.grid_rowconfigure(0, weight=1)
         self.page_container.grid_columnconfigure(0, weight=1)
 
-        self.log_text = ScrolledText(self.root, height=6, state='normal')
+        self.log_text = ScrolledText(self.root, height=7, bg="white", fg="lime", font=("Consolas", 10))
+
         self.log_text.pack(padx=10, pady=5, fill='x')
 
     def get_log_widget(self) -> ScrolledText:
