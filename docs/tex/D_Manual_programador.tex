@@ -2,10 +2,376 @@
 
 \section{Introducción}
 
+El objetivo de este apéndice es ofrecer una visión clara y estructurada de los procesos de implementación de la
+aplicación, de manera que pueda utilizarse por otros programadores como referencia para el mantenimiento y
+el desarrollo de nuevas funcionalidades.
+Al tratarse de documentación técnica, se entiende que el lector posee de nociones en la materia.
+
+
 \section{Estructura de directorios}
+
+El directorio del proyecto se puede consultar en el repositorio \href{https://github.com/rmg1008/GCA}{GitHub}.
+
+La estructura de directorios del proyecto es la siguiente:
+\begin{itemize}
+    \tightlist
+    \item\texttt{GCA/}: Directorio raíz del proyecto.
+    Contiene todos los archivos y subdirectorios del proyecto,
+    README.md, .env, docker-compose.yml y licencia.
+    \item \texttt{GCA/.github/}: Acciones de GitHub.
+    Contiene los archivos de configuración para las acciones de GitHub,
+    utilizando workflows para la integración y despliegue continuo (CI/CD).
+    \item\texttt{GCA/backend/}: Proyecto Spring Boot.
+    Contiene el código fuente del backend, archivos de configuración y dependencias.
+    \item \texttt{GCA/backend/src/main/java/}: Código fuente del backend.
+    Contiene el código Java de la aplicación.
+    \item \texttt{GCA/backend/src/main/resources/}: Recursos del backend.
+    Contiene los archivos de configuración y ficheros para la base de datos.
+    \item \texttt{GCA/backend/src/test/java}: Tests del backend.
+    Contiene las pruebas unitarias y de integración.
+    \item \texttt{GCA/backend/src/test/resources}: Recursos de pruebas.
+    Contiene los archivos de configuración y ficheros necesarios para las pruebas.
+    \item \texttt{GCA/client/}: Aplicación de escritorio Python.
+    Contiene el código fuente de la aplicación de escritorio.
+    \item \texttt{GCA/client/libs/}: Librerías del cliente.
+    Contiene las librerías necesarias para la aplicación.
+    \item \texttt{GCA/client/output/}: Instalador del cliente.
+    \item \texttt{GCA/client/resources/}: Archivos de recursos del cliente.
+    Contiene los archivos de configuración e imágenes.
+    \item \texttt{GCA/docs/}: Documentación del proyecto.
+    Contiene los documentos de diseño, manuales y otros archivos.
+    \item \texttt{GCA/docs/img/}: Imágenes.
+    \item \texttt{GCA/frontend/}: Proyecto Angular.
+    Contiene el código fuente del frontend, archivos de configuración\ldots
+    \item \texttt{GCA/frontend/public/}: Archivos públicos del frontend (imágenes, iconos\ldots).
+    \item \texttt{GCA/frontend/src/}: Código fuente del frontend.
+    Contiene el código TypeScript de la aplicación.
+    \item \texttt{GCA/frontend/src/app/}: Código de la aplicación (componentes, servicios, modelos\ldots).
+    \item \texttt{GCA/frontend/src/environments/}: Configuración de los distintos entornos.
+\end{itemize}
+
 
 \section{Manual del programador}
 
+Como hemos mencionado en la introducción, este apéndice está destinado a programadores que deseen comprender la
+implementación del proyecto.
+Se detallan todos aquellos aspectos necesarios para la instalación, compilación y ejecución del proyecto, así como
+las pruebas del sistema.
+
 \section{Compilación, instalación y ejecución del proyecto}
 
+En primer lugar, es importante mencionar que el proyecto se ha realizado bajo el sistema operativo Windows 11, por lo
+que las instrucciones de instalación y ejecución están orientadas a este sistema operativo.
+No obstante, la gran mayoría de instrucciones son aplicables a otros entornos.
+
+El proyecto se divide en tres partes principales: el backend, el frontend y el cliente.
+Aunque estén separadas, se encuentran en el mismo repositorio para favorecer una mayor facilidad de uso y despliegue.
+
+Existen dos formas de ejecutar el proyecto: mediante Docker o de forma manual.
+
+\subsection{Docker}
+
+Para ejecutar el proyecto mediante Docker, es necesario tener instalado Docker en el sistema: se puede descargar
+\href{https://www.docker.com/}{aquí}.
+
+Al instalar Docker Desktop, se nos permite tener una interfaz gráfica para gestionar los contenedores, sin perjuicio de poder utilizarse
+la línea de comandos si se prefiere.
+
+Tras instalar Docker, podemos comprobar que se ha instalado correctamente desde nuestra terminal ejecutando:
+\begin{verbatim}
+docker --version
+\end{verbatim}
+
+Si se ha instalado correctamente, nos mostrará la versión de Docker instalada.
+Iniciamos la aplicación Docker Desktop y nos aseguramos de que está en ejecución.
+
+Nos dirigimos al directorio raíz del proyecto y ejecutamos el siguiente comando:
+\begin{verbatim}
+docker-compose up --build
+\end{verbatim}
+
+Si al ejecutarlo se produce un error del tipo \texttt{yaml: did not find expected key}, es posible que haya un error de
+propiedades mal formadas en el archivo \texttt{docker-compose.yml}.
+
+Si todo ha ido bien, se iniciarán los contenedores del backend, frontend y base de datos; podremos comprobarlo desde la
+interfaz de Docker Desktop:
+
+\imagen{docker.png}{Contenedores de Docker.}{0.5}
+
+Una vez que los contenedores estén en ejecución, podemos acceder al frontend desde el navegador web en la dirección
+\texttt{http://localhost:4200} y al backend en \texttt{http://localhost:8080} o las urls que hayamos configurado.
+
+Para que funcione correctamente, la base de datos debe levantarse cuando se inicie el backend, ya que este utiliza
+la base de datos para iniciar el contexto de la aplicación.
+Esto se consigue mediante la configuración del docker-compose.yml, donde se especifica que el backend depende del
+servicio de la base de datos.
+
+\subsection{Manual}
+
+\subsubsection{Backend}
+
+Para ejecutar el backend de forma manual, es necesario tener instalar:
+\begin{itemize}
+    \tightlist
+    \item JDK 17.
+    \item Gradle.
+    \item Git.
+    \item MariaDB\@.
+\end{itemize}
+
+En este caso decidí utilizar IntelliJ IDEA como IDE, pero se puede utilizar cualquier otro IDE compatible con Java.
+
+El proyecto se puede importar directamente utilizando la URL del repositorio de GitHub o clonando el repositorio y
+después importándolo en el IDE\@.
+
+Para este proyecto en concreto, es conveniente clonar el repositorio y abrirlo desde el IDE, ya que la carpeta del
+proyecto que vamos a utilizar es la carpeta \texttt{backend/} y no la raíz del proyecto.
+
+Para clonar el repositorio, abrimos una terminal y ejecutamos el siguiente comando:
+\begin{verbatim}
+git clone https://github.com/rmg1008/GCA.git
+\end{verbatim}
+
+Una vez clonado el repositorio, abrimos IntelliJ IDEA y seleccionamos la opción de abrir un proyecto existente:
+seleccionamos la carpeta \texttt{GCA/backend/} e IntelliJ IDEA nos preguntará si queremos importar el proyecto como un
+proyecto de Gradle; le decimos que sí.
+
+\imagen{intellij.png}{Importar proyecto con Gradle.}{1}
+
+Una vez importado el proyecto, IntelliJ IDEA descargará las dependencias necesarias y configurará el proyecto.
+Es importante configurar en el proyecto la versión sdk de Java 17, pues es la versión sobre la que se ha desarrollado el
+proyecto y es necesaria para que SonarQube funcione correctamente, porque no es compatible con versiones superiores.
+Para ello, vamos a \texttt{Archivo > Estructura del proyecto > SDK del proyecto} y seleccionamos la versión 17.
+
+\imagen{sdk.png}{Configuración del SDK de proyecto.}{1}
+
+Se puede descargar a través del siguiente \href{https://www.azul.com/downloads/?version=java-17-lts&os=windows&package=jdk#zulu}{enlace}.
+
+Una vez configurado el SDK, podemos proceder a configurar la base de datos.
+Para ello, debemos crear una base de datos en MariaDB para el entorno de desarrollo.
+Se puede descargar MariaDB desde su página oficial \href{https://mariadb.org/download}{aquí}.
+
+No importa cómo se haya nombrado la base de datos, pero es importante que se configure correctamente en el archivo
+\texttt{application.properties} que se encuentra en la carpeta \texttt{src/main/resources/} del proyecto.
+En este archivo encontramos todas aquellas configuraciones que podemos modificar antes de la ejecución del proyecto.
+
+IntelliJ nos ofrece la posibilidad de configurar la conexión a la base de datos desde el IDE: para ello, vamos a
+\texttt{Ver > Herramientas de base de datos} y creamos una nueva conexión a la base de datos MariaDB. De esta forma,
+podremos ver las tablas y datos de la base de datos sin salir del IDE.
+
+Por último, para iniciar el proyecto, podemos utilizar la opción de lanzarlo desde IntelliJ IDEA, o bien
+ejecutar el siguiente comando en la terminal:
+\begin{verbatim}
+./gradlew bootRun
+\end{verbatim}
+
+Si todo ha ido bien, el backend se iniciará y podremos acceder a la API REST desde la dirección \texttt{http://localhost:8080}.
+
+\imagen{spring}{Ejecución del backend.}{1}
+
+No obstante, es recomendable ejecutar el proyecto desde IntelliJ IDEA, ya que nos ofrece una mejor experiencia de
+desarrollo y nos permite depurar el código ejecutándolo en modo debug.
+
+\imagen{spring_start.png}{Ejecución del backend desde IntelliJ IDEA.}{0.5}
+
+Para las llamadas a la API REST, hemos utilizado la herramienta Postman, que permite realizar peticiones HTTP
+de forma sencilla y visual.
+Se puede descargar desde su página oficial \href{https://www.postman.com/downloads/}{aquí}.
+
+Todas las librerias y dependencias del proyecto se gestionan mediante Gradle.
+Si deseamos añadir o modificar alguna extra, podemos hacerlo en el archivo \texttt{build.gradle} que se encuentra
+en la carpeta raíz del proyecto.
+
+\subsubsection{Frontend}
+
+Para ejecutar el frontend de forma manual, es necesario tener instalado:
+
+\begin{itemize}
+    \tightlist
+    \item Node.js.
+    \item Angular CLI\@.
+    \item Visual Studio Code\@.
+\end{itemize}
+
+NPM se instala junto a Node.js, por lo que no es necesario instalarlo de forma independiente.
+Se puede descargar desde su página oficial \href{https://nodejs.org/es/download/}{aquí}.
+
+Para instalar Angular CLI, podemos utilizar el siguiente comando en la terminal:
+\begin{verbatim}
+npm install -g @angular/cli
+\end{verbatim}
+
+Las versiones actuales de Angular CLI y Node.js son las siguientes:
+
+\imagen{ng.png}{Versiones del proyecto frontend.}{1}
+
+Una vez instalado, ejecutamos Visual Studio Code y abrimos la carpeta del proyecto \texttt{frontend/}.
+Para una mejor experiencia de desarrollo, es recomendable instalar las extensiones de Angular y TypeScript.
+
+Además, es necesario instalar las dependencias del proyecto la primera vez que lo importamos.
+Para ello, abrimos una terminal en Visual Studio Code y ejecutamos el siguiente comando:
+\begin{verbatim}
+npm install
+\end{verbatim}
+
+De cara al futuro, si se desea añadir o modificar alguna dependencia, podemos hacerlo en el archivo
+\texttt{package.json} que se encuentra en la carpeta raíz del proyecto, y después, ejecutar de nuevo el comando anterior
+o bien utilizar NPM para instalar una dependencia concreta:
+\begin{verbatim}
+npm install nombre-dependencia
+\end{verbatim}
+
+Para iniciar el proyecto, abrimos una terminal en Visual Studio Code y ejecutamos el siguiente comando:
+\begin{verbatim}
+ng serve
+\end{verbatim}
+
+Una vez listo, el proyecto se iniciará y podremos acceder al frontend desde el navegador web en la dirección
+\texttt{http://localhost:4200/dashboard}.
+
+\subsubsection{Cliente}
+
+Para importar el cliente de forma manual, es necesario tener instalado:
+\begin{itemize}
+    \tightlist
+    \item Python 3.10 o superior.
+    \item Pip (incluido con Python).
+    \item PyInstaller.
+    \item PyCharm o cualquier otro IDE compatible con Python.
+    \item Inno Setup.
+\end{itemize}
+
+Se puede descargar Python para Windows desde su página oficial \href{https://www.python.org/downloads/windows/}{aquí}.
+
+Para instalar PyInstaller, podemos utilizar el siguiente comando en la terminal:
+\begin{verbatim}
+pip install pyinstaller
+\end{verbatim}
+
+Para instalar PyCharm, podemos descargarlo desde su página oficial \href{https://www.jetbrains.com/pycharm/download/}{aquí}.
+
+Para instalar Inno Setup, podemos descargarlo desde su página oficial \href{https://jrsoftware.org/isinfo.php}{aquí}.
+
+Con todo instalado, abrimos PyCharm e importamos el proyecto desde la carpeta \texttt{client/}.
+
+Desde PyCharm, podemos ejecutar el cliente directamente y utilizar el debug, siempre y cuando hayamos ejecutado el IDE
+como administrador para que pueda acceder a los recursos del sistema y el entorno sea Windows.
+
+Antes de crear el ejecutable, podemos modificar el archivo \texttt{config.json} que se encuentra en la carpeta
+\texttt{resources/} del cliente y configurar la URL del backend, entre otras opciones.
+
+Para crear un instalador del cliente, podemos ejecutar el siguiente comando en la terminal desde la carpeta del cliente:
+\begin{verbatim}
+ pyinstaller --uac-admin --noconsole --onefile --add-data
+"resources/config.json;." --icon=resources/icono.ico main.py
+\end{verbatim}
+o bien ejecutar este otro comando:
+\begin{verbatim}
+     pyinstaller.exe .\main.spec
+\end{verbatim}
+
+Esto generará un archivo (.exe) en la carpeta \texttt{dist/} del cliente, que se puede ejecutar directamente.
+Sin embargo, como queremos que el cliente pueda instalar en el sistema, utilizamos Inno Setup para crear un instalador.
+
+InnoSetup funciona mediante scripts.
+Tenemos ya un script preparado en la carpeta \texttt{client/} que podemos utilizar.
+Abrimos Inno Setup y cargamos el script \texttt{gca\_script.iss} que se encuentra en la carpeta \texttt{client/}.
+
+\imagen{inno.png}{Script de Inno Setup.}{1}
+
+En el script se especifican las configuraciones del instalador, como el nombre del programa, la versión,
+el icono, los archivos a incluir, etc.
+El primer paso es compilar el script.
+Para ello, pulsamos en el botón de compilar en la barra de herramientas, o bien utilizamos el atajo de teclado \texttt{Ctrl + F9}.
+
+Una vez compilado, se generará un instalador en la carpeta \texttt{output/} del cliente con el nombre \texttt{GCA\_Installer.exe}.
+
+Se pueden instalar nuevas dependencias en el cliente mediante PIP, al igual que en cualquier otro proyecto de Python.
+No obstante, cabe destacar que cuantas más dependencias se añadan, peor compatibilidad podrá tener el instalador con
+los dispositivos, pues algunas dependencias pueden requerir de librerías adicionales que no estén presentes en
+el sistema.
+
 \section{Pruebas del sistema}
+
+Las pruebas se han realizado en el backend utilizando Junit y Spring Boot Test.
+Todo el código de las pruebas se encuentra en la carpeta \texttt{src/test/java/} del proyecto y su configuración en
+la carpeta \texttt{resources/}.
+
+Se utiliza una base de datos en memoria H2, por lo que no es necesario tener una base de datos
+configurada.
+De esta forma, las pruebas son más rápidas y no afectan a la base de datos real.
+
+Dentro de los tests se pueden encontrar pruebas unitarias y de integración: las pruebas unitarias no necesitan levantar
+el contexto de la aplicación, mientras que las pruebas de integración sí lo necesitan, porque prueban la interacción entre
+los distintos componentes de la aplicación.
+
+En relación a esto, se ha añadido Jacoco para la cobertura de código, que permite ver el porcentaje de código cubierto
+por las pruebas.
+
+Se pueden ejecutar los tests de manera individual desde el IDE: basta con abrir las clases de tests y pulsar en el botón
+de ejecutar:
+
+\imagen{test.png}{Ejecución individual desde el IDE.}{0.5}
+
+Si todo ha ido bien, aparece un tick verde en todos los métodos de prueba; en caso contrario, se marcan aquellos
+test que han fallado con una cruz roja.
+
+Otra opción es utilizar Gradle para ejecutar todos los tests del proyecto.
+Para ello, abrimos una terminal en la carpeta \texttt{backend/} y ejecutamos el siguiente comando:
+\begin{verbatim}
+./gradlew test
+\end{verbatim}
+
+O bien, utilizamos la herramienta de IntelliJ que tiene integrada para ejecutar tas tareas Gradle.
+Para ello, vamos a la barra lateral derecha y buscamos la pestaña de Gradle, y allí buscamos la tarea \texttt{test} y la ejecutamos:
+
+\imagen{gradle.png}{Ejecución de tests desde Gradle.}{1}
+
+Esta tarea ejecuta todos los tests del proyecto y genera un informe de los resultados en la carpeta
+\texttt{build/jacocoHtml}.
+
+Si todo ha ido bien, en Spring se muestra el resultado:
+
+\imagen{test_results.png}{Resultado de pruebas.}{1}
+
+Y podemos consultar el informe en nuestro navegador accediendo a la dirección
+\texttt{../backend/build/jacocoHtml/index.html}.
+
+\imagen{test_report.png}{Informe de pruebas.}{1}
+
+En verde se muestran las líneas de código que han sido cubiertas por las pruebas y en rojo las que no,
+además del porcentaje de cobertura total del proyecto.
+Podemos navegar por el informe para ver en detalle la cobertura en cada clase y método (es decir, tanto las líneas de
+código que han sido cubiertas por las pruebas como las que no).
+
+\imagen{jacoco_example.png}{Ejemplo de detalle de cobertura de una clase.}{1}
+
+\imagen{jacoco_example_2.png}{Ejemplo de detalle de cobertura de un método.}{1}
+
+Además de todo esto, se ha utilizado SonarQube para el análisis del código.
+Esta herramienta se ejecuta en la nube y es válida para analizar el código que se encuentra en la rama principal del
+repositorio, dado que la versión utilizada es gratuita y no permite analizar ramas diferentes a la principal.
+
+Los resultados del análisis se pueden consultar en la página de SonarQube del proyecto y muestra la siguiente información:
+\imagen{sonarqube.png}{Análisis de SonarQube.}{1}
+
+Para no tener que subir constantemente el proyecto a SonarQube, se ha instalado el siguiente plugin en IntelliJ IDEA:
+\imagen{sonarqube_plugin.png}{Plugin de SonarQube para IntelliJ IDEA.}{1}
+
+Esta herramienta nos permite analizar el código directamente desde el IDE y ver los resultados en tiempo real, como
+el que muestra la siguiente imagen:
+\imagen{sonarqube_ide.png}{Análisis de SonarQube desde el IDE.}{1}
+
+Así, antes de subir el código al repositorio, podemos asegurarnos de que cumple con los estándares de calidad necesarios.
+
+Por último, se ha incluido en GitHub Actions un workflow que se ejecuta cada vez que se realiza un push al repositorio;
+se encarga de compilar el proyecto y ejecutar los tests, y puede comprobarse directamente desde GitHub:
+
+\imagen{github_check.png}{GitHub Check.}{1}
+
+Y pulsando sobre el check, podemos ver los detalles de la ejecución:
+
+\imagen{github_check_details.png}{Detalles del GitHub Check.}{1}
+
+De esta manera, se consigue que cada vez que un usuario realice una aportación al repositorio, se garantice que el código
+cumple con los estándares de calidad y que no se introducen errores en el proyecto.
