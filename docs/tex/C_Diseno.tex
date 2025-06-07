@@ -2,7 +2,30 @@
 
 \section{Introducción}
 
+Esta sección describe el diseño del sistema, incluyendo el diseño de datos, diseño arquitectónico, diseño procedimental
+y diseño de interfaces.
+El objetivo es proporcionar una visión general de cómo se estructuran los componentes del sistema y cómo interactúan entre sí
+para comprender mejor su funcionamiento.
+
 \section{Diseño de datos}
+
+GCA trabaja con los siguientes tipos de datos:
+\begin{itemize}
+    \item \textbf{Usuarios}: figuras que interactúan con el sistema mediante un rol específico.
+    \item \textbf{Grupos}: almacenan dispositivos y otros grupos, permitiendo una organización jerárquica, además de
+    almacenar la plantilla asignada.
+    \item \textbf{Dispositivos}: guardan información sobre cada dispositivo, el grupo al que pertenecen, así como
+    su sistema operativo y la plantilla asignada.
+    \item \textbf{Comandos}: nombre, descripción y valor del comando que se ejecutará en los dispositivos.
+    \item \textbf{Plantillas}: nombre, descripción y lista de comandos que se ejecutarán en los dispositivos mediante
+    un orden de ejecución.
+    \item \textbf{Roles}: los roles que pueden tener los usuarios, como administrador o gestor.
+    \item \textbf{Sistemas Operativos}: el conjunto de sistemas operativos que pueden tener los dispositivos.
+\end{itemize}
+
+\imagenAncho{ER.pdf}{Diagrama entidad relación}{1}
+
+\imagenAncho{diagram.png}{Diagrama exportado en IntelliJ}{1}
 
 \section{Diseño arquitectónico}
 
