@@ -29,6 +29,88 @@ GCA trabaja con los siguientes tipos de datos:
 
 \section{Diseño arquitectónico}
 
+Antes de comenzar con la explicación de la arquitectura, hay que distinguir entre las tres partes en las que se divide este proyecto:
+\begin{itemize}
+    \item \textbf{Backend}: aplicación desarrollada con Java y Spring Boot.
+    Se trata de una API la cual consumen el resto de componentes.
+    \item \textbf{Frontend}: aplicación Angular utilizada para llevar a cabo la gestión de dispositivos.
+    \item \textbf{Cliente}: aplicación Python que genera un instalador para ejecutar en los distintos dispositivos
+    sobre los que se quieren aplicar las configuraciones.
+\end{itemize}
+
+\subsection{Backend}
+
+
+El patrón MVC (Modelo-Vista-Controlador) es un patrón de diseño que separa la lógica de negocio, la interfaz de usuario
+y el control de flujo de la aplicación\cite{springMvc}.
+
+En el caso del modelo, este se obtiene con ayuda de JPA, que mapea las entidades de la base de datos a objetos Java que se
+pueden manipular, sin necesidad de escribir consultas SQL directamente.
+La interacción con la base de datos se consigue mediante el uso del patrón de repositorio, que permite realizar
+operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre las entidades de forma sencilla.
+
+La vista se mantiene totalmente independiente del backend y se gestiona desde el frontend, que explicaremos en la
+siguiente sección.
+
+El controlador, por su parte, se encarga de recibir las peticiones HTTP y dirigirlas a los servicios correspondientes.
+Para los servicios se ha aplicado una arquitectura de microservicios, donde cada servicio es responsable de una
+parte específica de la lógica de negocio: uno para gestionar usuarios, otro para grupos, dispositivos\ldots
+Se consigue así una mayor modularidad y escalabilidad, permitiendo que cada servicio pueda evolucionar de forma
+independiente.
+
+El backend se estructura de la siguiente manera:
+\imagen{diagrama_paquetes.png}{Diagrama de paquetes del backend}{1}
+
+Los paquetes que lo componen son:
+\begin{itemize}
+    \item \textbf{Config}: se incluyen archivos para la configuración de la aplicación.
+    \item \textbf{Controller}: contiene los controladores que gestionan las peticiones HTTP y utilizan los servicios.
+    \item \textbf{Domain}: contienen las clases equivalentes a cada una de las tablas de la base de datos.
+    \item \textbf{Dto}: se utilizan para enviar datos de los modelos a la vista, evitando así enviar información
+    sensible o innecesaria.
+    \item \textbf{Exception}: contiene las excepciones personalizadas que pueden lanzar el sistema.
+    \item \textbf{Repository}: contiene las interfaces que extienden de JPA y permiten realizar operaciones CRUD.
+    \item \textbf{Security}: contiene la configuración de seguridad de la aplicación; incluye la autenticación y
+    autorización.
+    \item \textbf{Service}: implementa la lógica de negocio y utiliza los repositorios.
+    \item \textbf{Util}: clases de utilidad que pueden ser utilizadas en diferentes partes del sistema.
+\end{itemize}
+
+La estructura completa de clases del backend es la siguiente:
+
+\imagenAncho{clases.png}{Diagrama de clases del backend}{0.8}
+
+\subsection{Frontend}
+
+El front se estructura de forma similar al backend, siguiendo el patrón MVC, pero adaptado a Angular.
+
+Dentro de la carpeta \texttt{src/app} se encuentra dividida la estructura de la siguiente manera:
+\begin{itemize}
+    \item \textbf{Components}: contiene los componentes de la aplicación, que son las partes reutilizables de la
+    interfaz de usuario.
+    \item \textbf{Model}: contiene las clases que representan los modelos de datos utilizados en la aplicación.
+    \item \textbf{Services}: contiene los servicios que se encargan de realizar peticiones HTTP al backend y gestionar
+    la lógica de negocio del frontend.
+\end{itemize}
+
+\imagenAncho{angular.png}{Diagrama de componentes Angular}{1}
+
+\subsection{Cliente}
+
+El cliente Python se estructura de la siguiente manera:
+
+\imagen{python_diagram.png}{Paquetes de Python}{1}
+
+Se divide en los siguientes paquetes:
+\begin{itemize}
+    \item \textbf{libs}: contiene las librerías utilizadas.
+    \item \textbf{libs.core}: contiene las clases que implementan la lógica principal.
+    \item \textbf{libs.pages}: contiene las páginas que se utilizan para interactuar con el usuario.
+\end{itemize}
+
+El punto de entrada del cliente es el archivo \texttt{main.py}, que se encarga de inicializar la aplicación y
+cargar la configuración necesaria.
+
 \section{Diseño procedimental}
 
 \section{Diseño de interfaces}
