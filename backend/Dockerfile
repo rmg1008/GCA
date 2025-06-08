@@ -11,7 +11,7 @@ COPY . .
 RUN gradle bootJar -x test --no-daemon
 
 FROM azul/zulu-openjdk:17.0.15
-ENV ARTIFCAT_NAME=gca-0.0.1-SNAPSHOT.jar
+ENV ARTIFCAT_NAME=gca-1.0.jar
 ENV APP_HOME=/usr/app
 
 WORKDIR $APP_HOME
