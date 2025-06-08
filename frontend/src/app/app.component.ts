@@ -4,6 +4,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ToastComponent } from './components/toast/toast.component';
 
+/**
+ * Aplicación principal, carga todas las demás
+ */
 @Component({
   standalone: true,
   selector: 'app-root',
@@ -14,6 +17,5 @@ import { ToastComponent } from './components/toast/toast.component';
 export class AppComponent {
   title = 'frontend';
   constructor() {
-    console.log('AppComponent cargado');
   }
 }

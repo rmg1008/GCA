@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación por defecto del servicio de dispositivos.
+ */
 @Service
 public class DefaultDeviceServiceImpl implements DeviceService {
 
@@ -42,6 +45,11 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         this.cipherService = cipherService;
     }
 
+    /**
+     * Crea un nuevo dispositivo en la base de datos.
+     * @param device DTO que contiene los datos del dispositivo a crear.
+     * @return El ID del dispositivo creado.
+     */
     @Override
     public Long createDevice(DeviceDTO device) {
         Device deviceModel = new Device();
@@ -49,6 +57,11 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         return deviceRepository.save(deviceModel).getId();
     }
 
+    /**
+     * Actualiza un dispositivo existente en la base de datos.
+     * @param device DTO que contiene los datos del dispositivo a actualizar.
+     * @return El ID del dispositivo actualizado.
+     */
     @Override
     public Long updateDevice(DeviceDTO device) {
         Device deviceModel = deviceRepository.findById(device.getId()).orElseThrow(() ->
@@ -67,16 +80,30 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         os.ifPresent(deviceModel::setOs);
     }
 
+    /**
+     * Elimina un dispositivo de la base de datos.
+     * @param id ID del dispositivo a eliminar.
+     */
     @Override
     public void deleteDevice(Long id) {
         deviceRepository.deleteById(id);
     }
 
+    /**
+     * Busca un dispositivo por su ID.
+     * @param id ID del dispositivo a buscar.
+     * @return El dispositivo encontrado o null si no existe.
+     */
     @Override
     public Device searchDeviceById(Long id) {
         return deviceRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Busca dispositivos por un grupo específico.
+     * @param group ID del grupo al que pertenecen los dispositivos.
+     * @return Una lista de DTOs de dispositivos que pertenecen al grupo.
+     */
     @Override
     public List<DeviceDTO> searchDeviceByGroup(Long group) {
         List<DeviceDTO> deviceDTOS = new ArrayList<>();
@@ -95,6 +122,11 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         return deviceDTOS;
     }
 
+    /**
+     * Asigna una plantilla a un dispositivo.
+     * @param templateId ID de la plantilla a asignar.
+     * @param deviceId ID del dispositivo al que se asignará la plantilla.
+     */
     @Override
     public void assignTemplateToDevice(Long templateId, Long deviceId) {
         LOGGER.info("Asignando template {} al dispositivo {}", templateId, deviceId);
@@ -107,6 +139,10 @@ public class DefaultDeviceServiceImpl implements DeviceService {
         deviceRepository.save(device);
     }
 
+    /**
+     * Desasigna la plantilla de un dispositivo.
+     * @param deviceId ID del dispositivo del cual se desasignará la plantilla.
+     */
     @Override
     public void unassignTemplateToDevice(Long deviceId) {
         LOGGER.info("Desasignando template al dispositivo {}", deviceId);

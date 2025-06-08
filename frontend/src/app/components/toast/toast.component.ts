@@ -2,7 +2,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast/toast.service';
-
+/**
+ * Componente para mostrar avisos de notificaciones
+ */
 @Component({
   selector: 'app-toast',
   standalone: true,
@@ -29,6 +31,11 @@ import { ToastService } from '../../services/toast/toast.service';
 export class ToastComponent {
   toastService = inject(ToastService);
 
+  /**
+   * 
+   * @param type Tipo de aviso
+   * @returns Devuelve la alerta al usuario
+   */
   getToastClass(type: string) {
     return {
       'alert-success': type === 'success',

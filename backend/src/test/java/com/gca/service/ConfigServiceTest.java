@@ -106,10 +106,12 @@ class ConfigServiceTest {
     }
 
     @Test
-    void getConfig_throws_when_noTemplateFound() {
+    void getConfig_noTemplateFound() {
         given(deviceRepository.findByFingerprintHash(hash)).willReturn(Optional.of(device));
 
-        assertThrows(ConfigException.class, () -> configService.getConfig(huella));
+        ConfigDTO config = configService.getConfig(huella);
+        assertThat(config).isNotNull();
+        assertThat(config.getFingerprint()).isEqualTo(huella);
     }
 
     @Test

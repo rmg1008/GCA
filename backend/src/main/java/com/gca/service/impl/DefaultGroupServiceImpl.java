@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación por defecto del servicio de grupos.
+ */
 @Service
 public class DefaultGroupServiceImpl implements GroupService {
 
@@ -32,7 +35,11 @@ public class DefaultGroupServiceImpl implements GroupService {
         this.templateRepository = templateRepository;
     }
 
-    @Transactional(readOnly = true)
+    /**
+     * Obtiene la estructura de grupos en forma de árbol.
+     * @return Un objeto TreeNodeDTO que representa el grupo raíz y sus hijos.
+     */
+    @Transactional(readOnly = true) // Para evitar problemas de concurrencia
     @Override
     public TreeNodeDTO getTree() {
         Group rootGroup = groupRepository.findByParentIsNull()
@@ -41,6 +48,10 @@ public class DefaultGroupServiceImpl implements GroupService {
         return buildNode(rootGroup);
     }
 
+    /**
+     * Obtiene todos los grupos en formato de lista.
+     * @return Una lista de TreeNodeDTO que representa todos los grupos.
+     */
     @Override
     public List<TreeNodeDTO> getAllGroups() {
         List<TreeNodeDTO> groups = new java.util.ArrayList<>();
@@ -52,11 +63,20 @@ public class DefaultGroupServiceImpl implements GroupService {
         return groups;
     }
 
+    /**
+     * Elimina un grupo por su ID.
+     * @param id ID del grupo a eliminar.
+     */
     @Override
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
     }
 
+    /**
+     * Crea un nuevo grupo en la base de datos.
+     * @param group DTO que contiene los datos del grupo a crear.
+     * @return El ID del grupo creado.
+     */
     @Override
     public Long createGroup(GroupDTO group) {
         Group groupModel = new Group();
@@ -64,6 +84,11 @@ public class DefaultGroupServiceImpl implements GroupService {
         return groupRepository.save(groupModel).getId();
     }
 
+    /**
+     * Actualiza un grupo existente en la base de datos.
+     * @param group DTO que contiene los datos del grupo a actualizar.
+     * @return El ID del grupo actualizado.
+     */
     @Override
     public Long updateGroup(GroupDTO group) {
         Group groupModel = getGroupById(group.getId());
@@ -71,6 +96,11 @@ public class DefaultGroupServiceImpl implements GroupService {
         return groupRepository.save(groupModel).getId();
     }
 
+    /**
+     * Asigna un template a un grupo específico.
+     * @param groupId ID del grupo al que se asignará el template.
+     * @param templateId ID del template a asignar.
+     */
     @Override
     public void assignTemplateToGroup(Long groupId, Long templateId) {
         LOGGER.info("Asignando template al grupo {}: {}", groupId, templateId);
@@ -83,6 +113,10 @@ public class DefaultGroupServiceImpl implements GroupService {
         groupRepository.save(group);
     }
 
+    /**
+     * Desasigna un template de un grupo específico.
+     * @param groupId ID del grupo del cual se desasignará el template.
+     */
     @Override
     public void unassignTemplateToGroup(Long groupId) {
         LOGGER.info("Desasignando template al grupo {}", groupId);
@@ -105,11 +139,18 @@ public class DefaultGroupServiceImpl implements GroupService {
         }
     }
 
+    /**
+     * Construye un nodo del árbol a partir de un grupo.
+     * @param group El grupo del cual se construirá el nodo.
+     * @return Un objeto TreeNodeDTO que representa el grupo y sus hijos.
+     */
     private TreeNodeDTO buildNode(Group group) {
+        // Crea un nodo para el grupo actual
         TreeNodeDTO node = new TreeNodeDTO(group.getId(), group.getName(),
                 group.getParent() != null ? group.getParent().getId() : null,
                 group.getTemplate() != null ? group.getTemplate().getId() : null);
 
+        // Añade los hijos del grupo al nodo
         for (Group childGroup : group.getChildren()) {
             node.getChildren().add(buildNode(childGroup));
         }

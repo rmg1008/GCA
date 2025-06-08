@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user") // Renombrada para evitar conflictos con la clase User de Spring Security
 public class User implements UserDetails, Serializable {
 
     @Serial
@@ -26,6 +26,7 @@ public class User implements UserDetails, Serializable {
     @NotNull
     private String password;
 
+    // Tabla intermedia para la relación m a n entre usuarios y roles
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

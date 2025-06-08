@@ -22,6 +22,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Implementación por defecto del servicio de configuración.
+ */
 @Service
 public class DefaultConfigServiceImpl implements ConfigService {
 
@@ -35,17 +38,27 @@ public class DefaultConfigServiceImpl implements ConfigService {
         this.cipherService = cipherService;
     }
 
+    /**
+     * Obtiene la configuración asociada a un dispositivo por su huella digital.
+     * Si el dispositivo tiene una plantilla asignada directamente, se utiliza esa.
+     * Si no, se busca en el grupo al que pertenece el dispositivo.
+     *
+     * @param huella Huella digital del dispositivo.
+     * @return Configuración del dispositivo.
+     */
     @Override
     public ConfigDTO getConfig(String huella) {
         Device device = getDevice(huella);
         Template template = findTemplate(device);
-        if (template != null) {
-            return buildConfigDTO(template);
-        }
-        LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo {}", huella);
-        throw throwNotFoundException("No se ha encontrado ninguna configuración para este dispositivo").get();
+        return buildConfigDTO(device, template, huella);
+
     }
 
+    /**
+     * Elimina un dispositivo por su huella digital.
+     * Si el dispositivo no existe, lanza una excepción.
+     * @param huella Huella digital del dispositivo a eliminar.
+     */
     @Override
     public void deleteDeviceByFingerprint(String huella) {
         Device device = getDevice(huella);
@@ -54,9 +67,17 @@ public class DefaultConfigServiceImpl implements ConfigService {
 
     private Device getDevice(String huella) {
         String hash = cipherService.calculateHash(huella);
-        return deviceRepository.findByFingerprintHash(hash).orElseThrow(throwNotFoundException("Dispositivo no encontrado"));
+        return deviceRepository.findByFingerprintHash(hash).orElseThrow(throwNotFoundException());
     }
 
+    /**
+     * Busca la plantilla asociada a un dispositivo.
+     * Primero verifica si el dispositivo tiene una plantilla asignada directamente.
+     * Si no, busca en el grupo al que pertenece el dispositivo y sus grupos padres.
+     *
+     * @param device Dispositivo del cual se busca la plantilla.
+     * @return Plantilla asociada al dispositivo o null si no se encuentra ninguna.
+     */
     private Template findTemplate(Device device) {
         if (device.getTemplate() != null) {
             LOGGER.info("El dispositivo con huella {} tiene asignada directamente una configuración", device.getFingerprint());
@@ -73,15 +94,28 @@ public class DefaultConfigServiceImpl implements ConfigService {
         return null;
     }
 
-    private ConfigDTO buildConfigDTO(Template template) {
+    private ConfigDTO buildConfigDTO(Device device, Template template, String huella) {
         ConfigDTO configDTO = new ConfigDTO();
-        configDTO.setId(template.getId());
-        configDTO.setLastUpdate(template.getUpdatedAt());
-        configDTO.setName(template.getName());
-        configDTO.setConfig(parseTemplate(template.getTemplateCommands()));
+        if (template == null) {
+            LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo {}", huella);
+        } else {
+            configDTO.setId(template.getId());
+            configDTO.setLastUpdate(template.getUpdatedAt());
+            configDTO.setName(template.getName());
+            configDTO.setConfig(parseTemplate(template.getTemplateCommands()));
+        }
+        configDTO.setFingerprint(huella);
+        configDTO.setGroupName(device.getGroup() != null ? device.getGroup().getName() : "Sin grupo");
         return configDTO;
     }
 
+    /**
+     * Parsea los comandos de la plantilla y construye una cadena de comandos.
+     * Los comandos se ordenan por su orden de ejecución y se unen con "&&".
+     *
+     * @param templateCommands Lista de comandos de la plantilla.
+     * @return Cadena de comandos formateada.
+     */
     private String parseTemplate(List<TemplateCommand> templateCommands) {
         return templateCommands.stream()
                 .sorted(Comparator.comparingInt(TemplateCommand::getExecutionOrder))
@@ -89,6 +123,13 @@ public class DefaultConfigServiceImpl implements ConfigService {
                 .collect(Collectors.joining(" && "));
     }
 
+    /**
+     * Construye una cadena de comandos a partir de un TemplateCommand.
+     * Reemplaza los parámetros en el comando con sus valores correspondientes.
+     *
+     * @param templateCommand Comando de plantilla que contiene el comando y sus parámetros.
+     * @return Cadena de comando con los parámetros reemplazados.
+     */
     private String buildCommandString(TemplateCommand templateCommand) {
         String rawCommand = templateCommand.getCommand().getValue();
         if (rawCommand == null) {
@@ -115,7 +156,7 @@ public class DefaultConfigServiceImpl implements ConfigService {
         return sb.toString();
     }
 
-    private static Supplier<ConfigException> throwNotFoundException(String message) {
-        return () -> new ConfigException(message, GCAException.ErrorType.NOT_FOUND);
+    private static Supplier<ConfigException> throwNotFoundException() {
+        return () -> new ConfigException("Dispositivo no encontrado", GCAException.ErrorType.NOT_FOUND);
     }
 }

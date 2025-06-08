@@ -7,6 +7,9 @@ import { TemplateDTO } from '../../models/template.dto';
 import { TemplateCommandDTO } from '../../models/templateCommand.dto';
 import { CommandDTO } from '../../models/command.dto';
 
+/**
+ * Servicio encargado de la gestión de las plantillas
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -15,77 +18,82 @@ export class TemplateService {
   private apiUrl = environment.apiUrl;
   private readonly baseUrl = this.apiUrl + '/template/';
 
+  /**
+   * 
+   * @param literal texto utilizado para buscar por nombre o descripción
+   * @param page página a mostrar
+   * @param size tamaño por página
+   * @returns Plantillas paginadas
+   */
   searchTemplates(literal: string = '', page: number = 0, size: number = 10): Observable<Page<TemplateDTO>> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-  
     let url = `${this.baseUrl}search?page=${page}&size=${size}`;
     if (literal.trim()) {
       url += `&literal=${encodeURIComponent(literal.trim())}`;
     }
-  
-    return this.http.get<Page<TemplateDTO>>(url, { headers });
+    return this.http.get<Page<TemplateDTO>>(url);
   }
 
-
+  /**
+   * 
+   * @param template Plantilla a añadir
+   * @returns 
+   */
   addTemplate(template: TemplateDTO) : Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json'
     });
-    console.log(template)
     return this.http.post<void>(this.baseUrl + "register", template, { headers })
   }
 
+  /**
+   * 
+   * @param template Plantilla a modificar
+   * @returns 
+   */
   updateTemplate(template: TemplateDTO) : Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json'
     });
     return this.http.post<void>(this.baseUrl + "update", template, { headers })
   }
 
+  /**
+   * 
+   * @param id Identidicador de plantilla a eliminar
+   * @returns 
+   */
   deleteTemplateById(id:number): Observable<void> {
-    console.log(this.baseUrl + id)
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.delete<void>(this.baseUrl + "delete/" + id, { headers })
+    return this.http.delete<void>(this.baseUrl + "delete/" + id)
   }
 
+  /**
+   * 
+   * @param templateId Identificador de plantilla
+   * @returns Comandos asignados a un plantilla
+   */
   getAssignedCommands(templateId: number): Observable<TemplateCommandDTO[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<TemplateCommandDTO[]>(`${this.baseUrl}${templateId}/commands`, { headers });
+    return this.http.get<TemplateCommandDTO[]>(`${this.baseUrl}${templateId}/commands`);
   }
   
+  /**
+   * 
+   * @param templateId Identificador de plantilla
+   * @returns Comandos disponibles para asignar a la plantilla
+   */
   getAvailableCommands(templateId: number): Observable<CommandDTO[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<CommandDTO[]>(`${this.baseUrl}${templateId}/available-commands`, { headers });
+    return this.http.get<CommandDTO[]>(`${this.baseUrl}${templateId}/available-commands`);
   }
   
+  /**
+   * 
+   * @param templateId Identificador de plantilla
+   * @param commands Comandos a asignar a la plantilla
+   * @returns 
+   */
   assignCommandsToTemplate(templateId: number, commands: TemplateCommandDTO[]): Observable<void> {
-    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json'
     });
     return this.http.post<void>(`${this.baseUrl}${templateId}/assign-commands`, commands, { headers });
-  }
-
-  asignTemplateToGroup(groupId:number, templateId:number): Observable<void> {
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.post<void>(this.baseUrl + groupId + "/assign-template/" + templateId, { headers })
   }
 }

@@ -35,6 +35,10 @@ export class AssignCommands2TemplateComponent implements OnInit {
     private toastService: ToastService
   ) {}
 
+  /**
+   * Comprueba que se ha selecciondo una plantilla, de lo contrario
+   * redirige a la gestión de plantillas de nueuvo
+   */
   ngOnInit(): void {
     this.plantillaId = Number(this.route.snapshot.paramMap.get('id'));
     if (isNaN(this.plantillaId)) {
@@ -44,6 +48,14 @@ export class AssignCommands2TemplateComponent implements OnInit {
     this.loadCommands();
   }
 
+  onSearch(): void {
+    this.page = 0; // Resetea la página actual al realizar una búsqueda
+    this.loadCommands();
+  }
+
+  /**
+   * Rellena las dos columnas, de comandos disponibles y seleccionados
+   */
   loadCommands(): void {
     this.templateService.getAssignedCommands(this.plantillaId).subscribe(assigned => {
       if (this.assignedCommands.length == 0 ) {
@@ -67,12 +79,10 @@ export class AssignCommands2TemplateComponent implements OnInit {
           };
         });
       }
-      const assignedIds = new Set(this.assignedCommands.map(ac => ac.command.id));
 
-      this.commandService.searchCommands('', this.page, this.size).subscribe(result => {
+      this.commandService.searchCommands(this.searchTerm, this.page, this.size).subscribe(result => {
         this.totalPages = result.totalPages;
         this.availableCommands = result.content
-          .filter(cmd => !assignedIds.has(cmd.id))
           .map(cmd => {
             const placeholders = cmd.value.match(/{{(.*?)}}/g)?.map(p => p.replace(/[{}]/g, '')) || [];
             return { ...cmd, placeholders };
@@ -101,6 +111,10 @@ export class AssignCommands2TemplateComponent implements OnInit {
     this.recalculateOrder();
   }
 
+  /**
+   * Aumenta la prioridad del comando
+   * @param index nuevo orden para el comando 
+   */
   up(index: number): void {
     if (index > 0) {
       [this.assignedCommands[index - 1], this.assignedCommands[index]] = [this.assignedCommands[index], this.assignedCommands[index - 1]];
@@ -108,6 +122,10 @@ export class AssignCommands2TemplateComponent implements OnInit {
     }
   }
 
+    /**
+   * Disminuye la prioridad del comando
+   * @param index nuevo orden para el comando 
+   */
   down(index: number): void {
     if (index < this.assignedCommands.length - 1) {
       [this.assignedCommands[index + 1], this.assignedCommands[index]] = [this.assignedCommands[index], this.assignedCommands[index + 1]];
@@ -115,6 +133,9 @@ export class AssignCommands2TemplateComponent implements OnInit {
     }
   }
 
+  /**
+   * Recalcula el orden de todos los comandos
+   */
   recalculateOrder(): void {
     this.assignedCommands.forEach((cmd, idx) => cmd.order = idx + 1);
   }
@@ -150,6 +171,10 @@ export class AssignCommands2TemplateComponent implements OnInit {
     );
   }
 
+  /**
+   * Comprueba que los comandos dinámicos se han asignado correctamente
+   * @returns True si no se han rellenado todos los valores
+   */
   isInvalid(): boolean {
      if (this.assignedCommands.length === 0) return false;
       return this.assignedCommands.some(command => {
@@ -158,7 +183,13 @@ export class AssignCommands2TemplateComponent implements OnInit {
     });
   }
 
-  renderCommand(template: string, values: { [key: string]: string } = {}): string {
-    return template.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
+    /**
+   * 
+   * @param command comando
+   * @param values valores para ese comando
+   * @returns Comando con los valores sustituidos
+   */
+  renderCommand(command: string, values: { [key: string]: string } = {}): string {
+    return command.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
   }
 }

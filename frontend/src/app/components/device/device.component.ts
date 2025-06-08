@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
-import { DeviceDTO } from '../models/device.dto';
+import { DeviceDTO } from '../../models/device.dto';
 import { CommonModule } from '@angular/common';
-import { DeviceService } from '../services/device/device.service';
-import { TreeNodeDTO } from '../models/tree-node.dto';
-import { ToastService } from '../services/toast/toast.service';
+import { DeviceService } from '../../services/device/device.service';
+import { TreeNodeDTO } from '../../models/tree-node.dto';
+import { ToastService } from '../../services/toast/toast.service';
 import { DeviceFormModalComponent } from './device-form-modal/device-form-modal.component';
 import { AssignDevice2TemplateComponent } from './assign-device2-template/assign-device2-template.component';
 
@@ -14,10 +14,10 @@ import { AssignDevice2TemplateComponent } from './assign-device2-template/assign
   styleUrl: './device.component.css'
 })
 export class DeviceComponent {
-  @Input() devices: DeviceDTO[] = [];
-  @Input() selectedPath: TreeNodeDTO[] = [];
-  @Output() deleted = new EventEmitter<void>();
-  @Output() pathClicked = new EventEmitter<TreeNodeDTO>();
+  @Input() devices: DeviceDTO[] = []; // Recibe la lista de dispositivos
+  @Input() selectedPath: TreeNodeDTO[] = []; // Ruta del grupo al que pertenece
+  @Output() deleted = new EventEmitter<void>(); // Evento para indicar que se ha eliminado el dispositivo 
+  @Output() pathClicked = new EventEmitter<TreeNodeDTO>(); // Evento para navegar entre grupos
   @ViewChild('deviceFormModal') deviceFormModal!: DeviceFormModalComponent;
   @ViewChild('assignTemplateModal') assignTemplateModal!: AssignDevice2TemplateComponent;
   selectedDevice?: DeviceDTO;
@@ -28,7 +28,6 @@ export class DeviceComponent {
 
   deleteDevice(id: number): void{
     if (confirm("¿Estás seguro que quieres eliminar el dispositivo")) {
-      console.log("Entra")
       this.deviceService.deleteDeviceById(id).subscribe({
         next: () => {
           this.toastService.show("success", "Dispositivo eliminado")
@@ -59,6 +58,10 @@ export class DeviceComponent {
     this.assignTemplateModal.open();
   }
 
+  /**
+   * Crea o modifica el dispositivo
+   * @param device Dispositivo a guardar
+   */
   handleSave(device: DeviceDTO): void {
       if (device.id && device.id !== 0) {
         this.deviceService.updateDevice(device).subscribe({
@@ -85,10 +88,18 @@ export class DeviceComponent {
       }
     }
 
+    /**
+     * Lanza el evento para navegar hacia el nodo seleccionado
+     * @param node Nodo al que queremos ir
+     */
   onBreadcrumbClick(node: TreeNodeDTO): void {
     this.pathClicked.emit(node);
   }
 
+  /**
+   * Asigna o elimina la asignación del dispositivo
+   * @param templateId Recibe template o no segun se asigne o se elimine la asignación
+   */
   handleTemplateAssigned(templateId: number): void {
   this.deviceService.asignTemplateToDevice(this.selectedDeviceToAssign.id, templateId)
     .subscribe(() => {

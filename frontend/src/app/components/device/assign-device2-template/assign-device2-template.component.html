@@ -19,7 +19,8 @@
       <h4 class="text-lg font-semibold mb-4">Asignar nueva plantilla al dispositivo</h4>
 
       <select class="select select-bordered w-full mb-4" [(ngModel)]="selectedTemplateId" (ngModelChange)="onTemplateChange($event)">
-        <option *ngFor="let template of templates" [value]="template.id">
+        <option [ngValue]="null" disabled>Selecciona una plantilla</option>
+        <option *ngFor="let template of templates" [ngValue]="template.id">
           {{ template.name }} - {{ template.description }}
         </option>
       </select>

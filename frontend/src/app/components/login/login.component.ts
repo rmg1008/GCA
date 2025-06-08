@@ -15,21 +15,23 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-    console.log('LoginComponent cargado');
-
+    // Configuración y validación del form
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
 
+  /**
+   * Valida el formulario al iniciar sesión
+   * Si es correcto, redirige al menú principal
+   */
   onSubmit(): void {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
 
       this.authService.login(loginData).subscribe({
         next: (response) => {
-          console.log('Login exitoso. Token guardado:', localStorage.getItem('token'));
           this.router.navigate(['dashboard']);
           this.errorMessage = '';
         },

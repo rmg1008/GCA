@@ -9,6 +9,7 @@
         <label class="floating-label">
           <span>Nombre</span>
           <input
+          [readonly]="true"
           type="text"
           placeholder="Nombre"
           formControlName="name"
@@ -19,6 +20,7 @@
         <label class="floating-label">
           <span>Huella</span>
           <input
+          [readonly]="true"
           type="text"
           placeholder="Huella"
           formControlName="fingerprint"
@@ -39,7 +41,7 @@
           <select 
           class="select select-bordered w-full"
           formControlName="group">
-          <option *ngFor="let group of groups" [value]="group.id">
+          <option *ngFor="let group of groups" [ngValue]="group.id">
             {{ group.name }}
           </option>
         </select>

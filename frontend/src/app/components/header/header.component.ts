@@ -13,11 +13,18 @@ export class HeaderComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  /**
+   * Cierra la sesión y redirige a login
+   */
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
+  /**
+   * 
+   * @returns True si el usuario ha iniciado sesión
+   */
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }

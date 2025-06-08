@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Crea un usuario administrador por defecto al iniciar la aplicación.
+ */
 @Configuration
 public class AdminUserInit {
 
@@ -22,6 +25,14 @@ public class AdminUserInit {
     @Value("${admin.default-password}")
     private String adminPassword;
 
+    /**
+     * Crea un usuario administrador por defecto si no existe.
+     *
+     * @param userRepository Repositorio de usuarios
+     * @param roleRepository Repositorio de roles
+     * @param passwordEncoder Codificador de contraseñas
+     * @return CommandLineRunner que inicializa el usuario administrador
+     */
     @Bean
     public CommandLineRunner initAdminUser(UserRepository userRepository, RoleRepository roleRepository,
                                            PasswordEncoder passwordEncoder) {

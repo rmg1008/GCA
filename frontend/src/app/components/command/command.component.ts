@@ -17,6 +17,7 @@ export class CommandComponent {
   comandos: CommandDTO[] = [];
   modoEdicion: boolean = false;
   comandoSeleccionado: CommandDTO | null = null;
+  // Valores por defecto para la paginación
   page = 0;
   size = 5;
   totalPages = 0;
@@ -27,6 +28,9 @@ export class CommandComponent {
   private toastService = inject(ToastService);
   selectedCommand?: CommandDTO;
 
+  /**
+   * Se obtienen todos los comandos al cargar el componente
+   */
   ngOnInit(): void {
     this.searchCommands();
   }
@@ -72,6 +76,10 @@ export class CommandComponent {
     this.comandoSeleccionado = null;
   }
 
+  /**
+   * Es invocada cuando se añade o edita un comando desde el modal
+   * @param cmd Comando a añadir o modificar
+   */
   handleSave(cmd: CommandDTO): void {
     const isEdit = cmd.id ? true : false
     const call = isEdit ? this.commandService.updateCommand(cmd) : this.commandService.addCommand(cmd);

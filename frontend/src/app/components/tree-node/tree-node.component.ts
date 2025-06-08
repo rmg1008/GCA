@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNodeDTO } from '../../models/tree-node.dto';
 
+/**
+ * Componente para gestionar la estructura arbórea
+ */
 @Component({
   selector: 'app-tree-node',
   standalone: true,
@@ -18,10 +21,19 @@ export class TreeNodeComponent {
   @Output() contextMenuOpenedFromChild = new EventEmitter<{ node: TreeNodeDTO; x: number; y: number }>();
   @Output() contextMenuClosed = new EventEmitter<void>();
 
+  /**
+   * Al seleccionar un nuevo grupo, se envía un evento a los demás componentes
+   * para indicar que el grupo ha cambiado y poder actualizar plantillas, dispositivos...
+   */
   onGroupClick(): void {
     this.groupSelected.emit(this.node);
   }
 
+  /**
+   * Muestra el menú de gestión del grupo
+   * al hacer clic derecho sobre este
+   * @param event Evento de clic
+   */
   onRightClick(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();

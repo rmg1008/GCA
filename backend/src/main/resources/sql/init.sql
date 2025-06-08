@@ -89,13 +89,14 @@ INSERT IGNORE INTO device_group (ID, name, parent) VALUES (9, "Sala 1", 2);
 INSERT IGNORE INTO device_group (ID, name, parent) VALUES (10, "Sala 2", 2);
 
 INSERT IGNORE INTO template(name, description, os_id, updated_at) VALUES
-('Windows 10', 'Template for Windows 10', 1, CURRENT_TIMESTAMP),
-('Windows 10 - Restrict accesses', 'Template for Windows 10 with limited network access', 1, CURRENT_TIMESTAMP),
-('Windows 11', 'Template for Windows 11', 1, CURRENT_TIMESTAMP),
-('Windows 11 - Without network', 'Template for Windows 11 that disables network access', 1, CURRENT_TIMESTAMP);
+('Acceso completo', 'Sin restricciones de red o permisos', 1, CURRENT_TIMESTAMP),
+('Acceso restringido', 'Acceso limitado a la red', 1, CURRENT_TIMESTAMP),
+('Sin red', 'Red deshabilitada por completo ', 1, CURRENT_TIMESTAMP),
+('Modo examen', 'Acceso a recursos definidos', 1, CURRENT_TIMESTAMP),
+('Restaurar configuración', 'Accesos y permisos restablecidos', 1, CURRENT_TIMESTAMP);
 
 INSERT IGNORE INTO command (name, description, command_value) VALUES
-('Bloquear todo el tráfico', 'Bloquea todas las conexiones entrantes y salientes',
+('Bloquear todo el tráfico', 'Bloquea todas las conexiones entrantes y salientes sin excepción',
  'netsh advfirewall firewall add rule name="Bloqueo Total Entrada" dir=in action=block remoteip=any && netsh advfirewall firewall add rule name="Bloqueo Total Salida" dir=out action=block remoteip=any'),
 
 ('Permitir todo el tráfico', 'Elimina el bloqueo total de conexiones',
@@ -123,4 +124,107 @@ INSERT IGNORE INTO command (name, description, command_value) VALUES
  'netsh advfirewall set allprofiles state on'),
 
 ('Desactivar cortafuegos', 'Desactiva el cortafuegos de Windows en todos los perfiles (dominio, privado, público)',
- 'netsh advfirewall set allprofiles state off');
+ 'netsh advfirewall set allprofiles state off'),
+
+('Bloqueo de tráfico a todos los perfiles', 'Bloquea todo el tráfico de red en todos los perfiles, permitiendo añadir excepciones',
+ 'netsh advfirewall set allprofiles firewallpolicy blockinbound,blockoutbound'),
+
+('Permitir acceso a un dominio determinado', 'Utiliza powershell para encontrar la ip del dominio',
+ 'powershell -Command "$ip = (Resolve-DnsName ''{{dominio}}'' -Type A | Where-Object { $_.IPAddress } | Select-Object -First 1).IPAddress; netsh advfirewall firewall add rule name=''Permitir IP Entrada'' dir=in action=allow remoteip=$ip | Out-Null; netsh advfirewall firewall add rule name=''Permitir IP Salida'' dir=out action=allow remoteip=$ip | Out-Null"'),
+
+('Bloquear red local', 'Bloquea todo el tráfico hacia una determinada red local',
+ 'netsh advfirewall firewall add rule name="Bloquear LAN" dir=out action=block remoteip={{remoteIP}}'),
+
+('Desactivar descubrimiento red', 'Deshabilita el descubrimiento de red en todos los perfiles',
+ 'netsh advfirewall firewall set rule group="Network Discovery" new enable=No'),
+
+('Desactivar descubrimiento red', 'Deshabilita el acceso a la red a un programa determinado',
+ 'powershell -Command "$paths = @(\'C:\\Program Files\',\'C:\\Program Files (x86)\',\'C:\\Users\\*\\AppData\\Local\'); $exe = foreach ($p in $paths) { Get-ChildItem -Path $p -Recurse -Include *.exe -ErrorAction SilentlyContinue | Where-Object { $_.Name -like \'*{{name}}*\' } | Select-Object -ExpandProperty FullName -First 1; if ($_) { break } }; if ($exe) { netsh advfirewall firewall add rule name=\'Bloqueo {{name}}\' dir=out action=block program=\\\"$exe\\\" enable=yes >$null 2>&1 }"'),
+
+('Mostrar aviso', 'Mensaje de aviso a los usuarios',
+ 'echo MsgBox \"{{aviso}}\", 64, \"Aviso\" > %TEMP%\\popup.vbs && start \"\" wscript.exe %TEMP%\\popup.vbs'),
+
+('Deshabilitar Administrador de tareas', 'Deshabilita la posibilidad de iniciar el administrador',
+ 'reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /t REG_DWORD /d 1 /f'),
+
+('Deshabilitar USB', 'Deshabilita el uso de unidades USB',
+ 'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR" /v Start /t REG_DWORD /d 4 /f'),
+
+('Habilitar USB', 'Habilita el uso de unidades USB',
+ 'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR" /v Start /t REG_DWORD /d 3 /f'),
+
+('Habilitar Administrador de tareas', 'Habilita el uso del administrador de tareas',
+ 'reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" /v DisableTaskMgr /f'),
+
+('Forzar cierre app', 'Fuerza el cierre de una aplicación',
+ 'taskkill /f /im {{app}} 2>nul || echo {{app}} no se estaba ejecutando.');
+
+
+-- Asignación a "Sin red"
+INSERT IGNORE INTO template_command (template_id, command_id, execution_order, parameter_values) VALUES
+(
+    (SELECT id FROM template WHERE name = 'Sin red'),
+    (SELECT id FROM command WHERE name = 'Bloquear todo el tráfico'),
+    1,
+    '{}'
+);
+
+-- Asignaciones a "Modo examen"
+INSERT IGNORE INTO template_command (template_id, command_id, execution_order, parameter_values) VALUES
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Bloqueo de tráfico a todos los perfiles'),
+  1,
+  '{}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Permitir acceso a un dominio determinado'),
+  2,
+  '{"dominio":"ubuvirtual.ubu.es"}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Deshabilitar red a software'),
+  3,
+  '{"name":"chrome.exe"}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Mostrar aviso'),
+  4,
+  '{"aviso":"El examen va a comenzar"}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Forzar cierre app'),
+  5,
+  '{"app":"chrome.exe"}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Deshabilitar Administrador de tareas'),
+  6,
+  '{}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Modo examen'),
+  (SELECT id FROM command WHERE name = 'Deshabilitar USB'),
+  7,
+  '{}'
+);
+
+-- Asignaciones a "Restaurar configuración"
+INSERT IGNORE INTO template_command (template_id, command_id, execution_order, parameter_values) VALUES
+(
+  (SELECT id FROM template WHERE name = 'Restaurar configuración'),
+  (SELECT id FROM command WHERE name = 'Habilitar USB'),
+  1,
+  '{}'
+),
+(
+  (SELECT id FROM template WHERE name = 'Restaurar configuración'),
+  (SELECT id FROM command WHERE name = 'Habilitar Administrador de tareas'),
+  2,
+  '{}'
+);

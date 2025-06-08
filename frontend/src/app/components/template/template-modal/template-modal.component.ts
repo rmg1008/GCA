@@ -10,14 +10,18 @@ import { TemplateDTO } from '../../../models/template.dto';
   styleUrl: './template-modal.component.css'
 })
 export class TemplateModalComponent implements OnChanges {
-  @Input() templateToEdit?: TemplateDTO;
-  @Output() saved = new EventEmitter<TemplateDTO>();
+  @Input() templateToEdit?: TemplateDTO; // Recibe la plantilla a modificar
+  @Output() saved = new EventEmitter<TemplateDTO>(); // Evento para la gestión de la plantilla
   @ViewChild('modalRef') modalRef!: ElementRef<HTMLDialogElement>;
 
   form!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
+  /**
+   * Resetea el formulario cuando se producen cambios
+   * @param changes Cambio realizado
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['templateToEdit'] && this.form) {
       this.form.reset(this.templateToEdit || { id: 0, name: '', description: '', os: 1 });
@@ -25,6 +29,7 @@ export class TemplateModalComponent implements OnChanges {
   }
 
   open(): void {
+    // Se incializa la configuración y valores del formulario
     if (!this.form) {
       this.form = this.fb.group({
         id: [0],
@@ -44,7 +49,7 @@ export class TemplateModalComponent implements OnChanges {
 
   save(): void {
     if (this.form.valid) {
-      this.saved.emit(this.form.value);
+      this.saved.emit(this.form.value); // Envía la plantilla al padre
       this.close();
     }
   }

@@ -10,7 +10,7 @@ import { CommandDTO } from '../../../models/command.dto';
   styleUrl: './command-modal.component.css'
 })
 export class CommandModalComponent implements OnChanges {
-  @Input() commandToEdit?: CommandDTO;
+  @Input() commandToEdit?: CommandDTO;  // Puede recibir el comando a modificar cuando es edición
   @Output() saved = new EventEmitter<CommandDTO>();
   @ViewChild('modalRef') modalRef!: ElementRef<HTMLDialogElement>;
 
@@ -18,6 +18,10 @@ export class CommandModalComponent implements OnChanges {
 
   constructor(private fb: FormBuilder) {}
 
+  /**
+   * Resetea el formulario cuando se producen cambios
+   * @param changes Cambio realizado
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['commandToEdit'] && this.form) {
       this.form.reset(this.commandToEdit || { id: 0, name: '', description: '', value: '' });
@@ -25,6 +29,7 @@ export class CommandModalComponent implements OnChanges {
   }
 
   open(): void {
+    // Se incializa la configuración y valores del formulario
       this.form = this.fb.group({
         id: [0],
         name: ['', Validators.required],
@@ -42,12 +47,15 @@ export class CommandModalComponent implements OnChanges {
 
   save(): void {
     if (this.form.valid) {
-      this.saved.emit(this.form.value);
+      this.saved.emit(this.form.value); // Envío del valor al componente padre
       this.close();
     }
   }
 
-  /* Se validan que las variables tengan la estructura {{nombre}} */
+  /**
+   * Valida que las variables tengan la estructura {{nombre}} 
+   * @returns Errores de validación
+   */
   public commandValueValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value: string = control.value;
@@ -79,6 +87,10 @@ export class CommandModalComponent implements OnChanges {
     return !!control && control.invalid && (control.touched || control.dirty);
   }
 
+  /**
+   * Detecta las variables del comando
+   * @returns Variables a rellenar
+   */
   getUsedVariables(): string[] {
     const value = this.form.get('value')?.value || '';
     const matches: string[] | null = value.match(/{{\s*(\w+)\s*}}/g);

@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.function.Function;
 
+/*
+ * Filtro para validar el JWT en cada petición HTTP.
+ */
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
@@ -40,11 +43,15 @@ public class JWTFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
 
+    /**
+     * Se ejecuta en cada petición HTTP para validar el JWT.
+     * Si el token es válido, se establece la autenticación en el contexto de seguridad.
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = extractBearerToken(request);
-        LOGGER.debug("Token: {}", token);
+        LOGGER.debug("Filtro JWT");
         if (token != null && validateToken(token)) {
             String username = extractUserName(token);
             User user = userService.findByEmail(username);
@@ -54,9 +61,10 @@ public class JWTFilter extends OncePerRequestFilter {
             userPassAuthToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
             );
+            // Establece la autenticación en el contexto de seguridad
             SecurityContextHolder.getContext().setAuthentication(userPassAuthToken);
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); // Continúa con la cadena de filtros
     }
 
     private String extractBearerToken(HttpServletRequest request) {
@@ -68,6 +76,13 @@ public class JWTFilter extends OncePerRequestFilter {
         return null;
     }
 
+    /**
+     *
+     * Comprueba si el token no está vacío, si no ha expirado y si es válido para el usuario.
+     *
+     * @param token El token JWT a validar.
+     * @return true si el token es válido, false en caso contrario.
+     */
     public Boolean validateToken(String token) {
         String userEmail = extractUserName(token);
         if (io.micrometer.common.util.StringUtils.isNotEmpty(userEmail) && isTokenExpired(token)) {

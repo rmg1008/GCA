@@ -8,6 +8,8 @@ public class ConfigDTO extends BaseDTO{
 
     private LocalDateTime lastUpdate;
 
+    private String groupName;
+
     public String getConfig() {
         return config;
     }
@@ -22,5 +24,13 @@ public class ConfigDTO extends BaseDTO{
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

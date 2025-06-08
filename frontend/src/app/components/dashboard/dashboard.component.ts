@@ -6,7 +6,7 @@ import { TreeService } from '../../services/tree/tree.service';
 import { TreeNodeDTO } from '../../models/tree-node.dto';
 import { DeviceService } from '../../services/device/device.service';
 import { DeviceDTO } from '../../models/device.dto';
-import { DeviceComponent } from '../../device/device.component';
+import { DeviceComponent } from '../device/device.component';
 import { GroupService } from '../../services/group/group.service';
 import { GroupDTO } from '../../models/group.dto';
 import { ToastService } from '../../services/toast/toast.service';
@@ -39,10 +39,16 @@ export class DashboardComponent implements OnInit {
   isEditingGroup = false;
   groupToEdit: TreeNodeDTO | null = null;
 
+  /**
+   * Obtiene el arbol de grupos al cargar el componente
+   */
   ngOnInit(): void {
     this.loadTree();
   }
 
+  /**
+   * Función encargada de mostrar la estructura arbórea
+   */
   loadTree(): void {
     this.saveOpenedNodes();
     this.treeService.getTree().subscribe({
@@ -54,7 +60,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Carga los dispositivos del grupo seleccionado
+   * @param group Grupo seleccionado al hacer click
+   */
   selectGroup(group: TreeNodeDTO): void {
     this.currentGroup = group;
     this.selectedPath = this.findPathToGroup(this.treeData!, group.id);
@@ -62,7 +71,6 @@ export class DashboardComponent implements OnInit {
       next: (data) => (this.selectedGroupDevices = data),
       error: (err) => console.error('Error cargando dispositivos:', err),
     });
-    console.log(this.selectedPath)
   }
 
   private findPathToGroup(node: TreeNodeDTO, targetId: number): TreeNodeDTO[] {
@@ -106,7 +114,7 @@ export class DashboardComponent implements OnInit {
     (this.groupModalRef.nativeElement as HTMLDialogElement).showModal();
   }
 
-    confirmGroup(): void {
+  confirmGroup(): void {
     const name = this.groupNameInput.trim();
     if (this.contextMenuGroupId !== null) {
       if (this.isEditingGroup && this.groupToEdit) {
@@ -122,7 +130,6 @@ export class DashboardComponent implements OnInit {
         });
       } else {
         const parentId = this.contextMenuGroupId;
-        console.log('Añadir grupo bajo el nodo con ID:', parentId);
         const newGroup: GroupDTO = {
           id: null as any,
           name: name,
@@ -147,8 +154,6 @@ export class DashboardComponent implements OnInit {
   deleteGroup(): void {
     if (this.contextMenuGroupId !== null) {
       const groupIdToDelete = this.contextMenuGroupId;
-      console.log('Eliminar grupo con ID:', groupIdToDelete);
-
       const parentNode = this.findParentNode(this.treeData!, groupIdToDelete);
 
       this.groupService.deleteGroup(groupIdToDelete).subscribe({
@@ -195,6 +200,10 @@ export class DashboardComponent implements OnInit {
     this.openedNodeIds = this.selectedPath.map(node => node.id);
   }
 
+  /**
+   * Vuelve a mostrar los nodos abiertos tras cargar la estructura arbórea
+   * @returns Nodos abiertos
+   */
   restoreOpenedNodes(): void {
     if (!this.treeData || this.openedNodeIds.length === 0) return;
 
@@ -224,6 +233,11 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  /**
+   * Listener para cerrar el menú de grupos cuando se pulsa en 
+   * cualquier parte de la página
+   * @param event 
+   */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     const modalOpen = (this.groupModalRef?.nativeElement as HTMLDialogElement)?.open;

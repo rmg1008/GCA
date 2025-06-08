@@ -14,7 +14,7 @@ public class Device implements Serializable {
     @Serial
     private static final long serialVersionUID = 8870823483894476299L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto incrementa el ID
     private Long id;
 
     @NotNull
@@ -27,11 +27,11 @@ public class Device implements Serializable {
 
     private String name;
 
-    @CreationTimestamp
+    @CreationTimestamp // Añade la fecha de creación automáticamente
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // EAGER carga la entidad relacionada inmediatamente
     @JoinColumn(name = "group_id")
     private Group group;
 

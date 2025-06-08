@@ -11,6 +11,7 @@
         <input
           type="text"
           [(ngModel)]="searchTerm"
+          (input)="onSearch()"
           placeholder="Buscar comandos..."
           class="input input-bordered w-full mb-2"
         />

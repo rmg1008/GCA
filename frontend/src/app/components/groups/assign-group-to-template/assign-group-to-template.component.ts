@@ -16,9 +16,9 @@ import { AssignedCommandsDTO } from '../../../models/assignedCommands';
   styleUrl: './assign-group-to-template.component.css'
 })
 export class AssignGroupToTemplateComponent implements OnChanges {
-  @Input() selectedPath: TreeNodeDTO[] = [];
-  @Output() pathClicked = new EventEmitter<TreeNodeDTO>();
-  @Output() changed = new EventEmitter<void>();
+  @Input() selectedPath: TreeNodeDTO[] = []; // Recibe la ruta completa del grupo
+  @Output() pathClicked = new EventEmitter<TreeNodeDTO>(); // Evento para navegar por la ruta de grupos
+  @Output() changed = new EventEmitter<void>(); // Evento para indicar que ha habido una modificación
   templates: TemplateDTO[] = [];
   selectedTemplateId!: number;
   selectedTemplateCommands: AssignedCommandsDTO[] = [];
@@ -31,6 +31,9 @@ export class AssignGroupToTemplateComponent implements OnChanges {
     private groupService: GroupService
   ) {}
 
+  /**
+   * Carga las plantillas disponibles para el grupo
+   */
   ngOnChanges(): void {
       this.templates = [];
       this.selectedTemplateCommands = [];
@@ -42,6 +45,10 @@ export class AssignGroupToTemplateComponent implements OnChanges {
       this.searchTemplates(currentId);
   }
 
+  /**
+   * Lanza el evento para navegar al nodo seleccionado
+   * @param node Nodo destino
+   */
   onBreadcrumbClick(node: TreeNodeDTO): void {
     this.pathClicked.emit(node);
   }
@@ -64,6 +71,10 @@ export class AssignGroupToTemplateComponent implements OnChanges {
     });
   }
 
+  /**
+   * Muestra la configuración al seleccionar la plantilla
+   * @param templateId Plantilla seleccionada
+   */
   onTemplateChange(templateId: number): void {
     if (!templateId) {
       this.selectedTemplateCommands = [];
@@ -119,8 +130,14 @@ export class AssignGroupToTemplateComponent implements OnChanges {
     });
     }
 
-  renderCommand(template: string, values: { [key: string]: string } = {}): string {
-    return template.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
+  /**
+   * 
+   * @param command comando
+   * @param values valores para ese comando
+   * @returns Comando con los valores sustituidos
+   */
+  renderCommand(command: string, values: { [key: string]: string } = {}): string {
+    return command.replace(/{{(.*?)}}/g, (_, key) => values[key] || `[${key}]`);
   }
 
 }
