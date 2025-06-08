@@ -1,0 +1,12 @@
+com.gca
+com.gca.config
+com.gca.controller
+com.gca.domain
+com.gca.dto
+com.gca.exception
+com.gca.repository
+com.gca.security
+com.gca.security.filter
+com.gca.service
+com.gca.service.impl
+com.gca.util

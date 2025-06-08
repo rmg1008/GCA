@@ -40,7 +40,7 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public User findByEmail(String email) {
-        LOGGER.debug("Buscando usuario por email: {}", email);
+        LOGGER.debug("Buscando usuario por email hash: {}", email != null ? email.hashCode() : "null");
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
@@ -53,7 +53,7 @@ public class DefaultUserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Codifica la contraseña antes de guardarla
         user.setRoles(roleRepository.getRoleByName("Gestor")); // Solo asigna el rol "Gestor" por defecto
         userRepository.save(user);
-        LOGGER.info("Se ha creado el usuario {}", user.getEmail());
+        LOGGER.info("Se ha creado un nuevo usuario");
     }
 
     @Override
