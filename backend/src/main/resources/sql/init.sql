@@ -138,7 +138,7 @@ INSERT IGNORE INTO command (name, description, command_value) VALUES
 ('Desactivar descubrimiento red', 'Deshabilita el descubrimiento de red en todos los perfiles',
  'netsh advfirewall firewall set rule group="Network Discovery" new enable=No'),
 
-('Desactivar descubrimiento red', 'Deshabilita el acceso a la red a un programa determinado',
+('Deshabilitar red a software', 'Deshabilita el acceso a la red a un programa determinado',
  'powershell -Command "$paths = @(\'C:\\Program Files\',\'C:\\Program Files (x86)\',\'C:\\Users\\*\\AppData\\Local\'); $exe = foreach ($p in $paths) { Get-ChildItem -Path $p -Recurse -Include *.exe -ErrorAction SilentlyContinue | Where-Object { $_.Name -like \'*{{name}}*\' } | Select-Object -ExpandProperty FullName -First 1; if ($_) { break } }; if ($exe) { netsh advfirewall firewall add rule name=\'Bloqueo {{name}}\' dir=out action=block program=\\\"$exe\\\" enable=yes >$null 2>&1 }"'),
 
 ('Mostrar aviso', 'Mensaje de aviso a los usuarios',

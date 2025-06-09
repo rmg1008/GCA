@@ -97,7 +97,7 @@ public class DefaultConfigServiceImpl implements ConfigService {
     private ConfigDTO buildConfigDTO(Device device, Template template, String huella) {
         ConfigDTO configDTO = new ConfigDTO();
         if (template == null) {
-            LOGGER.info("No se ha encontrado ninguna configuración para este dispositivo con hash {}",
+            LOGGER.debug("No se ha encontrado ninguna configuración para este dispositivo con hash {}",
                     huella != null ? huella.hashCode() : "null");
         } else {
             configDTO.setId(template.getId());

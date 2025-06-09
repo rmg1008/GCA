@@ -9,5 +9,5 @@
     }
   ],
   "rollback_when_command_error" : true,
-  "get_config_retrieval_time_in_seconds" : 60
+  "get_config_retrieval_time_in_seconds" : 20
 }
